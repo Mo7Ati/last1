@@ -1,0 +1,14 @@
+{
+    "nav_labels": {
+        "dashboard": "Dashboard",
+        "users": "Users",
+        "admins": "Admins",
+        "products": "Products",
+        "orders": "Orders",
+        "settings": "Settings",
+        "logout": "Logout"
+    },
+    "settings": "Settings",
+    "log_out": "Log out",
+    "platform": "Platform"
+}

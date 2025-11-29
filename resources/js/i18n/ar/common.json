@@ -1,0 +1,14 @@
+{
+    "nav_labels": {
+        "dashboard": "الرئيسية",
+        "users": "المستخدمين",
+        "admins": "المشرفين",
+        "products": "المنتجات",
+        "orders": "الطلبات",
+        "settings": "الإعدادات",
+        "logout": "تسجيل الخروج"
+    },
+    "settings": "الإعدادات",
+    "logout": "تسجيل الخروج",
+    "platform": "المنصة"
+}
