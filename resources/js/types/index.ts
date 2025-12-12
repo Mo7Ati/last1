@@ -22,6 +22,11 @@ export interface NavItem {
     isActive?: boolean;
 }
 
+export interface Flash {
+    success?: string;
+    error?: string;
+}
+
 export interface SharedData {
     name: string;
     quote: { message: string; author: string };
@@ -31,6 +36,7 @@ export interface SharedData {
     currentLocale: Locale;
     navigationItems: NavItem[];
     sidebarOpen: boolean;
+    flash?: Flash;
     [key: string]: unknown;
 }
 

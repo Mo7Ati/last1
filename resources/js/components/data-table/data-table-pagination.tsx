@@ -30,8 +30,6 @@ export default function DataTablePagination({ meta, table }: { meta: MetaType, t
     if (!links || links.length === 0) {
         return null;
     }
-    console.log(perPage);
-
     const handlePageClick = (e: React.MouseEvent<HTMLAnchorElement>, url: string | null) => {
         e.preventDefault();
 
@@ -116,7 +114,7 @@ export default function DataTablePagination({ meta, table }: { meta: MetaType, t
 
     return (
         <Pagination className="flex items-center justify-between">
-            
+
             <div className="flex items-center space-x-2">
                 <span className="text-sm font-medium">Showing {meta.from} to {meta.to} of {meta.total} items</span>
             </div>

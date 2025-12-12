@@ -1,7 +1,7 @@
 import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
-import { MoreHorizontal } from 'lucide-react';
+import { BadgeCheckIcon, CheckCircleIcon, DeleteIcon, MoreHorizontal, PencilIcon, XCircleIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { ColumnDef } from "@tanstack/react-table"
 import { Admin, PaginatedResponse } from '@/types/dashboard';
@@ -11,6 +11,7 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
+    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { t } from 'i18next';
@@ -18,6 +19,9 @@ import { Checkbox } from '@/components/ui/checkbox';
 
 import AdminsFilters from './components/admin-filters';
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header';
+import adminRoutes from '@/routes/admin/admins';
+import admins from '@/routes/admin/admins';
+import { Badge } from '@/components/ui/badge';
 
 const columns: ColumnDef<Admin>[] = [
     {
@@ -53,7 +57,15 @@ const columns: ColumnDef<Admin>[] = [
     },
     {
         accessorKey: "is_active",
-        header: "Active",
+        header: "Status",
+        cell: ({ row }) => {
+            const isActive = row.original.is_active
+            return (
+                <Badge variant={isActive ? "secondary" : "default"}>
+                    {isActive ? "Active" : "Inactive"}
+                </Badge>
+            )
+        },
         enableHiding: false,
     },
     {
@@ -74,13 +86,14 @@ const columns: ColumnDef<Admin>[] = [
                             <MoreHorizontal className="h-4 w-4" />
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start">
-                        <DropdownMenuItem
-                            onClick={() => router.visit(`/admin/admins/${admin.id}`)}
-                        >
-                            {t('edit')}
+                    <DropdownMenuContent align="center">
+                        <DropdownMenuItem onClick={() => router.visit(adminRoutes.edit({ admin: admin.id }))} >
+                            <PencilIcon className="h-4 w-4" /> {t('Edit')}
                         </DropdownMenuItem>
-                        {/* <DropdownMenuSeparator /> */}
+
+                        <DropdownMenuItem onClick={() => router.delete(adminRoutes.destroy({ admin: admin.id }).url)}>
+                            <DeleteIcon className="h-4 w-4" /> {t('Delete')}
+                        </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             )
@@ -91,9 +104,6 @@ const columns: ColumnDef<Admin>[] = [
 
 const AdminsIndex = ({ admins }: { admins: PaginatedResponse<Admin> }) => {
     const { t } = useTranslation('tables');
-
-    console.log(admins);
-
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: t('admins.title'),
@@ -111,6 +121,9 @@ const AdminsIndex = ({ admins }: { admins: PaginatedResponse<Admin> }) => {
                     data={admins.data}
                     meta={admins.meta}
                     filters={<AdminsFilters />}
+                    onRowClick={(admin) => router.visit(adminRoutes.edit({ admin: admin.id }))}
+                    createHref={adminRoutes.create.url()}
+                    showCreateButton={true}
                 />
             </div>
         </AppLayout>

@@ -19,29 +19,37 @@ import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
     DropdownMenuContent,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
 import { useState } from "react"
-import { Button } from "../ui/button"
 import { Link } from "@inertiajs/react"
 import { MetaType } from "@/types/dashboard"
 import DataTablePagination from "./data-table-pagination"
 import SearchInput from "../search-input"
-import DataTableFilters from "./data-table-filters"
+import { Button } from "../ui/button"
+import { Plus, Pointer, Settings2 } from "lucide-react"
 
-interface DataTableProps<TData, TValue> {
+interface DataTableProps<TData extends { id: number | string }, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
     meta?: MetaType
     filters?: React.ReactNode
+    onRowClick?: (row: TData) => void
+    createHref?: string
+    showCreateButton?: boolean
 }
 
-export function DataTable<TData, TValue>({
+export function DataTable<TData extends { id: number | string }, TValue>({
     columns,
     data,
     meta,
     filters,
+    onRowClick,
+    createHref,
+    showCreateButton = false,
 }: DataTableProps<TData, TValue>) {
     const [rowSelection, setRowSelection] = useState({});
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -66,21 +74,29 @@ export function DataTable<TData, TValue>({
         <div className="space-y-4">
             <div className="flex justify-between">
                 <div className="flex items-center  gap-2">
-                    <SearchInput  />
+                    <SearchInput />
                     {filters}
                 </div>
                 <div className="flex gap-2">
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="outline" className="ml-auto">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                className="ml-auto hidden h-8 lg:flex"
+                            >
+                                <Settings2 />
                                 View
                             </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
+                        <DropdownMenuContent align="end" className="w-[150px]">
+                            <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
                             {table
                                 .getAllColumns()
                                 .filter(
-                                    (column) => column.getCanHide()
+                                    (column) =>
+                                        typeof column.accessorFn !== "undefined" && column.getCanHide()
                                 )
                                 .map((column) => {
                                     return (
@@ -88,9 +104,7 @@ export function DataTable<TData, TValue>({
                                             key={column.id}
                                             className="capitalize"
                                             checked={column.getIsVisible()}
-                                            onCheckedChange={(value) =>
-                                                column.toggleVisibility(!!value)
-                                            }
+                                            onCheckedChange={(value) => column.toggleVisibility(!!value)}
                                         >
                                             {column.id}
                                         </DropdownMenuCheckboxItem>
@@ -99,14 +113,16 @@ export function DataTable<TData, TValue>({
                         </DropdownMenuContent>
                     </DropdownMenu>
 
-                    <Link method="get" type="button" href={'admin/admins/create'} className="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]">
-                        Create
-                    </Link>
+                    {showCreateButton && createHref && (
+                        <Link method="get" href={createHref} as={Button} >
+                            <Plus className="h-4 w-4" /> Create
+                        </Link>
+                    )}
                 </div>
             </div>
 
             <div className="overflow-hidden rounded-md border">
-                <Table>
+                <Table >
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id}>
@@ -131,6 +147,12 @@ export function DataTable<TData, TValue>({
                                 <TableRow
                                     key={row.id}
                                     data-state={row.getIsSelected() && "selected"}
+                                    onClick={(e) => {
+                                        const target = e.target as HTMLElement;
+                                        if (target.closest('button, a, [role="menuitem"]')) return;
+                                        onRowClick?.(row.original);
+                                    }}
+                                    className={onRowClick ? "cursor-pointer" : ""}
                                 >
                                     {row.getVisibleCells().map((cell) => (
                                         <TableCell key={cell.id}>
@@ -149,12 +171,6 @@ export function DataTable<TData, TValue>({
                     </TableBody>
                 </Table>
             </div>
-
-            {/* <div className="text-muted-foreground flex-1 text-sm">
-                {table.getFilteredSelectedRowModel().rows.length} of{" "}
-                {table.getFilteredRowModel().rows.length} row(s) selected.
-            </div>
-            */}
 
             {meta && <DataTablePagination meta={meta} table={table} />}
         </div>

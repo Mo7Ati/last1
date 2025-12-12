@@ -27,22 +27,61 @@ class AdminController extends Controller
     }
     public function create()
     {
-        return Inertia::render('admin.create');
+        return Inertia::render('admin/admins/create');
     }
     public function store(Request $request)
     {
-        return Inertia::render('admin.store');
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:admins,email',
+            'password' => 'required|string|min:8',
+            'is_active' => 'nullable|boolean',
+        ]);
+
+        // Convert string '1'/'0' to boolean if needed
+        if (isset($validated['is_active'])) {
+            $validated['is_active'] = (bool) $validated['is_active'];
+        } else {
+            $validated['is_active'] = true;
+        }
+
+        $admin = Admin::create($validated);
+        return redirect()->route('admin.admins.index')->with('success', 'Admin created successfully');
     }
     public function edit($id)
     {
-        return Inertia::render('admin.edit');
+        $admin = Admin::findOrFail($id);
+        return Inertia::render('admin/admins/edit', [
+            'admin' => new AdminResource($admin),
+        ]);
     }
     public function update(Request $request, $id)
     {
-        return Inertia::render('admin.update');
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:admins,email,' . $id,
+            'password' => 'nullable|string|min:8',
+            'is_active' => 'nullable|boolean',
+        ]);
+
+        // Remove password from update if it's empty
+        if (empty($validated['password'])) {
+            unset($validated['password']);
+        }
+
+        // Convert string '1'/'0' to boolean if needed
+        if (isset($validated['is_active'])) {
+            $validated['is_active'] = (bool) $validated['is_active'];
+        }
+
+        $admin = Admin::findOrFail($id);
+        $admin->update($validated);
+        return redirect()->route('admin.admins.index')->with('success', 'Admin updated successfully');
     }
     public function destroy($id)
     {
-        return Inertia::render('admin.destroy');
+        $admin = Admin::findOrFail($id);
+        $admin->delete();
+        return redirect()->route('admin.admins.index')->with('success', 'Admin deleted successfully');
     }
 }

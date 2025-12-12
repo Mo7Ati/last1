@@ -24,9 +24,6 @@ export default function AdminsFilters() {
         is_active: url.searchParams.get('is_active') || undefined
     });
 
-    console.log(filters);
-
-
     const onChange = (key: string, value: string | undefined) => {
         setFilters({ ...filters, [key]: value });
 
