@@ -8,6 +8,7 @@ import { initializeTheme } from './hooks/use-appearance';
 import './i18n';
 import { PanelType } from '@/types';
 import { changeLanguage } from 'i18next';
+import { Toaster } from '@/components/ui/sonner';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -20,14 +21,15 @@ createInertiaApp({
         ),
     setup({ el, App, props }) {
         const root = createRoot(el);
-        const { currentLocale, panel } = props.initialPage?.props ?? {};
+        const { currentLocale, panel } = props.initialPage?.props;
 
         initializeTheme(panel as PanelType);
         changeLanguage(currentLocale as string);
         document.documentElement.setAttribute('dir', currentLocale === 'ar' ? 'rtl' : 'ltr');
 
         root.render(
-                <App {...props} />
+            <App {...props} />
+
             // <StrictMode>
             // </StrictMode>,
         );

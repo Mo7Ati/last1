@@ -1,6 +1,6 @@
 import AppLayout from '@/layouts/app-layout'
-import { BreadcrumbItem } from '@/types';
-import { Head, router } from '@inertiajs/react';
+import { BreadcrumbItem, SharedData } from '@/types';
+import { Head, router, usePage } from '@inertiajs/react';
 import { BadgeCheckIcon, CheckCircleIcon, DeleteIcon, MoreHorizontal, PencilIcon, XCircleIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { ColumnDef } from "@tanstack/react-table"
@@ -111,6 +111,8 @@ const AdminsIndex = ({ admins }: { admins: PaginatedResponse<Admin> }) => {
         },
     ];
 
+    const { flash } = usePage<SharedData>().props;
+    console.log(flash);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>

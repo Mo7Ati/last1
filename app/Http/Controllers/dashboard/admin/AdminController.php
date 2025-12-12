@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\dashboard\admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Dashboard\Admins\AdminRequest;
 use App\Http\Resources\AdminResource;
 use App\Models\Admin;
 use Illuminate\Http\Request;
@@ -27,26 +28,16 @@ class AdminController extends Controller
     }
     public function create()
     {
-        return Inertia::render('admin/admins/create');
-    }
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:admins,email',
-            'password' => 'required|string|min:8',
-            'is_active' => 'nullable|boolean',
+        $admin = new Admin();
+        return Inertia::render('admin/admins/create', [
+            'admin' => new AdminResource($admin),
         ]);
-
-        // Convert string '1'/'0' to boolean if needed
-        if (isset($validated['is_active'])) {
-            $validated['is_active'] = (bool) $validated['is_active'];
-        } else {
-            $validated['is_active'] = true;
-        }
-
-        $admin = Admin::create($validated);
-        return redirect()->route('admin.admins.index')->with('success', 'Admin created successfully');
+    }
+    public function store(AdminRequest $request)
+    {
+        Admin::create($request->validated());
+        return to_route('admin.admins.index')
+            ->with('success', __('messages.created_successfully'));
     }
     public function edit($id)
     {
@@ -55,33 +46,18 @@ class AdminController extends Controller
             'admin' => new AdminResource($admin),
         ]);
     }
-    public function update(Request $request, $id)
+    public function update($id, AdminRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:admins,email,' . $id,
-            'password' => 'nullable|string|min:8',
-            'is_active' => 'nullable|boolean',
-        ]);
-
-        // Remove password from update if it's empty
-        if (empty($validated['password'])) {
-            unset($validated['password']);
-        }
-
-        // Convert string '1'/'0' to boolean if needed
-        if (isset($validated['is_active'])) {
-            $validated['is_active'] = (bool) $validated['is_active'];
-        }
-
-        $admin = Admin::findOrFail($id);
-        $admin->update($validated);
-        return redirect()->route('admin.admins.index')->with('success', 'Admin updated successfully');
+        Admin::findOrFail($id)->update($request->validated());
+        return redirect()
+            ->route('admin.admins.index')
+            ->with('success', __('messages.updated_successfully'));
     }
     public function destroy($id)
     {
-        $admin = Admin::findOrFail($id);
-        $admin->delete();
-        return redirect()->route('admin.admins.index')->with('success', 'Admin deleted successfully');
+        Admin::destroy($id);
+        return redirect()
+            ->route('admin.admins.index')
+            ->with('success', __('messages.deleted_successfully'));
     }
 }

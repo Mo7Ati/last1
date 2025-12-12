@@ -26,7 +26,9 @@ class Admin extends Authenticatable
     ];
     public function setPasswordAttribute($value)
     {
-        $this->attributes['password'] = Hash::make($value);
+        if (!empty($value)) {
+            $this->attributes['password'] = Hash::make($value);
+        }
     }
 
     public function scopeSearch($query, $search)

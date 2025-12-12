@@ -1,8 +1,8 @@
 import AppLayoutTemplate from '@/layouts/app/app-sidebar-layout';
-import { SharedData, type BreadcrumbItem } from '@/types';
-import { usePage } from '@inertiajs/react';
-import { useEffect, type ReactNode } from 'react';
-import { toast, Toaster } from 'sonner';
+import { type BreadcrumbItem } from '@/types';
+import { type ReactNode } from 'react';
+import { Toaster } from '@/components/ui/sonner';
+import useFlashMessagesHook from '@/hooks/use-flash-message';
 
 interface AppLayoutProps {
     children: ReactNode;
@@ -10,21 +10,9 @@ interface AppLayoutProps {
 }
 
 export default function AppLayout({ children, breadcrumbs, ...props }: AppLayoutProps) {
-    const { flash } = usePage<SharedData>().props;
-    
-    useEffect(() => {
-        if (flash?.success) {
-            toast.success(flash.success);
-        }
-        if (flash?.error) {
-            toast.error(flash.error);
-        }
-    }, [flash]);
-
-
+    useFlashMessagesHook();
     return (
         <AppLayoutTemplate breadcrumbs={breadcrumbs} {...props}>
-            <Toaster />
             {children}
         </AppLayoutTemplate>
     );

@@ -12,6 +12,7 @@ import adminRoutes from '@/routes/admin/admins'
 import IsActive from '@/components/form/is-active'
 import FormInput from '@/components/form/form-input'
 import FormButtons from '@/components/form/form-buttons'
+import { toast } from 'sonner'
 
 interface AdminFormProps {
     admin?: Admin | null
@@ -19,13 +20,6 @@ interface AdminFormProps {
 
 export default function AdminForm({ admin }: AdminFormProps) {
     const isEditMode = !!admin
-
-    const handleSuccess = () => {
-        router.visit(adminRoutes.index.url(), {
-            preserveScroll: true,
-        })
-    }
-
     return (
         <Card className=" max-w-2xl">
             <CardHeader>
@@ -47,7 +41,6 @@ export default function AdminForm({ admin }: AdminFormProps) {
                             ? adminRoutes.update.url({ admin: admin.id })
                             : adminRoutes.store.url()
                     }
-                    onSuccess={handleSuccess}
                     className="space-y-6"
                 >
                     {({ processing, errors }) => (
