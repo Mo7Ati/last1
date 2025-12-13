@@ -39,8 +39,7 @@ class AdminController extends Controller
     public function store(AdminRequest $request)
     {
         $admin = Admin::create($request->validated());
-
-        $admin->assignRole($request->get('rules', []));
+        $admin->assignRole($request->get('roles', []));
 
         return to_route('admin.admins.index')
             ->with('success', __('messages.created_successfully'));
@@ -58,9 +57,7 @@ class AdminController extends Controller
         $admin = Admin::findOrFail($id);
         $admin->update($request->validated());
 
-        if ($request->has('rules')) {
-            $admin->syncRoles($request->get('rules'));
-        }
+        $admin->syncRoles($request->get('roles', []));
 
         return redirect()
             ->route('admin.admins.index')

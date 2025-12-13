@@ -62,3 +62,30 @@ export type Permission = {
     id: number | string;
     name: string
 }
+
+export type StoreCategory = {
+    id: number | string;
+    name: Record<string, string> | string;
+    description?: Record<string, string> | string;
+}
+
+export type Locale = 'en' | 'ar';
+
+export type Store = {
+    id: number | string;
+    name: Record<Locale, string> | string;
+    address: Record<Locale, string> | string;
+    description?: Record<Locale, string> | string;
+    keywords?: string[];
+    social_media?: Record<string, any>;
+    email: string;
+    phone: string;
+    password?: string;
+    category_id?: number | string;
+    delivery_time: number;
+    delivery_area_polygon?: any;
+    is_active: boolean;
+    created_at?: string;
+    updated_at?: string;
+    category?: StoreCategory;
+}

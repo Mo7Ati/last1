@@ -44,6 +44,8 @@ export default function DataTablePagination({ meta, indexRoute }: { meta: MetaTy
     };
 
     const handlePageSizeChange = (value: string) => {
+        console.log(value);
+
         router.get(indexRoute({
             mergeQuery: {
                 per_page: value,

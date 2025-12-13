@@ -1,7 +1,7 @@
-import { NavItem, PanelType } from '@/types';
+import { Locale, NavItem, PanelType } from '@/types';
 import { InertiaLinkProps } from '@inertiajs/react';
 import { type ClassValue, clsx } from 'clsx';
-import { LayoutGrid, Shield, Users } from 'lucide-react';
+import { LayoutGrid, Shield, Store, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { twMerge } from 'tailwind-merge';
 
@@ -48,6 +48,23 @@ export function getAdminPanelNavItems(): NavItem[] {
             icon: Shield,
             isActive: isSameUrl('/admin/roles', window.location.pathname),
         },
+        {
+            title: t('nav_labels.stores'),
+            href: '/admin/stores',
+            icon: Store,
+            isActive: isSameUrl('/admin/stores', window.location.pathname),
+        },
     ];
 }
 
+export function normalizeFieldValue(value: string | Record<Locale, string> | undefined): Record < Locale, string > {
+    if(!value) {
+        return { en: '', ar: '' }
+    }
+
+    if(typeof value === 'string') {
+    return { en: value, ar: value }
+}
+
+return value
+}

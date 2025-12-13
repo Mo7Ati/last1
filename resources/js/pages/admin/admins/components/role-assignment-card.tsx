@@ -12,7 +12,8 @@ import InputError from '@/components/input-error'
 
 interface RoleAssignmentCardProps {
     roles: Role[]
-    selectedRoleNames?: string[]
+    selectedRoleNames: string[]
+    className?: string
     errors?: {
         roles?: string
     }
@@ -20,15 +21,11 @@ interface RoleAssignmentCardProps {
 
 export default function RoleAssignmentCard({
     roles,
-    selectedRoleNames = [],
-    errors
+    selectedRoleNames,
+    errors,
+    className,
 }: RoleAssignmentCardProps) {
     const [selectedRoles, setSelectedRoles] = useState<string[]>(selectedRoleNames);
-
-    // Sync selectedRoles with selectedRoleNames prop when it changes (important for edit mode)
-    useEffect(() => {
-        setSelectedRoles(selectedRoleNames);
-    }, [selectedRoleNames]);
 
     const options = roles.map((role) => ({
         label: role.name,
@@ -37,7 +34,7 @@ export default function RoleAssignmentCard({
     }))
 
     return (
-        <Card className="max-w-2xl">
+        <Card className={className}>
             <CardHeader>
                 <CardTitle>Assign Roles</CardTitle>
                 <CardDescription>
@@ -46,7 +43,7 @@ export default function RoleAssignmentCard({
             </CardHeader>
 
             <CardContent>
-                <div className="space-y-4">
+                <div>
                     {roles.length === 0 ? (
                         <p className="text-sm text-muted-foreground">
                             No roles available. Please create roles first.
@@ -57,29 +54,18 @@ export default function RoleAssignmentCard({
                                 options={options}
                                 selected={selectedRoles}
                                 onSelectedChange={(selected) => {
-                                    setSelectedRoles(selected.map((roleName) => roleName.toString()));
+                                    setSelectedRoles(selected as string[]);
                                 }}
                                 placeholder="Select roles..."
                                 searchPlaceholder="Search roles..."
                                 emptyMessage="No roles found."
-                                // maxCount={2}
-                                renderOption={(option) => (
-                                    <div className="flex items-center justify-between w-full">
-                                        <span>{option.label}</span>
-                                        {option.permissions_count !== undefined && (
-                                            <span className="text-xs text-muted-foreground ml-2">
-                                                ({option.permissions_count} {option.permissions_count === 1 ? 'permission' : 'permissions'})
-                                            </span>
-                                        )}
-                                    </div>
-                                )}
                             />
-                            {/* Hidden inputs for form submission */}
+
                             {selectedRoles.map((roleName) => (
                                 <input
                                     key={roleName}
                                     type="hidden"
-                                    name="rules[]"
+                                    name="roles[]"
                                     value={roleName}
                                 />
                             ))}

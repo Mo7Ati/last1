@@ -40,6 +40,7 @@ class AdminRequest extends FormRequest
             ],
             'is_active' => 'required|boolean',
             'roles' => 'nullable|array',
+            'roles.*' => 'exists:roles,name',
         ];
     }
 
@@ -64,6 +65,7 @@ class AdminRequest extends FormRequest
             'is_active.boolean' => __('validation.boolean', ['attribute' => $attributes['is_active']]),
 
             'roles.array' => __('validation.array', ['attribute' => $attributes['roles']]),
+            'roles.*.exists' => __('validation.exists', ['attribute' => $attributes['roles']]),
         ];
     }
 
