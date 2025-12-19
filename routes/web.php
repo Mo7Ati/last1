@@ -44,11 +44,12 @@ Route::get('language/{locale}', function ($locale) {
 // API routes for temporary file uploads
 Route::prefix('api/temp-uploads')
     ->name('api.temp-uploads.')
-    ->middleware(['web'])
+    ->middleware(['auth:admin,store'])
     ->group(function () {
         Route::post('/', [App\Http\Controllers\Api\TempUploadController::class, 'store'])->name('store');
         Route::delete('/', [App\Http\Controllers\Api\TempUploadController::class, 'revert'])->name('revert');
-        Route::get('/', [App\Http\Controllers\Api\TempUploadController::class, 'load'])->name('load');
+        Route::get('/{id}/{file_name}', [App\Http\Controllers\Api\TempUploadController::class, 'load'])->name('load');
+        Route::delete('/{id}/{file_name}', [App\Http\Controllers\Api\TempUploadController::class, 'remove'])->name('remove');
     });
 
 require __DIR__ . '/settings.php';

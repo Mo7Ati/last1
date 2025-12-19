@@ -41,11 +41,11 @@ interface StoreFormProps {
     store: Store;
     categories: StoreCategory[];
     type: 'create' | 'edit';
-    logo?: string;
 }
 
-export default function StoreForm({ store, categories, type, logo }: StoreFormProps) {
-    console.log(logo);
+export default function StoreForm({ store, categories, type }: StoreFormProps) {
+    console.log(store);
+
     return (
         <Form
             method={type === 'edit' ? 'put' : 'post'}
@@ -117,6 +117,34 @@ export default function StoreForm({ store, categories, type, logo }: StoreFormPr
                                         </Select>
                                         <InputError message={errors.category_id} />
                                     </div>
+                                </CardContent>
+                            </Card>
+
+
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Store Images</CardTitle>
+                                    <CardDescription>
+                                        Upload store logo and gallery images
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent className="space-y-4">
+                                    <FileUpload
+                                        name="logo_temp_id"
+                                        label="Store Logo"
+                                        multiple={true}
+                                        required
+                                        acceptedFileTypes={['image/*']}
+                                        maxFiles={1}
+                                        maxFileSize="5MB"
+                                        error={errors.temp_ids}
+                                        files={store.logo ? store.logo.map((logo) => ({
+                                            source: String(logo.id) + '/' + logo.file_name,
+                                            options: {
+                                                type: 'local',
+                                            },
+                                        })) : []}
+                                    />
                                 </CardContent>
                             </Card>
                         </div>
@@ -194,32 +222,6 @@ export default function StoreForm({ store, categories, type, logo }: StoreFormPr
                                     </div>
 
                                     <IsActive value={store.is_active ?? true} />
-                                </CardContent>
-                            </Card>
-
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Store Images</CardTitle>
-                                    <CardDescription>
-                                        Upload store logo and gallery images
-                                    </CardDescription>
-                                </CardHeader>
-                                <CardContent className="space-y-4">
-                                    <FileUpload
-                                        name="logo_temp_id"
-                                        label="Store Logo"
-                                        multiple={false}
-                                        acceptedFileTypes={['image/*']}
-                                        maxFiles={1}
-                                        maxFileSize="5MB"
-                                        error={errors.logo_temp_id}
-                                        files={logo ? [{
-                                            source: logo,
-                                            options: {
-                                                type: 'remote',
-                                            }
-                                        }] : []}
-                                    />
                                 </CardContent>
                             </Card>
                         </div>

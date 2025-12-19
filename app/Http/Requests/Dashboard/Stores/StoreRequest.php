@@ -23,6 +23,7 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         $id = $this->route('store');
+        // dd($this->all());
         return [
             'name' => ['required', 'array'],
             'name.*' => ['required', 'string', 'max:255'],

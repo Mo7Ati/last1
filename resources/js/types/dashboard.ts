@@ -71,6 +71,17 @@ export type StoreCategory = {
 
 export type Locale = 'en' | 'ar';
 
+export type Media = {
+    id: number | string;
+    name: string;
+    url: string;
+    type: string;
+    uuid: string;
+    size: number;
+    mime_type: string;
+    file_name: string;
+}
+
 export type Store = {
     id: number | string;
     name: Record<Locale, string> | string;
@@ -88,8 +99,9 @@ export type Store = {
     created_at?: string;
     updated_at?: string;
     category?: StoreCategory;
-    logo?: string;
+    logo: Media[] | null;
 }
+
 
 
 // delete late

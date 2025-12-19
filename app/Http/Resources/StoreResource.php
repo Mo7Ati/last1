@@ -31,6 +31,7 @@ class StoreResource extends JsonResource
     public function serializeForForm(): array
     {
         return [
+            'id' => $this->id,
             'name' => $this->getTranslations('name'),
             'address' => $this->getTranslations('address'),
             'description' => $this->getTranslations('description'),
@@ -42,6 +43,7 @@ class StoreResource extends JsonResource
             'delivery_time' => $this->delivery_time,
             // 'delivery_area_polygon' => $this->delivery_area_polygon,
             'is_active' => $this->is_active,
+            'logo' => $this->getMedia('logo'),
         ];
     }
 }

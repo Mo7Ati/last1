@@ -6,12 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Translatable\HasTranslations;
 use Laravel\Fortify\TwoFactorAuthenticatable;
-class Admin extends Authenticatable
+class Admin extends Authenticatable implements HasMedia
 {
-    use HasFactory, Notifiable, HasTranslations, HasRoles, TwoFactorAuthenticatable;
+    use HasFactory, Notifiable, HasTranslations, HasRoles, TwoFactorAuthenticatable, InteractsWithMedia;
     protected $guard = ['admin'];
     protected $fillable = [
         'name',

@@ -9,11 +9,14 @@ use App\Http\Resources\StoreResource;
 use App\Models\Store;
 use App\Models\StoreCategory;
 use App\Models\TempMedia;
+use App\Traits\MediaSyncTrait;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class StoreController extends Controller
 {
+    use MediaSyncTrait;
     public function index(Request $request)
     {
         $stores = Store::query()
@@ -38,7 +41,7 @@ class StoreController extends Controller
     public function create()
     {
         return Inertia::render('admin/stores/create', [
-            'store' => new StoreResource(new Store()),
+            'store' => StoreResource::make(new Store())->serializeForForm(),
             'categories' => StoreCategoryResource::collection(StoreCategory::all()),
         ]);
     }
@@ -46,29 +49,24 @@ class StoreController extends Controller
     public function store(StoreRequest $request)
     {
         $store = Store::create($request->validated());
-
-        if ($request->input('logo_temp_id')) {
-            $tempMedia = TempMedia::findOrFail($request->input('logo_temp_id'))->getFirstMedia('temp');
-            $tempMedia->move($store, 'logo');
-        }
-
+        $this->storeMedia($request, $store, 'logo');
         return to_route('admin.stores.index')->with('success', __('messages.created_successfully'));
     }
 
-    public function show($id)
-    {
-        $store = Store::with(['category', 'media'])->findOrFail($id);
-        return Inertia::render('admin/stores/show', [
-            'store' => new StoreResource($store),
-            'categories' => StoreCategoryResource::collection(StoreCategory::all()),
-        ]);
-    }
+    // public function show($id)
+    // {
+    //     $store = Store::with(['category', 'media'])->findOrFail($id);
+    //     return Inertia::render('admin/stores/show', [
+    //         'store' => new StoreResource($store),
+    //         'categories' => StoreCategoryResource::collection(StoreCategory::all()),
+    //     ]);
+    // }
 
     public function edit($id)
     {
-        $store = Store::with(['category', 'media'])->findOrFail($id);
+        $store = Store::findOrFail($id);
         return Inertia::render('admin/stores/edit', [
-            'store' => $store,
+            'store' => StoreResource::make($store)->serializeForForm(),
             'categories' => StoreCategoryResource::collection(StoreCategory::all()),
             'logo' => $store->getFirstMediaUrl('logo'),
         ]);
@@ -79,11 +77,7 @@ class StoreController extends Controller
         $validated = $request->validated();
         $store = Store::findOrFail($id);
 
-        if ($request->input('logo_temp_id')) {
-            $tempMedia = TempMedia::findOrFail($request->input('logo_temp_id'))->getFirstMedia('temp');
-            $tempMedia->move($store, 'logo');
-        }
-
+        $this->storeMedia($request, $store, 'logo');
         $store->update($validated);
 
         return redirect()

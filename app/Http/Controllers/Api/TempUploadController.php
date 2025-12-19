@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\TempMedia;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class TempUploadController extends Controller
 {
@@ -33,25 +35,11 @@ class TempUploadController extends Controller
             'filepond' => 'sometimes|file|max:10240', // 10MB max
         ]);
 
-        // Create a temporary media record
-        $tempMedia = TempMedia::create([
-            'session_id' => $request->session()->getId(),
-            'expires_at' => now()->addHours(24), // Expire after 24 hours
-        ]);
-
-        // Add media using Spatie Media Library
-        // addMedia() can accept an UploadedFile instance directly
-        $media = $tempMedia->addMedia($file)
-            ->usingName(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME))
-            ->usingFileName(Str::uuid()->toString() . '.' . $file->getClientOriginalExtension())
-            ->toMediaCollection('temp');
+        $media = Auth::user()->addMedia($file)->toMediaCollection('temp');
 
         // FilePond expects the response to be the file ID (or a string that onload can process)
         return response()->json([
-            'temp_id' => (string) $tempMedia->id,
             'media_id' => (string) $media->id,
-            'id' => (string) $tempMedia->id,
-            'url' => $media->getUrl(),
         ]);
     }
 
@@ -60,17 +48,12 @@ class TempUploadController extends Controller
      */
     public function revert()
     {
-        $tempId = request()->getContent();
-        $tempMedia = TempMedia::findOrFail($tempId);
+        $tempMedia = Media::findOrFail(request()->getContent());
 
         if (!$tempMedia) {
             return response()->json(['success' => false, 'message' => 'File not found'], 404);
         }
 
-        // Delete all media associated with this temp media record
-        $tempMedia->clearMediaCollection('temp');
-
-        // Delete the temp media record
         $tempMedia->delete();
 
         return response()->json(['success' => true]);
@@ -79,9 +62,29 @@ class TempUploadController extends Controller
     /**
      * Get a temporary file URL
      */
-    public function load()
+    public function load($id, $file_name)
     {
+        $Media = Media::findOrFail($id);
 
+        if (!$Media) {
+            return response()->json(['error' => 'File not found'], 404);
+        }
+
+        return response()->file($Media->getPath());
+    }
+
+
+    public function remove($id)
+    {
+        $Media = Media::findOrFail($id);
+
+        if (!$Media) {
+            return response()->json(['success' => false, 'message' => 'File not found'], 404);
+        }
+
+        $Media->delete();
+
+        return response()->json(['success' => true]);
     }
 }
 
