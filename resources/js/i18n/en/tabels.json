@@ -40,5 +40,17 @@
         "name": "Name",
         "description": "Description",
         "created_at": "Created At"
+    },
+    "products": {
+        "title": "Products",
+        "id": "ID",
+        "name": "Name",
+        "store": "Store",
+        "category": "Category",
+        "price": "Price",
+        "quantity": "Quantity",
+        "is_active": "Active",
+        "is_accepted": "Accepted",
+        "created_at": "Created At"
     }
 }

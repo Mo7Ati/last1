@@ -1,7 +1,7 @@
 import { Locale, NavItem, PanelType } from '@/types';
 import { InertiaLinkProps } from '@inertiajs/react';
 import { type ClassValue, clsx } from 'clsx';
-import { LayoutGrid, List, Shield, ShoppingCart, Store, Users } from 'lucide-react';
+import { LayoutGrid, List, Package, Shield, ShoppingCart, Store, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { twMerge } from 'tailwind-merge';
 
@@ -65,6 +65,12 @@ export function getAdminPanelNavItems(): NavItem[] {
             href: '/admin/orders',
             icon: ShoppingCart,
             isActive: isSameUrl('/admin/orders', window.location.pathname),
+        },
+        {
+            title: t('nav_labels.products'),
+            href: '/admin/products',
+            icon: Package,
+            isActive: isSameUrl('/admin/products', window.location.pathname),
         },
     ];
 }

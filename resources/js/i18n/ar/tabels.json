@@ -40,5 +40,17 @@
         "name": "الاسم",
         "description": "الوصف",
         "created_at": "تاريخ الإنشاء"
+    },
+    "products": {
+        "title": "المنتجات",
+        "id": "المعرف",
+        "name": "الاسم",
+        "store": "المتجر",
+        "category": "الفئة",
+        "price": "السعر",
+        "quantity": "الكمية",
+        "is_active": "نشط",
+        "is_accepted": "مقبول",
+        "created_at": "تاريخ الإنشاء"
     }
 }

@@ -133,6 +133,27 @@ export type Order = {
     } | null;
 }
 
+export type Product = {
+    id: number | string;
+    name: Record<Locale, string> | string;
+    description?: Record<Locale, string> | string;
+    keywords?: string[];
+    price: number;
+    compare_price?: number | null;
+    store_id: number | string;
+    category_id?: number | string | null;
+    is_active: boolean;
+    is_accepted: boolean;
+    quantity: number;
+    created_at?: string;
+    updated_at?: string;
+    store?: Store | null;
+    category?: {
+        id: number | string;
+        name: Record<Locale, string> | string;
+    } | null;
+}
+
 
 
 // delete late

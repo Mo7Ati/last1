@@ -37,7 +37,10 @@ class Product extends Model implements HasMedia
     {
         static::creating(function ($model) {
             $model->uuid = (string) Str::uuid();
-            $model->store_id = auth()->guard('store')->id();
+            // Only set store_id from auth if it's not already set (e.g., from factory or manual creation)
+            if (is_null($model->store_id) && auth()->guard('store')->check()) {
+                $model->store_id = auth()->guard('store')->id();
+            }
         });
     }
 
@@ -75,5 +78,20 @@ class Product extends Model implements HasMedia
     {
         return $this->belongsToMany(Option::class, 'product_options', 'product_id', 'option_id')
             ->withPivot('price');
+    }
+
+    public function scopeSearch($query, $search)
+    {
+        return $query->when($search, function ($query) use ($search) {
+            $query->where('id', 'LIKE', "%{$search}%")
+                ->orWhere('price', 'LIKE', "%{$search}%")
+                ->orWhereHas('Store', function ($q) use ($search) {
+                    $q->where('email', 'LIKE', "%{$search}%")
+                        ->orWhere('phone', 'LIKE', "%{$search}%");
+                })
+                ->orWhereHas('Category', function ($q) use ($search) {
+                    $q->where('name', 'LIKE', "%{$search}%");
+                });
+        });
     }
 }

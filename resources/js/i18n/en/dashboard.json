@@ -19,5 +19,11 @@
         "title": "Store Categories",
         "create": "Create Store Category",
         "edit": "Edit Store Category"
+    },
+    "products": {
+        "title": "Products"
+    },
+    "orders": {
+        "title": "Orders"
     }
 }
