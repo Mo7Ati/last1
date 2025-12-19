@@ -2,9 +2,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
 import { GroupedPermissions, Role } from '@/types/dashboard'
+import { useTranslation } from 'react-i18next'
 import React, { useState } from 'react'
 
 const PermissionList = ({ role, permissions }: { role: Role; permissions: GroupedPermissions }) => {
+    const { t } = useTranslation('forms');
     const [selectedPermissionNames, setSelectedPermissionNames] = useState<string[]>(role.permissions?.map((p) => p.name) || []);
 
     const handlePermissionToggle = (permissionName: string, checked: boolean) => {
@@ -43,7 +45,7 @@ const PermissionList = ({ role, permissions }: { role: Role; permissions: Groupe
                     defaultChecked={Object.values(permissions).every((perms) => perms.every((p) => selectedPermissionNames.includes(p.name)))}
                     onCheckedChange={handleSelectAllPermissions}
                 />
-                <Label htmlFor={'select-all'} className="text-sm font-normal cursor-pointer">Select All Permissions</Label>
+                <Label htmlFor={'select-all'} className="text-sm font-normal cursor-pointer">{t('roles.select_all_permissions')}</Label>
             </div>
             {Object.entries(permissions).map(([group, perms]) => (
                 <Card key={group} className="border-muted">
@@ -58,7 +60,7 @@ const PermissionList = ({ role, permissions }: { role: Role; permissions: Groupe
                                         handleSelectAllGroup(group, checked === true);
                                     }}
                                 />
-                                <Label htmlFor={`select-all-${group}`} className="text-sm font-normal cursor-pointer">Select All</Label>
+                                <Label htmlFor={`select-all-${group}`} className="text-sm font-normal cursor-pointer">{t('roles.select_all')}</Label>
                             </div>
                         </CardTitle>
                     </CardHeader>

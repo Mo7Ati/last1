@@ -1,4 +1,5 @@
 import { Form, router } from '@inertiajs/react'
+import { useTranslation } from 'react-i18next'
 import {
     Card,
     CardContent,
@@ -26,17 +27,19 @@ interface StoreCategoryFormProps {
 }
 
 export default function StoreCategoryForm({ category, type }: StoreCategoryFormProps) {
+    const { t } = useTranslation('forms');
+    
     const fields: Field[] = [
         {
             name: 'name',
-            label: 'Name',
+            label: t('store_categories.name'),
             type: 'text',
             value: normalizeFieldValue(category.name),
             required: true,
         },
         {
             name: 'description',
-            label: 'Description',
+            label: t('store_categories.description'),
             type: 'textarea',
             value: normalizeFieldValue(category.description),
             required: false,
@@ -56,10 +59,10 @@ export default function StoreCategoryForm({ category, type }: StoreCategoryFormP
                 <Card>
                     <CardHeader>
                         <CardTitle>
-                            {type === 'create' ? 'Create Store Category' : 'Edit Store Category'}
+                            {type === 'create' ? t('store_categories.create_category') : t('store_categories.edit_category')}
                         </CardTitle>
                         <CardDescription>
-                            {type === 'create' ? 'Add a new store category' : 'Update store category information'}
+                            {type === 'create' ? t('store_categories.add_new_category') : t('store_categories.update_category_info')}
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">

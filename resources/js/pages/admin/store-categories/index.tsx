@@ -2,6 +2,7 @@ import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { MoreHorizontal, PencilIcon } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { ColumnDef } from "@tanstack/react-table"
 import { StoreCategory, PaginatedResponse } from '@/types/dashboard';
 import { DataTable } from '@/components/data-table/data-table';
@@ -12,7 +13,6 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { t } from 'i18next';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header';
 import DeleteAction from '@/components/delete-action';
@@ -26,95 +26,99 @@ const storeCategoryRoutes = {
     destroy: { url: (args: { 'store-category': string | number }) => `/admin/store-categories/${args['store-category']}` },
 }
 
-const columns: ColumnDef<StoreCategory>[] = [
-    {
-        id: "select",
-        header: ({ table }) => (
-            <Checkbox
-                checked={
-                    table.getIsAllPageRowsSelected() ||
-                    (table.getIsSomePageRowsSelected() && "indeterminate")
-                }
-                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-                aria-label="Select all"
-            />
-        ),
-        cell: ({ row }) => (
-            <Checkbox
-                checked={row.getIsSelected()}
-                onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Select row"
-            />
-        ),
-        enableHiding: false,
-    },
-    {
-        accessorKey: "name",
-        header: "Name",
-        cell: ({ row }) => {
-            const name = row.original.name;
-            if (typeof name === 'object' && name !== null) {
-                return name.en || name.ar || Object.values(name)[0] || '-';
-            }
-            return name || '-';
-        },
-        enableHiding: false,
-    },
-    {
-        accessorKey: "description",
-        header: "Description",
-        cell: ({ row }) => {
-            const description = row.original.description;
-            if (!description) return '-';
-            if (typeof description === 'object' && description !== null) {
-                return description.en || description.ar || Object.values(description)[0] || '-';
-            }
-            return description || '-';
-        },
-    },
-    {
-        accessorKey: "created_at",
-        header: ({ column }) => (
-            <DataTableColumnHeader column={column} title="Created At" indexRoute={storeCategoryRoutes.index} />
-        ),
-    },
-    {
-        id: "actions",
-        cell: ({ row }) => {
-            const category = row.original
-            return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="center">
-                        <DropdownMenuItem onClick={() => router.visit(storeCategoryRoutes.edit.url({ 'store-category': category.id }))} >
-                            <PencilIcon className="h-4 w-4" /> {t('Edit')}
-                        </DropdownMenuItem>
-
-                        <DeleteAction onDelete={() => router.delete(storeCategoryRoutes.destroy.url({ 'store-category': category.id }))} />
-                    </DropdownMenuContent>
-                </DropdownMenu >
-            )
-        },
-        enableHiding: false,
-    },
-]
-
 const StoreCategoriesIndex = ({ categories: categoriesData }: { categories: PaginatedResponse<StoreCategory> }) => {
+    const { t: tTabels } = useTranslation('tabels');
+    const { t: tDashboard } = useTranslation('dashboard');
+    const { t: tForms } = useTranslation('forms');
+    
+    const columns: ColumnDef<StoreCategory>[] = [
+        {
+            id: "select",
+            header: ({ table }) => (
+                <Checkbox
+                    checked={
+                        table.getIsAllPageRowsSelected() ||
+                        (table.getIsSomePageRowsSelected() && "indeterminate")
+                    }
+                    onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+                    aria-label={tTabels('common.select_all')}
+                />
+            ),
+            cell: ({ row }) => (
+                <Checkbox
+                    checked={row.getIsSelected()}
+                    onCheckedChange={(value) => row.toggleSelected(!!value)}
+                    aria-label={tTabels('common.select_row')}
+                />
+            ),
+            enableHiding: false,
+        },
+        {
+            accessorKey: "name",
+            header: tTabels('store_categories.name'),
+            cell: ({ row }) => {
+                const name = row.original.name;
+                if (typeof name === 'object' && name !== null) {
+                    return name.en || name.ar || Object.values(name)[0] || '-';
+                }
+                return name || '-';
+            },
+            enableHiding: false,
+        },
+        {
+            accessorKey: "description",
+            header: tTabels('store_categories.description'),
+            cell: ({ row }) => {
+                const description = row.original.description;
+                if (!description) return '-';
+                if (typeof description === 'object' && description !== null) {
+                    return description.en || description.ar || Object.values(description)[0] || '-';
+                }
+                return description || '-';
+            },
+        },
+        {
+            accessorKey: "created_at",
+            header: ({ column }) => (
+                <DataTableColumnHeader column={column} title={tTabels('store_categories.created_at')} indexRoute={storeCategoryRoutes.index} />
+            ),
+        },
+        {
+            id: "actions",
+            cell: ({ row }) => {
+                const category = row.original
+                return (
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-8 w-8 p-0">
+                                <span className="sr-only">{tTabels('common.open_menu')}</span>
+                                <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="center">
+                            <DropdownMenuItem onClick={() => router.visit(storeCategoryRoutes.edit.url({ 'store-category': category.id }))} >
+                                <PencilIcon className="h-4 w-4" /> {tForms('common.edit')}
+                            </DropdownMenuItem>
+
+                            <DeleteAction onDelete={() => router.delete(storeCategoryRoutes.destroy.url({ 'store-category': category.id }))} />
+                        </DropdownMenuContent>
+                    </DropdownMenu >
+                )
+            },
+            enableHiding: false,
+        },
+    ]
+
     const breadcrumbs: BreadcrumbItem[] = [
         {
-            title: 'Store Categories',
+            title: tDashboard('store_categories.title'),
             href: '/admin/store-categories',
         },
     ];
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Store Categories" />
+            <Head title={tDashboard('store_categories.title')} />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <DataTable
                     columns={columns}

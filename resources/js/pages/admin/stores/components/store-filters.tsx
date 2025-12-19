@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/command"
 import { useState } from "react";
 import { router } from "@inertiajs/react";
+import { useTranslation } from 'react-i18next';
 import { Check, Filter } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
@@ -29,6 +30,8 @@ const storeRoutes = {
 }
 
 export default function StoresFilters() {
+    const { t: tForms } = useTranslation('forms');
+    const { t: tTabels } = useTranslation('tabels');
     const url = new URL(window.location.href);
     const [filters, setFilters] = useState<Record<string, string | undefined>>({
         is_active: url.searchParams.get('is_active') || undefined,
@@ -62,10 +65,10 @@ export default function StoresFilters() {
             <Popover>
                 <PopoverTrigger asChild>
                     <button className="px-2 py-1 border rounded flex items-center gap-2">
-                        <Filter size={14} /> Status
+                        <Filter size={14} /> {tTabels('common.status')}
                         {
                             filters.is_active !== undefined && (
-                                <Badge variant="secondary">{filters.is_active === "1" ? "Active" : "Inactive"}</Badge>
+                                <Badge variant="secondary">{filters.is_active === "1" ? tTabels('common.active') : tTabels('common.inactive')}</Badge>
                             )
                         }
                     </button>
@@ -73,15 +76,15 @@ export default function StoresFilters() {
 
                 <PopoverContent className="w-56 p-0">
                     <Command>
-                        <CommandInput placeholder={`Filter by Status...`} />
+                        <CommandInput placeholder={tForms('stores.filter_by_status')} />
                         <CommandList>
-                            <CommandEmpty>No results found.</CommandEmpty>
+                            <CommandEmpty>{tForms('common.no_results_found')}</CommandEmpty>
                             <CommandGroup>
                                 {
                                     [
-                                        { value: undefined, label: "All" },
-                                        { value: "1", label: "Active" },
-                                        { value: "0", label: "Inactive" },
+                                        { value: undefined, label: tForms('stores.all') },
+                                        { value: "1", label: tTabels('common.active') },
+                                        { value: "0", label: tTabels('common.inactive') },
                                     ].map((opt) => {
                                         const isSelected = filters.is_active === opt.value
                                         return (
@@ -109,7 +112,7 @@ export default function StoresFilters() {
                                     className="p-2 text-center text-sm cursor-pointer"
                                     onClick={() => onChange("is_active", undefined)}
                                 >
-                                    Clear Status
+                                    {tForms('stores.clear_status')}
                                 </div>
                             </>
                         )}

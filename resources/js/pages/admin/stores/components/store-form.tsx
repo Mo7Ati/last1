@@ -1,5 +1,6 @@
 import { Form, router } from '@inertiajs/react'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
     Card,
     CardContent,
@@ -44,7 +45,7 @@ interface StoreFormProps {
 }
 
 export default function StoreForm({ store, categories, type }: StoreFormProps) {
-    console.log(store);
+    const { t } = useTranslation('forms');
 
     return (
         <Form
@@ -64,23 +65,23 @@ export default function StoreForm({ store, categories, type }: StoreFormProps) {
                                 fields={[
                                     {
                                         name: 'name',
-                                        label: 'Name',
+                                        label: t('stores.name'),
                                         type: 'text',
                                         value: normalizeFieldValue(store.name),
-                                        placeholder: 'Enter name',
+                                        placeholder: t('stores.enter_name'),
                                     },
                                     {
                                         name: 'description',
-                                        label: 'Description',
+                                        label: t('stores.description'),
                                         type: 'textarea',
                                         value: normalizeFieldValue(store.description),
                                     },
                                     {
                                         name: 'address',
-                                        label: 'Address',
+                                        label: t('stores.address'),
                                         type: 'text',
                                         value: normalizeFieldValue(store.address),
-                                        placeholder: 'Enter address',
+                                        placeholder: t('stores.enter_address'),
                                     },
                                 ]}
                                 errors={errors}
@@ -88,14 +89,14 @@ export default function StoreForm({ store, categories, type }: StoreFormProps) {
 
                             <Card>
                                 <CardHeader>
-                                    <CardTitle>Category</CardTitle>
+                                    <CardTitle>{t('stores.store_category')}</CardTitle>
                                     <CardDescription>
-                                        Select a category for this store
+                                        {t('stores.select_category')}
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent>
                                     <div>
-                                        <Label htmlFor="category_id">Store Category</Label>
+                                        <Label htmlFor="category_id">{t('stores.store_category')}</Label>
                                         <Select
                                             defaultValue={String(store.category_id)}
                                             name='category_id'
@@ -104,7 +105,7 @@ export default function StoreForm({ store, categories, type }: StoreFormProps) {
                                                 <SelectValue defaultValue={String(store.category_id)} />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="null" disabled>No category</SelectItem>
+                                                <SelectItem value="null" disabled>{t('stores.no_category')}</SelectItem>
                                                 {categories.map((category) => (
                                                     <SelectItem
                                                         key={category.id}
@@ -123,15 +124,15 @@ export default function StoreForm({ store, categories, type }: StoreFormProps) {
 
                             <Card>
                             <CardHeader className='relative'>
-                                    <CardTitle>Store Images</CardTitle>
+                                    <CardTitle>{t('stores.store_images')}</CardTitle>
                                     <CardDescription>
-                                        Upload store logo and gallery images
+                                        {t('stores.store_images_desc')}
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent className="space-y-4">
                                     <FileUpload
                                         name="logo_temp_id"
-                                        label="Store Logo"
+                                        label={t('stores.store_logo')}
                                         multiple={false}
                                         required
                                         acceptedFileTypes={['image/*']}
@@ -153,25 +154,25 @@ export default function StoreForm({ store, categories, type }: StoreFormProps) {
                         <div className="space-y-6">
                             <Card>
                                 <CardHeader>
-                                    <CardTitle>Store Credentials</CardTitle>
+                                    <CardTitle>{t('stores.store_credentials')}</CardTitle>
                                 </CardHeader>
                                 <CardContent className="space-y-4">
                                     <div>
-                                        <Label htmlFor="email">Email</Label>
+                                        <Label htmlFor="email">{t('stores.email')}</Label>
                                         <Input
                                             id="email"
                                             name="email"
                                             type="email"
                                             required
                                             defaultValue={store.email}
-                                            placeholder="Enter email address"
+                                            placeholder={t('stores.enter_email')}
                                             aria-invalid={errors.email ? 'true' : 'false'}
                                         />
                                         <InputError message={errors.email} />
                                     </div>
 
                                     <div>
-                                        <Label htmlFor="password">Password</Label>
+                                        <Label htmlFor="password">{t('common.password')}</Label>
                                         <Input
                                             id="password"
                                             name="password"
@@ -181,8 +182,8 @@ export default function StoreForm({ store, categories, type }: StoreFormProps) {
                                         />
                                         <span className="text-muted-foreground text-xs">
                                             {type === 'create'
-                                                ? 'Enter password (min. 8 characters)'
-                                                : 'Leave blank to keep current'}
+                                                ? t('stores.enter_password')
+                                                : t('stores.leave_blank')}
                                         </span>
                                         <InputError message={errors.password} />
                                     </div>
@@ -191,11 +192,11 @@ export default function StoreForm({ store, categories, type }: StoreFormProps) {
 
                             <Card>
                                 <CardHeader>
-                                    <CardTitle>Store Settings</CardTitle>
+                                    <CardTitle>{t('stores.store_settings')}</CardTitle>
                                 </CardHeader>
                                 <CardContent className="space-y-4">
                                     <div>
-                                        <Label htmlFor="phone">Phone Number</Label>
+                                        <Label htmlFor="phone">{t('stores.phone_number')}</Label>
                                         <Input
                                             id="phone"
                                             name="phone"
@@ -207,7 +208,7 @@ export default function StoreForm({ store, categories, type }: StoreFormProps) {
                                         <InputError message={errors.phone} />
                                     </div>
                                     <div>
-                                        <Label htmlFor="delivery_time">Delivery Time</Label>
+                                        <Label htmlFor="delivery_time">{t('stores.delivery_time')}</Label>
                                         <Input
                                             id="delivery_time"
                                             name="delivery_time"
@@ -216,7 +217,7 @@ export default function StoreForm({ store, categories, type }: StoreFormProps) {
                                             aria-invalid={errors.delivery_time ? 'true' : 'false'}
                                         />
                                         <span className="text-muted-foreground text-xs">
-                                            Enter delivery time in minutes
+                                            {t('stores.delivery_time_desc')}
                                         </span>
                                         <InputError message={errors.delivery_time} />
                                     </div>

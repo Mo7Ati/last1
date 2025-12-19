@@ -1,0 +1,44 @@
+{
+    "common": {
+        "name": "الاسم",
+        "email": "البريد الإلكتروني",
+        "password": "كلمة المرور",
+        "status": "الحالة",
+        "created_at": "تاريخ الإنشاء",
+        "actions": "الإجراءات",
+        "select_all": "تحديد الكل",
+        "select_row": "تحديد الصف",
+        "open_menu": "فتح القائمة",
+        "active": "نشط",
+        "inactive": "غير نشط"
+    },
+    "admins": {
+        "title": "المشرفين",
+        "name": "الاسم",
+        "email": "البريد الإلكتروني",
+        "status": "الحالة",
+        "created_at": "تاريخ الإنشاء"
+    },
+    "roles": {
+        "title": "الأدوار",
+        "name": "الاسم",
+        "guard_name": "اسم الحارس",
+        "permissions_count": "عدد الصلاحيات",
+        "created_at": "تاريخ الإنشاء"
+    },
+    "stores": {
+        "title": "المتاجر",
+        "name": "الاسم",
+        "email": "البريد الإلكتروني",
+        "phone": "الهاتف",
+        "category": "الفئة",
+        "status": "الحالة",
+        "created_at": "تاريخ الإنشاء"
+    },
+    "store_categories": {
+        "title": "فئات المتاجر",
+        "name": "الاسم",
+        "description": "الوصف",
+        "created_at": "تاريخ الإنشاء"
+    }
+}

@@ -1,5 +1,6 @@
 import { Form, router } from '@inertiajs/react'
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
     Card,
     CardContent,
@@ -25,29 +26,20 @@ interface RoleFormProps {
     type: 'create' | 'edit'
 }
 
-// const formatPermissionName = (name: string): string => {
-//     const parts = name.split('.')
-//     if (parts.length >= 2) {
-//         const action = parts[1]
-//         return action.charAt(0).toUpperCase() + action.slice(1)
-//     }
-//     return name
-// }
-
 export default function RoleForm({ role, permissions, type }: RoleFormProps) {
+    const { t } = useTranslation('forms');
     const [selectedPermissions, setSelectedPermissions] = useState<GroupedPermissions>(permissions)
-    console.log(permissions, role);
 
     return (
         <Card >
             <CardHeader>
                 <CardTitle>
-                    {type === 'edit' ? 'Edit Role' : 'Create Role'}
+                    {type === 'edit' ? t('roles.edit_role') : t('roles.create_role')}
                 </CardTitle>
                 <CardDescription>
                     {type === 'edit'
-                        ? 'Update the role information and permissions below.'
-                        : 'Fill in the information to create a new role.'}
+                        ? t('roles.update_role_info')
+                        : t('roles.create_role_info')}
                 </CardDescription>
             </CardHeader>
 
@@ -65,10 +57,10 @@ export default function RoleForm({ role, permissions, type }: RoleFormProps) {
                         <>
                             <FormInput
                                 name="name"
-                                label="Name"
+                                label={t('roles.name')}
                                 type="text"
                                 required={true}
-                                placeholder="Enter role name"
+                                placeholder={t('roles.enter_role_name')}
                                 defaultValue={role.name}
                                 error={errors.name}
                                 className="max-w-100"
@@ -77,10 +69,10 @@ export default function RoleForm({ role, permissions, type }: RoleFormProps) {
                             <div className="space-y-6">
                                 <div>
                                     <Label className="text-base font-semibold">
-                                        Permissions
+                                        {t('roles.permissions')}
                                     </Label>
                                     <p className="text-sm text-muted-foreground mb-4">
-                                        Select the permissions for this role
+                                        {t('roles.select_permissions_desc')}
                                     </p>
                                     <InputError message={errors.permissions} />
                                 </div>

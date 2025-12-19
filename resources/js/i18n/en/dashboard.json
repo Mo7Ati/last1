@@ -1,3 +1,23 @@
 {
-    "title": "Dashboard"
+    "title": "Dashboard",
+    "admins": {
+        "title": "Admins",
+        "create": "Create Admin",
+        "edit": "Edit Admin"
+    },
+    "roles": {
+        "title": "Roles",
+        "create": "Create Role",
+        "edit": "Edit Role"
+    },
+    "stores": {
+        "title": "Stores",
+        "create": "Create Store",
+        "edit": "Edit Store"
+    },
+    "store_categories": {
+        "title": "Store Categories",
+        "create": "Create Store Category",
+        "edit": "Edit Store Category"
+    }
 }

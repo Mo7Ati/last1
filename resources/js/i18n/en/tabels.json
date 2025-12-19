@@ -1,0 +1,44 @@
+{
+    "common": {
+        "name": "Name",
+        "email": "Email",
+        "password": "Password",
+        "status": "Status",
+        "created_at": "Created At",
+        "actions": "Actions",
+        "select_all": "Select all",
+        "select_row": "Select row",
+        "open_menu": "Open menu",
+        "active": "Active",
+        "inactive": "Inactive"
+    },
+    "admins": {
+        "title": "Admins",
+        "name": "Name",
+        "email": "Email",
+        "status": "Status",
+        "created_at": "Created At"
+    },
+    "roles": {
+        "title": "Roles",
+        "name": "Name",
+        "guard_name": "Guard Name",
+        "permissions_count": "Permissions Count",
+        "created_at": "Created At"
+    },
+    "stores": {
+        "title": "Stores",
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone",
+        "category": "Category",
+        "status": "Status",
+        "created_at": "Created At"
+    },
+    "store_categories": {
+        "title": "Store Categories",
+        "name": "Name",
+        "description": "Description",
+        "created_at": "Created At"
+    }
+}

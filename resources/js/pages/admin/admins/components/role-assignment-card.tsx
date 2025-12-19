@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
     Card,
     CardContent,
@@ -25,6 +26,7 @@ export default function RoleAssignmentCard({
     errors,
     className,
 }: RoleAssignmentCardProps) {
+    const { t } = useTranslation('forms');
     const [selectedRoles, setSelectedRoles] = useState<string[]>(selectedRoleNames);
 
     const options = roles.map((role) => ({
@@ -36,9 +38,9 @@ export default function RoleAssignmentCard({
     return (
         <Card className={className}>
             <CardHeader>
-                <CardTitle>Assign Roles</CardTitle>
+                <CardTitle>{t('admins.assign_roles')}</CardTitle>
                 <CardDescription>
-                    Select the roles to assign to this admin. The admin will inherit all permissions from the selected roles.
+                    {t('admins.assign_roles_desc')}
                 </CardDescription>
             </CardHeader>
 
@@ -46,7 +48,7 @@ export default function RoleAssignmentCard({
                 <div>
                     {roles.length === 0 ? (
                         <p className="text-sm text-muted-foreground">
-                            No roles available. Please create roles first.
+                            {t('admins.no_roles_available')}
                         </p>
                     ) : (
                         <>
@@ -56,9 +58,9 @@ export default function RoleAssignmentCard({
                                 onSelectedChange={(selected) => {
                                     setSelectedRoles(selected as string[]);
                                 }}
-                                placeholder="Select roles..."
-                                searchPlaceholder="Search roles..."
-                                emptyMessage="No roles found."
+                                placeholder={t('admins.select_roles')}
+                                searchPlaceholder={t('admins.search_roles')}
+                                emptyMessage={t('admins.no_roles_found')}
                             />
 
                             {selectedRoles.map((roleName) => (

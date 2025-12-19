@@ -1,4 +1,5 @@
 import { Form, router } from '@inertiajs/react'
+import { useTranslation } from 'react-i18next'
 import {
     Card,
     CardContent,
@@ -21,6 +22,8 @@ interface AdminFormProps {
 }
 
 export default function AdminForm({ admin, roles, type }: AdminFormProps) {
+    const { t } = useTranslation('forms');
+
     return (
         <Form
             method={type === 'edit' ? 'put' : 'post'}
@@ -36,43 +39,43 @@ export default function AdminForm({ admin, roles, type }: AdminFormProps) {
                         <Card>
                             <CardHeader>
                                 <CardTitle>
-                                    {type === 'edit' ? 'Edit Admin' : 'Create Admin'}
+                                    {type === 'edit' ? t('admins.edit_admin') : t('admins.create')}
                                 </CardTitle>
                                 <CardDescription>
                                     {type === 'edit'
-                                        ? 'Update the admin information below.'
-                                        : 'Fill in the information to create a new admin.'}
+                                        ? t('admins.update_admin_info')
+                                        : t('admins.create_admin_info')}
                                 </CardDescription>
                             </CardHeader>
 
                             <CardContent className="space-y-4 md:space-y-6">
                                 <FormInput
                                     name="name"
-                                    label="Name"
+                                    label={t('admins.name')}
                                     type="text"
                                     required={true}
-                                    placeholder="Enter admin name"
+                                    placeholder={t('admins.enter_admin_name')}
                                     defaultValue={admin.name}
                                     error={errors.name}
                                 />
 
                                 <FormInput
                                     name="email"
-                                    label="Email"
+                                    label={t('admins.email')}
                                     type="email"
                                     required={true}
-                                    placeholder="Enter email address"
+                                    placeholder={t('admins.enter_email')}
                                     defaultValue={admin.email}
                                     error={errors.email}
                                 />
 
                                 <FormInput
                                     name="password"
-                                    label="Password"
+                                    label={t('admins.password')}
                                     type="password"
                                     required={type === 'create'}
-                                    placeholder={type === 'create' ? 'Enter password (min. 8 characters)' : 'Enter new password (optional)'}
-                                    hint={type === 'create' ? '' : 'Leave blank to keep current'}
+                                    placeholder={type === 'create' ? t('admins.enter_password') : t('admins.enter_new_password')}
+                                    hint={type === 'create' ? '' : t('admins.leave_blank')}
                                     error={errors.password}
                                 />
 

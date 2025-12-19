@@ -1,6 +1,7 @@
 import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types'
 import { Head } from '@inertiajs/react'
+import { useTranslation } from 'react-i18next'
 import StoreCategoryForm from './components/store-category-form'
 import { StoreCategory } from '@/types/dashboard'
 
@@ -10,21 +11,23 @@ const storeCategoryRoutes = {
     create: { url: () => '/admin/store-categories/create' },
 }
 
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Store Categories',
-        href: storeCategoryRoutes.index.url(),
-    },
-    {
-        title: 'Create Store Category',
-        href: storeCategoryRoutes.create.url(),
-    },
-]
-
 const StoreCategoriesCreate = ({ category }: { category: StoreCategory }) => {
+    const { t } = useTranslation('dashboard');
+    
+    const breadcrumbs: BreadcrumbItem[] = [
+        {
+            title: t('store_categories.title'),
+            href: storeCategoryRoutes.index.url(),
+        },
+        {
+            title: t('store_categories.create'),
+            href: storeCategoryRoutes.create.url(),
+        },
+    ]
+
     return (
         <AppLayout breadcrumbs={breadcrumbs} >
-            <Head title="Create Store Category" />
+            <Head title={t('store_categories.create')} />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <StoreCategoryForm category={category} type="create" />
             </div>
