@@ -116,13 +116,16 @@ export function MultiSelect({
                       key={option.value}
                       variant="secondary"
                       className="mr-1"
-                      onClick={(e) => handleRemove(option.value, e)}
                     >
                       {option.label}
-                      <button
+                      <span
+                        role="button"
+                        tabIndex={0}
+                        aria-label={`Remove ${option.label}`}
                         className="ml-1 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 cursor-pointer hover:bg-muted p-0.5 transition-colors"
                         onKeyDown={(e) => {
-                          if (e.key === "Enter") {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault()
                             handleRemove(option.value, e as any)
                           }
                         }}
@@ -131,10 +134,9 @@ export function MultiSelect({
                           e.stopPropagation()
                         }}
                         onClick={(e) => handleRemove(option.value, e)}
-                        type="button"
                       >
                         <XIcon className="h-3 w-3 text-muted-foreground hover:text-foreground" />
-                      </button>
+                      </span>
                     </Badge>
                   )
                 })}

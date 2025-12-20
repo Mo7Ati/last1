@@ -11,7 +11,9 @@
         "cancel": "إلغاء",
         "create": "إنشاء",
         "update": "تحديث",
-        "no_results_found": "لم يتم العثور على نتائج."
+        "no_results_found": "لم يتم العثور على نتائج.",
+        "clear_filters": "مسح التصفيات",
+        "all": "الكل"
     },
     "admins": {
         "title": "المشرفين",

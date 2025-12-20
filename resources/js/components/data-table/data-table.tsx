@@ -5,6 +5,7 @@ import {
     useReactTable,
     VisibilityState,
 } from "@tanstack/react-table"
+
 import {
     Table,
     TableBody,
@@ -14,7 +15,6 @@ import {
     TableRow,
 } from "@/components/ui/table"
 
-
 import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
@@ -22,23 +22,23 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 
-import { useState } from "react"
-import { Link } from "@inertiajs/react"
-import { MetaType } from "@/types/dashboard"
-import DataTablePagination from "./data-table-pagination"
-import SearchInput from "../search-input"
-import { Button } from "../ui/button"
-import { Plus, Pointer, Settings2 } from "lucide-react"
-import { type RouteDefinition, type RouteQueryOptions } from "@/wayfinder"
+import { useState } from "react";
+import { Link, router } from "@inertiajs/react";
+import { MetaType } from "@/types/dashboard";
+import DataTablePagination from "./data-table-pagination";
+import SearchInput from "../search-input";
+import { Button } from "../ui/button";
+import { Plus, Pointer, Settings2 } from "lucide-react";
+import { type RouteDefinition, type RouteQueryOptions } from "@/wayfinder";
+import Filters from "../filters-dropdown";
 
 interface DataTableProps<TData extends { id: number | string }, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
     meta?: MetaType
     filters?: React.ReactNode
-    showCreateButton?: boolean
     createHref?: string
     onRowClick?: (row: TData) => void
     indexRoute: (options?: RouteQueryOptions) => RouteDefinition<"get">
@@ -52,7 +52,6 @@ export function DataTable<TData extends { id: number | string }, TValue>({
     onRowClick,
     createHref,
     indexRoute,
-    showCreateButton = false,
 }: DataTableProps<TData, TValue>) {
     const [rowSelection, setRowSelection] = useState({});
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -76,52 +75,57 @@ export function DataTable<TData extends { id: number | string }, TValue>({
     return (
         <div className="space-y-4">
             <div className="flex justify-between">
-                <div className="flex items-center  gap-2">
-                    <SearchInput indexRoute={indexRoute} />
-                    {filters}
-                </div>
-                <div className="flex gap-2">
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button
-                                variant="outline"
-                                size="sm"
-                                className="ml-auto hidden h-8 lg:flex"
-                            >
-                                <Settings2 />
-                                View
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="w-[150px]">
-                            <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            {table
-                                .getAllColumns()
-                                .filter(
-                                    (column) =>
-                                        typeof column.accessorFn !== "undefined" && column.getCanHide()
-                                )
-                                .map((column) => {
-                                    return (
-                                        <DropdownMenuCheckboxItem
-                                            key={column.id}
-                                            className="capitalize"
-                                            checked={column.getIsVisible()}
-                                            onCheckedChange={(value) => column.toggleVisibility(!!value)}
-                                        >
-                                            {column.id}
-                                        </DropdownMenuCheckboxItem>
-                                    )
-                                })}
-                        </DropdownMenuContent>
-                    </DropdownMenu>
 
-                    {showCreateButton && createHref && (
-                        <Link method="get" href={createHref} as={Button} >
-                            <Plus className="h-4 w-4" /> Create
-                        </Link>
+                <div id="create-button">
+                    {createHref && (
+                        <Button variant="outline" size="sm" onClick={() => router.visit(createHref, { preserveState: true, preserveScroll: true })}>
+                            <Plus /> Create
+                        </Button>
                     )}
                 </div>
+
+                <div className="flex items-center gap-2">
+                    <SearchInput indexRoute={indexRoute} />
+                    {filters}
+
+                    <div className="flex gap-2">
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="ml-auto hidden h-8 lg:flex"
+                                >
+                                    <Settings2 />
+                                    View
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" className="w-[150px]">
+                                <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                {table
+                                    .getAllColumns()
+                                    .filter(
+                                        (column) =>
+                                            typeof column.accessorFn !== "undefined" && column.getCanHide()
+                                    )
+                                    .map((column) => {
+                                        return (
+                                            <DropdownMenuCheckboxItem
+                                                key={column.id}
+                                                className="capitalize"
+                                                checked={column.getIsVisible()}
+                                                onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                                            >
+                                                {column.id}
+                                            </DropdownMenuCheckboxItem>
+                                        )
+                                    })}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
+                </div>
+
             </div>
 
             <div className="overflow-hidden rounded-md border">

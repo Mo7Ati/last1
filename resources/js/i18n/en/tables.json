@@ -52,5 +52,15 @@
         "is_active": "Active",
         "is_accepted": "Accepted",
         "created_at": "Created At"
+    },
+    "orders": {
+        "title": "Orders",
+        "id": "ID",
+        "customer": "Customer",
+        "store": "Store",
+        "status": "Status",
+        "payment_status": "Payment Status",
+        "total": "Total",
+        "created_at": "Created At"
     }
 }

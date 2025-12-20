@@ -9,9 +9,10 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header';
 import { Badge } from '@/components/ui/badge';
 import products from '@/routes/admin/products';
+import IsActiveBadge from '@/components/is-active-badge';
 
 const ProductsIndex = ({ products: productsData }: { products: PaginatedResponse<Product> }) => {
-    const { t: tTabels } = useTranslation('tabels');
+    const { t: tTables } = useTranslation('tables');
     const { t: tDashboard } = useTranslation('dashboard');
 
     const columns: ColumnDef<Product>[] = [
@@ -24,14 +25,14 @@ const ProductsIndex = ({ products: productsData }: { products: PaginatedResponse
                         (table.getIsSomePageRowsSelected() && "indeterminate")
                     }
                     onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-                    aria-label={tTabels('common.select_all')}
+                    aria-label={tTables('common.select_all')}
                 />
             ),
             cell: ({ row }) => (
                 <Checkbox
                     checked={row.getIsSelected()}
                     onCheckedChange={(value) => row.toggleSelected(!!value)}
-                    aria-label={tTabels('common.select_row')}
+                    aria-label={tTables('common.select_row')}
                 />
             ),
             enableHiding: false,
@@ -39,49 +40,26 @@ const ProductsIndex = ({ products: productsData }: { products: PaginatedResponse
         {
             accessorKey: "id",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={tTabels('products.id') || 'ID'} indexRoute={products.index} />
+                <DataTableColumnHeader column={column} title={tTables('products.id') || 'ID'} indexRoute={products.index} />
             ),
             enableHiding: false,
         },
         {
             accessorKey: "name",
-            header: tTabels('products.name') || 'Name',
-            cell: ({ row }) => {
-                const name = row.original.name;
-                if (typeof name === 'object' && name !== null) {
-                    return name.en || name.ar || Object.values(name)[0] || '-';
-                }
-                return name || '-';
-            },
+            header: tTables('common.name'),
         },
         {
-            accessorKey: "store",
-            header: tTabels('products.store') || 'Store',
-            cell: ({ row }) => {
-                const store = row.original.store;
-                if (!store) return '-';
-                const storeName = typeof store.name === 'object' && store.name !== null
-                    ? (store.name.en || store.name.ar || Object.values(store.name)[0])
-                    : store.name;
-                return storeName || store.email || '-';
-            },
+            accessorKey: "store.name",
+            header: tTables('products.store'),
         },
         {
-            accessorKey: "category",
-            header: tTabels('products.category') || 'Category',
-            cell: ({ row }) => {
-                const category = row.original.category;
-                if (!category) return '-';
-                const categoryName = typeof category.name === 'object' && category.name !== null
-                    ? (category.name.en || category.name.ar || Object.values(category.name)[0])
-                    : category.name;
-                return categoryName || '-';
-            },
+            accessorKey: "category.name",
+            header: tTables('products.category'),
         },
         {
             accessorKey: "price",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={tTabels('products.price') || 'Price'} indexRoute={products.index} />
+                <DataTableColumnHeader column={column} title={tTables('products.price') || 'Price'} indexRoute={products.index} />
             ),
             cell: ({ row }) => {
                 const price = row.original.price;
@@ -91,30 +69,18 @@ const ProductsIndex = ({ products: productsData }: { products: PaginatedResponse
         {
             accessorKey: "quantity",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={tTabels('products.quantity') || 'Quantity'} indexRoute={products.index} />
+                <DataTableColumnHeader column={column} title={tTables('products.quantity') || 'Quantity'} indexRoute={products.index} />
             ),
-            cell: ({ row }) => {
-                return row.original.quantity || 0;
-            },
         },
         {
             accessorKey: "is_active",
-            header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={tTabels('products.is_active') || 'Active'} indexRoute={products.index} />
-            ),
-            cell: ({ row }) => {
-                const isActive = row.original.is_active;
-                return (
-                    <Badge variant={isActive ? "secondary" : "outline"}>
-                        {isActive ? tTabels('common.active') : tTabels('common.inactive')}
-                    </Badge>
-                );
-            },
+            header: tTables('common.is_active'),
+            cell: ({ row }) => <IsActiveBadge isActive={row.original.is_active} />,
         },
         {
             accessorKey: "is_accepted",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={tTabels('products.is_accepted') || 'Accepted'} indexRoute={products.index} />
+                <DataTableColumnHeader column={column} title={tTables('products.is_accepted') || 'Accepted'} indexRoute={products.index} />
             ),
             cell: ({ row }) => {
                 const isAccepted = row.original.is_accepted;
@@ -128,7 +94,7 @@ const ProductsIndex = ({ products: productsData }: { products: PaginatedResponse
         {
             accessorKey: "created_at",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={tTabels('products.created_at') || 'Created At'} indexRoute={products.index} />
+                <DataTableColumnHeader column={column} title={tTables('products.created_at') || 'Created At'} indexRoute={products.index} />
             ),
         },
     ];
@@ -142,14 +108,13 @@ const ProductsIndex = ({ products: productsData }: { products: PaginatedResponse
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={tDashboard('products.title') || 'Products'} />
+            <Head title={tDashboard('products.title')} />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <DataTable
                     columns={columns}
                     data={productsData.data}
                     meta={productsData.meta}
                     indexRoute={products.index}
-                    showCreateButton={false}
                 />
             </div>
         </AppLayout>

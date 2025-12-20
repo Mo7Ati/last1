@@ -1,120 +1,48 @@
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover"
-import {
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-    CommandSeparator,
-} from "@/components/ui/command"
 import { useState } from "react";
 import { router } from "@inertiajs/react";
 import { useTranslation } from 'react-i18next';
 import admins from "@/routes/admin/admins";
-import { Check, Filter } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { Select, SelectItem, SelectContent, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { X } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import FilterDropdown from "@/components/filters-dropdown";
+import StatusFilter from "@/components/data-table/status-filter";
+import { useFilters } from "@/hooks/use-filters";
 
 export default function AdminsFilters() {
     const { t: tForms } = useTranslation('forms');
-    const { t: tTabels } = useTranslation('tabels');
-    const url = new URL(window.location.href);
-    const [filters, setFilters] = useState<Record<string, string | undefined>>({
-        is_active: url.searchParams.get('is_active') || undefined
-    });
 
-    const onChange = (key: string, value: string | undefined) => {
-        setFilters({ ...filters, [key]: value });
+    const {
+        filters,
+        onChange,
+        reset,
+        activeFiltersCount,
+    } = useFilters({
+        indexRoute: admins.index,
+        initialKeys: ['is_active'],
+    })
 
-        router.get(admins.index({
-            mergeQuery: {
-                [key]: value,
-                page: 1,
-            },
-        }).url, {}, {
-            preserveState: true,
-            preserveScroll: true,
-        });
-    }
 
-    const resetFilters = () => {
-        setFilters({});
-        router.get(admins.index.url(), {}, {
-            preserveState: true,
-            preserveScroll: true,
-        });
-    }
 
     return (
-        <>
-            <Popover>
-                <PopoverTrigger asChild>
-                    <button className="px-2 py-1 border rounded flex items-center gap-2">
-                        <Filter size={14} /> {tTabels('common.status')}
-                        {
-                            filters.is_active !== undefined && (
-                                <Badge variant="secondary">{filters.is_active === "1" ? tTabels('common.active') : tTabels('common.inactive')}</Badge>
-                            )
-                        }
-                    </button>
-                </PopoverTrigger>
+        <FilterDropdown activeFiltersCount={activeFiltersCount}>
+            <div className="flex flex-col items-center gap-2">
+                {/* Status Filter */}
+                <StatusFilter value={filters.is_active} onChange={onChange} />
 
-                <PopoverContent className="w-56 p-0">
-                    <Command>
-                        <CommandInput placeholder={tForms('admins.filter_by_status')} />
-                        <CommandList>
-                            <CommandEmpty>{tForms('common.no_results_found')}</CommandEmpty>
-                            <CommandGroup>
-                                {
-                                    [
-                                        { value: undefined, label: tForms('admins.all') },
-                                        { value: "1", label: tTabels('common.active') },
-                                        { value: "0", label: tTabels('common.inactive') },
-                                    ].map((opt) => {
-                                        const isSelected = filters.is_active === opt.value
-                                        return (
-                                            <CommandItem
-                                                key={opt.value}
-                                                onSelect={() => onChange("is_active", opt.value)}
-                                            >
-                                                <div
-                                                    className={`mr-2 flex h-4 w-4 items-center justify-center rounded border ${isSelected ? "bg-primary text-primary-foreground" : "bg-transparent"
-                                                        }`}
-                                                >
-                                                    {isSelected && <Check size={12} />}
-                                                </div>
-                                                {opt.label}
-                                            </CommandItem>
-                                        )
-                                    })}
-                            </CommandGroup>
-                        </CommandList>
-
-                        {filters.is_active !== undefined && (
-                            <>
-                                <CommandSeparator />
-                                <div
-                                    className="p-2 text-center text-sm cursor-pointer"
-                                    onClick={() => onChange("is_active", undefined)}
-                                >
-                                    {tForms('admins.clear_status')}
-                                </div>
-                            </>
-                        )}
-                    </Command>
-                </PopoverContent>
-            </Popover>
-
-            {/* <button
-                onClick={resetFilters}
-                className="text-red-600 text-sm font-medium hover:underline"
-            >
-                Reset filters
-            </button> */}
-        </>
+                {activeFiltersCount > 0 && (
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={reset}
+                        className="h-9 px-2 lg:px-3"
+                    >
+                        <X className="h-4 w-4 mr-1" />
+                        {tForms('common.clear_filters')}
+                    </Button>
+                )}
+            </div>
+        </FilterDropdown>
     );
 }

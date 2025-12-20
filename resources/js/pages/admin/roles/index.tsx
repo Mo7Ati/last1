@@ -19,9 +19,10 @@ import rolesRoutes from '@/routes/admin/roles';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header';
 import roles from '@/routes/admin/roles';
+import { ActionsColumn } from '@/components/data-table/actions/column-actions';
 
-const RolesIndex = ({ roles }: { roles: PaginatedResponse<Role> }) => {
-    const { t: tTabels } = useTranslation('tabels');
+const RolesIndex = ({ roles: rolesData }: { roles: PaginatedResponse<Role> }) => {
+    const { t: tTables } = useTranslation('tables');
     const { t: tDashboard } = useTranslation('dashboard');
     const { t: tForms } = useTranslation('forms');
 
@@ -35,63 +36,52 @@ const RolesIndex = ({ roles }: { roles: PaginatedResponse<Role> }) => {
                         (table.getIsSomePageRowsSelected() && "indeterminate")
                     }
                     onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-                    aria-label={tTabels('common.select_all')}
+                    aria-label={tTables('common.select_all')}
                 />
             ),
             cell: ({ row }) => (
                 <Checkbox
                     checked={row.getIsSelected()}
                     onCheckedChange={(value) => row.toggleSelected(!!value)}
-                    aria-label={tTabels('common.select_row')}
+                    aria-label={tTables('common.select_row')}
                 />
             ),
             enableHiding: false,
         },
         {
             accessorKey: 'name',
-            header: tTabels('roles.name'),
+            header: tTables('roles.name'),
             enableHiding: false,
         },
         {
             accessorKey: 'guard_name',
-            header: tTabels('roles.guard_name'),
+            header: tTables('roles.guard_name'),
             enableHiding: false,
         },
         {
             accessorKey: 'permissions_count',
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={tTabels('roles.permissions_count')} indexRoute={roles.index} />
+                <DataTableColumnHeader column={column} title={tTables('roles.permissions_count')} indexRoute={roles.index} />
             ),
             enableHiding: false,
         },
         {
             accessorKey: 'created_at',
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={tTabels('roles.created_at')} indexRoute={roles.index} />
+                <DataTableColumnHeader column={column} title={tTables('roles.created_at')} indexRoute={roles.index} />
             ),
         },
         {
-            id: "actions",
-            cell: ({ row }) => {
-                const role = row.original
+            id: 'actions',
+            enableHiding: false,
+            cell: ({ row }: any) => {
                 return (
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-8 w-8 p-0">
-                                <span className="sr-only">{tTabels('common.open_menu')}</span>
-                                <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="center">
-                            <DropdownMenuItem onClick={() => router.visit(rolesRoutes.edit({ role: role.id }))} >
-                                <PencilIcon className="h-4 w-4" /> {tForms('roles.edit')}
-                            </DropdownMenuItem>
-                            <DeleteAction onDelete={() => router.delete(rolesRoutes.destroy({ role: role.id }))} />
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    <ActionsColumn
+                        EditRoute={roles.edit.url({ role: row.original.id })}
+                        DeleteRoute={roles.destroy.url({ role: row.original.id })}
+                    />
                 )
             },
-            enableHiding: false,
         },
     ];
 
@@ -108,10 +98,9 @@ const RolesIndex = ({ roles }: { roles: PaginatedResponse<Role> }) => {
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <DataTable
                     columns={columns}
-                    data={roles.data}
-                    meta={roles.meta}
+                    data={rolesData.data}
+                    meta={rolesData.meta}
                     createHref={rolesRoutes.create.url()}
-                    showCreateButton={true}
                     indexRoute={rolesRoutes.index}
                     onRowClick={(role) => router.visit(rolesRoutes.edit({ role: role.id }), { preserveState: true, preserveScroll: true })}
                 />

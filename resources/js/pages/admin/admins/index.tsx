@@ -7,25 +7,29 @@ import { ColumnDef } from "@tanstack/react-table"
 import { Admin, PaginatedResponse } from '@/types/dashboard';
 import { DataTable } from '@/components/data-table/data-table';
 import { Button } from "@/components/ui/button";
+
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+
 import { Checkbox } from '@/components/ui/checkbox';
 
 import AdminsFilters from './components/admin-filters';
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header';
-import adminRoutes from '@/routes/admin/admins';
 import { Badge } from '@/components/ui/badge';
 import DeleteAction from '@/components/delete-action';
 import admins from '@/routes/admin/admins';
+import IsActiveBadge from '@/components/is-active-badge';
+import { ActionsColumn } from '@/components/data-table/actions/column-actions';
 
 const AdminsIndex = ({ admins: adminsData }: { admins: PaginatedResponse<Admin> }) => {
     const { t: tTables } = useTranslation('tables');
     const { t: tDashboard } = useTranslation('dashboard');
     const { t: tForms } = useTranslation('forms');
+
 
     const columns: ColumnDef<Admin>[] = [
         {
@@ -62,14 +66,7 @@ const AdminsIndex = ({ admins: adminsData }: { admins: PaginatedResponse<Admin> 
         {
             accessorKey: "is_active",
             header: tTables('admins.status'),
-            cell: ({ row }) => {
-                const isActive = row.original.is_active
-                return (
-                    <Badge variant={isActive ? "secondary" : "default"}>
-                        {isActive ? tTables('common.active') : tTables('common.inactive')}
-                    </Badge>
-                )
-            },
+            cell: ({ row }) => <IsActiveBadge isActive={row.original.is_active} />,
             enableHiding: false,
         },
         {
@@ -79,35 +76,24 @@ const AdminsIndex = ({ admins: adminsData }: { admins: PaginatedResponse<Admin> 
             ),
         },
         {
-            id: "actions",
-            cell: ({ row }) => {
-                const admin = row.original
+            id: 'actions',
+            enableHiding: false,
+            cell: ({ row }: any) => {
                 return (
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-8 w-8 p-0">
-                                <span className="sr-only">{tTables('common.open_menu')}</span>
-                                <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="center">
-                            <DropdownMenuItem onClick={() => router.visit(adminRoutes.edit({ admin: admin.id }))} >
-                                <PencilIcon className="h-4 w-4" /> {tForms('common.edit')}
-                            </DropdownMenuItem>
-
-                            <DeleteAction onDelete={() => router.delete(adminRoutes.destroy.url({ admin: admin.id }))} />
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    <ActionsColumn
+                        EditRoute={admins.edit.url({ admin: row.original.id })}
+                        DeleteRoute={admins.destroy.url({ admin: row.original.id })}
+                    />
                 )
             },
-            enableHiding: false,
         },
     ]
+
 
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: tDashboard('admins.title'),
-            href: adminRoutes.index.url(),
+            href: admins.index.url(),
         },
     ];
 
@@ -120,10 +106,9 @@ const AdminsIndex = ({ admins: adminsData }: { admins: PaginatedResponse<Admin> 
                     data={adminsData.data}
                     meta={adminsData.meta}
                     filters={<AdminsFilters />}
-                    onRowClick={(admin) => router.visit(adminRoutes.edit({ admin: admin.id }), { preserveState: true, preserveScroll: true })}
-                    createHref={adminRoutes.create.url()}
-                    indexRoute={adminRoutes.index}
-                    showCreateButton={true}
+                    onRowClick={(admin) => router.visit(admins.edit({ admin: admin.id }), { preserveState: true, preserveScroll: true })}
+                    createHref={admins.create.url()}
+                    indexRoute={admins.index}
                 />
             </div>
         </AppLayout>

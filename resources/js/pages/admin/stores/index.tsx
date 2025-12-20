@@ -20,12 +20,14 @@ import { DataTableColumnHeader } from '@/components/data-table/data-table-column
 import { Badge } from '@/components/ui/badge';
 import DeleteAction from '@/components/delete-action';
 import stores from '@/routes/admin/stores';
+import IsActiveBadge from '@/components/is-active-badge';
+import { ActionsColumn } from '@/components/data-table/actions/column-actions';
 
 const StoresIndex = ({ stores: storesData }: { stores: PaginatedResponse<Store> }) => {
-    const { t: tTabels } = useTranslation('tabels');
+    const { t: tTables } = useTranslation('tables');
     const { t: tDashboard } = useTranslation('dashboard');
     const { t: tForms } = useTranslation('forms');
-    
+
     const columns: ColumnDef<Store>[] = [
         {
             id: "select",
@@ -36,101 +38,67 @@ const StoresIndex = ({ stores: storesData }: { stores: PaginatedResponse<Store> 
                         (table.getIsSomePageRowsSelected() && "indeterminate")
                     }
                     onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-                    aria-label={tTabels('common.select_all')}
+                    aria-label={tTables('common.select_all')}
                 />
             ),
             cell: ({ row }) => (
                 <Checkbox
                     checked={row.getIsSelected()}
                     onCheckedChange={(value) => row.toggleSelected(!!value)}
-                    aria-label={tTabels('common.select_row')}
+                    aria-label={tTables('common.select_row')}
                 />
             ),
             enableHiding: false,
         },
         {
             accessorKey: "name",
-            header: tTabels('stores.name'),
-            cell: ({ row }) => {
-                const name = row.original.name;
-                if (typeof name === 'object' && name !== null) {
-                    return name.en || name.ar || Object.values(name)[0] || '-';
-                }
-                return name || '-';
-            },
+            header: tTables('common.name'),
             enableHiding: false,
         },
         {
             accessorKey: "email",
-            header: tTabels('stores.email'),
+            header: tTables('common.email'),
             enableHiding: false,
         },
         {
             accessorKey: "phone",
-            header: tTabels('stores.phone'),
+            header: tTables('common.phone'),
             enableHiding: false,
         },
         {
-            accessorKey: "category",
-            header: tTabels('stores.category'),
-            cell: ({ row }) => {
-                const category = row.original.category;
-                if (!category) return '-';
-                const categoryName = typeof category.name === 'object'
-                    ? (category.name.en || category.name.ar || Object.values(category.name)[0])
-                    : category.name;
-                return categoryName || '-';
-            },
+            accessorKey: "category.name",
+            header: tTables('stores.category'),
         },
         {
             accessorKey: "is_active",
-            header: tTabels('stores.status'),
-            cell: ({ row }) => {
-                const isActive = row.original.is_active
-                return (
-                    <Badge variant={isActive ? "secondary" : "default"}>
-                        {isActive ? tTabels('common.active') : tTabels('common.inactive')}
-                    </Badge>
-                )
-            },
+            header: tTables('stores.status'),
+            cell: ({ row }) => <IsActiveBadge isActive={row.original.is_active} />,
             enableHiding: false,
         },
         {
             accessorKey: "created_at",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={tTabels('stores.created_at')} indexRoute={stores.index} />
+                <DataTableColumnHeader column={column} title={tTables('stores.created_at')} indexRoute={stores.index} />
             ),
         },
         {
-            id: "actions",
-            cell: ({ row }) => {
-                const store = row.original
+            id: 'actions',
+            enableHiding: false,
+            cell: ({ row }: any) => {
                 return (
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" className="h-8 w-8 p-0">
-                                <span className="sr-only">{tTabels('common.open_menu')}</span>
-                                <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="center">
-                            <DropdownMenuItem onClick={() => router.visit(stores.edit.url({ store: store.id }))} >
-                                <PencilIcon className="h-4 w-4" /> {tForms('common.edit')}
-                            </DropdownMenuItem>
-
-                            <DeleteAction onDelete={() => router.delete(stores.destroy.url({ store: store.id }))} />
-                        </DropdownMenuContent>
-                    </DropdownMenu >
+                    <ActionsColumn
+                        EditRoute={stores.edit.url({ store: row.original.id })}
+                        DeleteRoute={stores.destroy.url({ store: row.original.id })}
+                    />
                 )
             },
-            enableHiding: false,
         },
     ]
 
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: tDashboard('stores.title'),
-            href: '/admin/stores',
+            href: stores.index.url(),
         },
     ];
 
@@ -146,7 +114,6 @@ const StoresIndex = ({ stores: storesData }: { stores: PaginatedResponse<Store> 
                     onRowClick={(store) => router.visit(stores.edit.url({ store: store.id }), { preserveState: true, preserveScroll: true })}
                     createHref={stores.create.url()}
                     indexRoute={stores.index}
-                    showCreateButton={true}
                 />
             </div>
         </AppLayout>

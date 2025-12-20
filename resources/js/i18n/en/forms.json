@@ -11,7 +11,9 @@
         "cancel": "Cancel",
         "create": "Create",
         "update": "Update",
-        "no_results_found": "No results found."
+        "no_results_found": "No results found.",
+        "clear_filters": "Clear Filters",
+        "all": "All"
     },
     "admins": {
         "title": "Admins",

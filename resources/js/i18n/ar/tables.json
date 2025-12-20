@@ -52,5 +52,15 @@
         "is_active": "نشط",
         "is_accepted": "مقبول",
         "created_at": "تاريخ الإنشاء"
+    },
+    "orders": {
+        "title": "الطلبات",
+        "id": "المعرف",
+        "customer": "العميل",
+        "store": "المتجر",
+        "status": "الحالة",
+        "payment_status": "حالة الدفع",
+        "total": "المبلغ",
+        "created_at": "تاريخ الإنشاء"
     }
 }
