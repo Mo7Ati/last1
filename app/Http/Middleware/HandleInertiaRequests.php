@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\OrderStatusEnum;
+use App\Enums\PaymentStatusEnum;
 use App\Http\Resources\AuthenticatableResource;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -55,6 +57,10 @@ class HandleInertiaRequests extends Middleware
             ],
             'currentLocale' => app()->getLocale(),
             'sidebarOpen' => !$request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            'enums' => [
+                'orderStatus' => OrderStatusEnum::toArray(),
+                'paymentStatus' => PaymentStatusEnum::toArray(),
+            ],
         ];
     }
 }

@@ -27,6 +27,12 @@ export interface Flash {
     error?: string;
 }
 
+export interface EnumOption {
+    value: string;
+    label: string;
+    color: string;
+}
+
 export interface SharedData {
     name: string;
     quote: { message: string; author: string };
@@ -37,6 +43,10 @@ export interface SharedData {
     navigationItems: NavItem[];
     sidebarOpen: boolean;
     flash?: Flash;
+    enums: {
+        orderStatus: EnumOption[];
+        paymentStatus: EnumOption[];
+    };
     [key: string]: unknown;
 }
 

@@ -10,6 +10,7 @@ import { DataTableColumnHeader } from '@/components/data-table/data-table-column
 import { Badge } from '@/components/ui/badge';
 import products from '@/routes/admin/products';
 import IsActiveBadge from '@/components/is-active-badge';
+import ProductsFilters from './components/product-filters';
 
 const ProductsIndex = ({ products: productsData }: { products: PaginatedResponse<Product> }) => {
     const { t: tTables } = useTranslation('tables');
@@ -115,6 +116,7 @@ const ProductsIndex = ({ products: productsData }: { products: PaginatedResponse
                     data={productsData.data}
                     meta={productsData.meta}
                     indexRoute={products.index}
+                    filters={<ProductsFilters />}
                 />
             </div>
         </AppLayout>

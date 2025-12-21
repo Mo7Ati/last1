@@ -3,13 +3,13 @@ import { BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { ColumnDef } from "@tanstack/react-table"
-import { Order, PaginatedResponse } from '@/types/dashboard';
+import { Order, PaginatedResponse, Store } from '@/types/dashboard';
 import { DataTable } from '@/components/data-table/data-table';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header';
-import { Badge } from '@/components/ui/badge';
+import { StatusBadge } from '@/components/status-badge';
 import orders from '@/routes/admin/orders';
-import IsActiveBadge from '@/components/is-active-badge';
+import OrderFilters from './components/order-filters';
 
 const OrdersIndex = ({ orders: ordersData }: { orders: PaginatedResponse<Order> }) => {
     const { t: tTables } = useTranslation('tables');
@@ -55,12 +55,12 @@ const OrdersIndex = ({ orders: ordersData }: { orders: PaginatedResponse<Order> 
         {
             accessorKey: "status",
             header: tTables('orders.status'),
-            cell: ({ row }) => <Badge variant={row.original.status === 'pending' ? "secondary" : "default"}>{row.original.status}</Badge>,
+            cell: ({ row }) => <StatusBadge type="orderStatus" value={row.original.status} />,
         },
         {
             accessorKey: "payment_status",
             header: tTables('orders.payment_status'),
-            cell: ({ row }) => <Badge variant={row.original.payment_status === 'paid' ? "secondary" : "default"}>{row.original.payment_status}</Badge>,
+            cell: ({ row }) => <StatusBadge type="paymentStatus" value={row.original.payment_status} />,
         },
         {
             accessorKey: "total",
@@ -93,6 +93,7 @@ const OrdersIndex = ({ orders: ordersData }: { orders: PaginatedResponse<Order> 
                     data={ordersData.data}
                     meta={ordersData.meta}
                     indexRoute={orders.index}
+                    filters={<OrderFilters />}
                 />
             </div>
         </AppLayout>

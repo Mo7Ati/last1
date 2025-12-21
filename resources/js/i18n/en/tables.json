@@ -60,6 +60,8 @@
         "store": "Store",
         "status": "Status",
         "payment_status": "Payment Status",
+        "pending": "Pending",
+        "completed": "Completed",
         "total": "Total",
         "created_at": "Created At"
     }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\dashboard\admin\AdminController;
+use App\Http\Controllers\dashboard\admin\DashboardController;
 use App\Http\Controllers\dashboard\admin\OrderController;
 use App\Http\Controllers\dashboard\admin\ProductController;
 use App\Http\Controllers\dashboard\admin\RoleController;
@@ -20,7 +21,7 @@ Route::middleware(['auth:admin'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
-        Route::get('/', fn() => Inertia::render('admin/dashboard'))->name('index');
+        Route::get('/', [DashboardController::class, 'index'])->name('index');
         Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
         Route::get('/products', [ProductController::class, 'index'])->name('products.index');
         Route::resources([

@@ -176,3 +176,19 @@ export interface LocalizedData {
         [localeCode: string]: string;
     };
 }
+
+export enum OrderStatus {
+    PENDING = 'pending',
+    PREPARING = 'preparing',
+    ON_THE_WAY = 'on_the_way',
+    COMPLETED = 'completed',
+    CANCELLED = 'cancelled',
+    REJECTED = 'rejected',
+}
+
+export enum PaymentStatus {
+    UNPAID = 'unpaid',
+    PAID = 'paid',
+    FAILED = 'failed',
+    REFUNDED = 'refunded',
+}

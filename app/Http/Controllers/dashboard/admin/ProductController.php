@@ -15,10 +15,10 @@ class ProductController extends Controller
         $products = Product::query()
             ->with(['Store', 'Category'])
             ->search($request->get('tableSearch'))
-            ->when($request->get('is_active'), function ($query) use ($request) {
+            ->when($request->get('is_active') !== null, function ($query) use ($request) {
                 $query->where('is_active', $request->get('is_active'));
             })
-            ->when($request->get('is_accepted'), function ($query) use ($request) {
+            ->when($request->get('is_accepted') !== null, function ($query) use ($request) {
                 $query->where('is_accepted', $request->get('is_accepted'));
             })
             ->when($request->get('store_id'), function ($query) use ($request) {

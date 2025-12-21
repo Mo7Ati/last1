@@ -5,6 +5,7 @@ namespace App\Http\Controllers\dashboard\admin;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
+use App\Models\Store;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
