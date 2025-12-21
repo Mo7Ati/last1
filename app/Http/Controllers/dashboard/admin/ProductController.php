@@ -12,6 +12,8 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
+        abort_unless($request->user('admin')->can('products.index'), 403);
+
         $products = Product::query()
             ->with(['Store', 'Category'])
             ->search($request->get('tableSearch'))

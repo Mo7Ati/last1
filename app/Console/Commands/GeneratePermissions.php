@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Enums\PermissionsEnum;
 use Illuminate\Console\Command;
 use Spatie\Permission\Models\Permission;
 
@@ -19,23 +20,19 @@ class GeneratePermissions extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Generate permissions';
 
     /**
      * Execute the console command.
      */
     public function handle()
     {
-        $resources = ['admins', 'stores', 'products', 'storeCategories', 'orders', 'users', 'roles', 'permissions'];
-        $actions = ['index', 'show', 'create', 'update', 'destroy'];
 
-        foreach ($resources as $resource) {
-            foreach ($actions as $action) {
-                Permission::firstOrCreate([
-                    'name' => "$resource.$action",
-                    'guard_name' => 'admin',
-                ]);
-            }
+        foreach (PermissionsEnum::cases() as $permission) {
+            Permission::firstOrCreate([
+                'name' => $permission->value,
+                'guard_name' => 'admin',
+            ]);
         }
 
         $this->info('Permissions generated successfully.');

@@ -15,6 +15,7 @@ class Admin extends Authenticatable implements HasMedia
 {
     use HasFactory, Notifiable, HasTranslations, HasRoles, TwoFactorAuthenticatable, InteractsWithMedia;
     protected $guard = ['admin'];
+    protected $guard_name = 'admin';
     protected $fillable = [
         'name',
         'email',

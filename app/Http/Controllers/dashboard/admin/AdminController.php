@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\dashboard\admin;
 
+use App\Enums\PermissionsEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Dashboard\AdminRequest;
 use App\Http\Resources\AdminResource;
@@ -16,6 +17,9 @@ class AdminController extends Controller
 {
     public function index(Request $request)
     {
+        // dd($request->user('admin')->permissions);
+        abort_unless($request->user('admin')->can(PermissionsEnum::ADMINS_INDEX->value), 403);
+
         $admins = Admin::query()
             ->search($request->get('tableSearch'))
             ->when($request->get('is_active') !== null, function ($query) use ($request) {
@@ -31,6 +35,8 @@ class AdminController extends Controller
     }
     public function create()
     {
+        abort_unless(request()->user('admin')->can('admins.create'), 403);
+
         return Inertia::render('admin/admins/create', [
             'admin' => new AdminResource(new Admin()),
             'roles' => RoleResource::collection(Role::all()),
@@ -38,6 +44,8 @@ class AdminController extends Controller
     }
     public function store(AdminRequest $request)
     {
+        abort_unless($request->user('admin')->can('admins.create'), 403);
+
         $admin = Admin::create($request->validated());
         $admin->assignRole($request->get('roles', []));
 
@@ -46,6 +54,8 @@ class AdminController extends Controller
     }
     public function edit($id)
     {
+        abort_unless(request()->user('admin')->can('admins.update'), 403);
+
         $admin = Admin::with('roles')->findOrFail($id);
         return Inertia::render('admin/admins/edit', [
             'admin' => new AdminResource($admin),
@@ -54,6 +64,8 @@ class AdminController extends Controller
     }
     public function update($id, AdminRequest $request)
     {
+        abort_unless($request->user('admin')->can('admins.update'), 403);
+
         $admin = Admin::findOrFail($id);
         $admin->update($request->validated());
 
@@ -65,6 +77,8 @@ class AdminController extends Controller
     }
     public function destroy($id)
     {
+        abort_unless(request()->user('admin')->can('admins.destroy'), 403);
+
         Admin::destroy($id);
         return redirect()
             ->route('admin.admins.index')

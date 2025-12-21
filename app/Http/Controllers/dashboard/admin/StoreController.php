@@ -19,6 +19,8 @@ class StoreController extends Controller
     use MediaSyncTrait;
     public function index(Request $request)
     {
+        abort_unless($request->user('admin')->can('stores.index'), 403);
+
         $stores = Store::query()
             ->with('category')
             ->search($request->get('tableSearch'))
@@ -40,6 +42,8 @@ class StoreController extends Controller
 
     public function create()
     {
+        abort_unless(request()->user('admin')->can('stores.create'), 403);
+
         return Inertia::render('admin/stores/create', [
             'store' => StoreResource::make(new Store())->serializeForForm(),
             'categories' => StoreCategoryResource::collection(StoreCategory::all()),
@@ -48,6 +52,8 @@ class StoreController extends Controller
 
     public function store(StoreRequest $request)
     {
+        abort_unless($request->user('admin')->can('stores.create'), 403);
+
         $store = Store::create($request->validated());
         $this->storeMedia($request, $store, 'logo');
         return to_route('admin.stores.index')->with('success', __('messages.created_successfully'));
@@ -64,6 +70,8 @@ class StoreController extends Controller
 
     public function edit($id)
     {
+        abort_unless(request()->user('admin')->can('stores.update'), 403);
+
         $store = Store::findOrFail($id);
         return Inertia::render('admin/stores/edit', [
             'store' => StoreResource::make($store)->serializeForForm(),
@@ -74,6 +82,8 @@ class StoreController extends Controller
 
     public function update($id, StoreRequest $request)
     {
+        abort_unless($request->user('admin')->can('stores.update'), 403);
+
         $validated = $request->validated();
         $store = Store::findOrFail($id);
 
@@ -87,6 +97,8 @@ class StoreController extends Controller
 
     public function destroy($id)
     {
+        abort_unless(request()->user('admin')->can('stores.destroy'), 403);
+
         Store::destroy($id);
 
         return redirect()

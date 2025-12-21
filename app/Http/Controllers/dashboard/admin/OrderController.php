@@ -13,6 +13,8 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
+        abort_unless($request->user('admin')->can('orders.index'), 403);
+
         $orders = Order::query()
             ->with(['customer', 'store'])
             ->search($request->get('tableSearch'))

@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Enums\OrderStatusEnum;
 use App\Enums\PaymentStatusEnum;
+use App\Enums\PermissionsEnum;
 use App\Http\Resources\AuthenticatableResource;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -45,6 +46,7 @@ class HandleInertiaRequests extends Middleware
             'name' => config('app.name'),
             'auth' => [
                 'user' => $request->user() ? AuthenticatableResource::make($request->user()) : null,
+                'permissions' => $request->user() ? $request->user()->getAllPermissions()->pluck('name') : [],
             ],
             'panel' => $panel,
             'locales' => [
@@ -60,6 +62,7 @@ class HandleInertiaRequests extends Middleware
             'enums' => [
                 'orderStatus' => OrderStatusEnum::toArray(),
                 'paymentStatus' => PaymentStatusEnum::toArray(),
+                'permissions' => PermissionsEnum::toArray(),
             ],
         ];
     }

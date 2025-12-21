@@ -16,6 +16,8 @@ class RoleController extends Controller
 {
     public function index(Request $request)
     {
+        // abort_unless($request->user('admin')->can('roles.index'), 403);
+
         $roles = Role::withCount('permissions')
             ->when($request->get('tableSearch'), function ($query) use ($request) {
                 $query->where('name', 'LIKE', "%{$request->get('tableSearch')}%");
@@ -30,6 +32,8 @@ class RoleController extends Controller
 
     public function create()
     {
+        // abort_unless(request()->user('admin')->can('roles.create'), 403);
+
         $groupedPermissions = Permission::all()
             ->groupBy(fn($p) => explode('.', $p->name)[0] ?? 'other')
             ->map(fn($group) => PermissionResource::collection($group))
@@ -43,6 +47,8 @@ class RoleController extends Controller
 
     public function store(RoleRequest $request)
     {
+        // abort_unless($request->user('admin')->can('roles.create'), 403);
+
         $role = Role::create([
             'name' => $request->name,
             'guard_name' => 'admin',
@@ -56,6 +62,8 @@ class RoleController extends Controller
 
     public function edit($id)
     {
+        // abort_unless(request()->user('admin')->can('roles.update'), 403);
+
         $role = Role::with('permissions')->withCount('permissions')->findOrFail($id);
         $groupedPermissions = Permission::all()
             ->groupBy(fn($p) => explode('.', $p->name)[0] ?? 'other')
@@ -70,6 +78,8 @@ class RoleController extends Controller
 
     public function update($id, RoleRequest $request)
     {
+        // abort_unless($request->user('admin')->can('roles.update'), 403);
+
         $role = Role::where('guard_name', 'admin')->findOrFail($id);
         $role->update([
             'name' => $request->name,
@@ -83,6 +93,8 @@ class RoleController extends Controller
 
     public function destroy($id)
     {
+        // abort_unless(request()->user('admin')->can('roles.destroy'), 403);
+
         $role = Role::where('guard_name', 'admin')->findOrFail($id);
         $role->delete();
 
