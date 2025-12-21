@@ -1,3 +1,4 @@
+export type Locale = 'en' | 'ar';
 
 export interface PaginatedResponse<T> {
     data: T[];
@@ -54,13 +55,13 @@ export type Role = {
     updated_at: string;
 }
 
-export type GroupedPermissions = {
-    [key: string]: Permission[];
-}
-
 export type Permission = {
     id: number | string;
     name: string
+}
+
+export type GroupedPermissions = {
+    [key: string]: Permission[];
 }
 
 export type StoreCategory = {
@@ -69,7 +70,6 @@ export type StoreCategory = {
     description?: Record<string, string> | string;
 }
 
-export type Locale = 'en' | 'ar';
 
 export type Media = {
     id: number | string;
@@ -141,22 +141,54 @@ export type Product = {
     price: number;
     compare_price?: number | null;
     store_id: number | string;
-    category_id?: number | string | null;
+    category_id: number | string | null;
     is_active: boolean;
     is_accepted: boolean;
     quantity: number;
     created_at?: string;
     updated_at?: string;
     store?: Store | null;
-    category?: {
-        id: number | string;
-        name: Record<Locale, string> | string;
-    } | null;
+    category?: Category;
+    images: Media[];
+    additions?: ProductAddition[];
+    options?: ProductOption[];
+}
+
+export type ProductAddition = {
+    addition_id: number | string;
+    price: number;
+}
+
+export type ProductOption = {
+    option_id: number | string;
+    price: number;
+}
+
+export interface Category {
+    id: number | string
+    name: Record<string, string> | string
 }
 
 
+export type Addition = {
+    id?: number | string;
+    name: Record<Locale, string> | string;
+    store_id: number | string;
+    is_active: boolean;
+    created_at?: string;
+    updated_at?: string;
+    store?: Store | null;
+}
 
-// delete late
+export type Option = {
+    id?: number | string;
+    name: Record<Locale, string> | string;
+    store_id: number | string;
+    is_active: boolean;
+    created_at?: string;
+    updated_at?: string;
+    store?: Store | null;
+}
 
 export interface LocaleData {
     code: string;

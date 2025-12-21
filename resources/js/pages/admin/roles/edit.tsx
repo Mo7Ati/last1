@@ -8,7 +8,7 @@ import rolesRoutes from '@/routes/admin/roles'
 
 const RolesEdit = ({ role, permissions }: { role: Role; permissions: GroupedPermissions }) => {
     const { t } = useTranslation('dashboard');
-    
+
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: t('roles.title'),

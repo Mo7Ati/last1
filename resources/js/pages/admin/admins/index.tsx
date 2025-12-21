@@ -10,7 +10,7 @@ import AdminsFilters from './components/admin-filters';
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header';
 import admins from '@/routes/admin/admins';
 import { EditAction } from '@/components/data-table/column-actions/edit-action';
-import { DeleteActionButton } from '@/components/data-table/column-actions/delete-action-button';
+import { DeleteAction } from '@/components/data-table/column-actions/delete-action-button';
 import IsActiveTableColumn from '@/components/data-table/badges/is-active-badge';
 
 const AdminsIndex = ({ admins: adminsData }: { admins: PaginatedResponse<Admin> }) => {
@@ -71,7 +71,7 @@ const AdminsIndex = ({ admins: adminsData }: { admins: PaginatedResponse<Admin> 
                             editRoute={admins.edit.url({ admin: row.original.id })}
                             permission="admins.update"
                         />
-                        <DeleteActionButton
+                        <DeleteAction
                             deleteRoute={admins.destroy.url({ admin: row.original.id })}
                             permission="admins.destroy"
                         />

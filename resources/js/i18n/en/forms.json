@@ -95,5 +95,34 @@
         "edit_category": "Edit Store Category",
         "add_new_category": "Add a new store category",
         "update_category_info": "Update store category information"
+    },
+    "products": {
+        "title": "Products",
+        "create": "Create Product",
+        "edit": "Edit Product",
+        "price": "Price",
+        "quantity": "Quantity",
+        "additions": "Additions",
+        "additions_desc": "Add additional items that can be included with this product",
+        "options": "Options",
+        "options_desc": "Add options/variants for this product",
+        "add_addition": "Add Addition",
+        "add_option": "Add Option",
+        "no_additions": "No additions added yet",
+        "no_options": "No options added yet",
+        "select_addition": "Select an addition",
+        "select_option": "Select an option"
+    },
+    "additions": {
+        "title": "Additions",
+        "name": "Name",
+        "enter_name": "Enter addition name",
+        "addition_settings": "Addition Settings"
+    },
+    "options": {
+        "title": "Options",
+        "name": "Name",
+        "enter_name": "Enter option name",
+        "option_settings": "Option Settings"
     }
 }

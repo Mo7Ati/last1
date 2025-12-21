@@ -67,6 +67,7 @@ export interface User {
 
 export enum PanelType {
     ADMIN = 'admin',
+    STORE = 'store',
 }
 
 export type Locale = 'ar' | 'en';

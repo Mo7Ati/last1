@@ -1,17 +1,26 @@
 import { usePermissions } from '@/hooks/use-permissions';
-import admin from '@/routes/admin';
+import { Locale, NavGroup, NavItem, PanelType } from '@/types';
+import { InertiaLinkProps } from '@inertiajs/react';
+import { type ClassValue, clsx } from 'clsx';
+import { LayoutGrid, List, Package, Plus, Settings, Shield, ShoppingCart, Store, Users } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { twMerge } from 'tailwind-merge';
+
+// Admin routes
 import admins from '@/routes/admin/admins';
 import orders from '@/routes/admin/orders';
 import products from '@/routes/admin/products';
 import roles from '@/routes/admin/roles';
 import storeCategories from '@/routes/admin/store-categories';
 import stores from '@/routes/admin/stores';
-import { Locale, NavGroup, NavItem, PanelType } from '@/types';
-import { InertiaLinkProps } from '@inertiajs/react';
-import { type ClassValue, clsx } from 'clsx';
-import { LayoutGrid, List, Package, Shield, ShoppingCart, Store, Users } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
-import { twMerge } from 'tailwind-merge';
+
+// Store routes
+import storeOrders from '@/routes/store/orders';
+import storeProducts from '@/routes/store/products';
+import additions from '@/routes/store/additions';
+import options from '@/routes/store/options';
+
+
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -31,6 +40,7 @@ export function resolveUrl(url: NonNullable<InertiaLinkProps['href']>): string {
 export function getPanelNavItems(panel: PanelType): NavGroup[] {
     switch (panel) {
         case PanelType.ADMIN: return getAdminPanelNavItems();
+        case PanelType.STORE: return getStorePanelNavItems();
         default: return [];
     }
 }
@@ -93,6 +103,58 @@ export function getAdminPanelNavItems(): NavGroup[] {
                     href: products.index.url(),
                     icon: Package,
                     visible: hasPermission('products.index'),
+                },
+            ],
+        },
+    ];
+}
+
+export function getStorePanelNavItems(): NavGroup[] {
+    const { t } = useTranslation("common");
+
+    return [
+        {
+            title: t('nav_groups.overview'),
+            items: [
+                {
+                    title: t('nav_labels.dashboard'),
+                    href: '/store',
+                    icon: LayoutGrid,
+                    visible: true,
+                },
+            ],
+        },
+        {
+            title: t('nav_groups.commerce'),
+            items: [
+                {
+                    title: t('nav_labels.orders'),
+                    href: storeOrders.index.url(),
+                    icon: ShoppingCart,
+                    visible: true,
+                },
+                {
+                    title: t('nav_labels.products'),
+                    href: storeProducts.index.url(),
+                    icon: Package,
+                    visible: true,
+                },
+            ],
+        },
+        {
+            title: t('nav_groups.settings'),
+            items: [
+                {
+                    title: t('nav_labels.additions'),
+                    href: additions.index.url(),
+                    icon: Plus,
+                    visible: true,
+                },
+                {
+                    title: t('nav_labels.options'),
+                    href: options.index.url(),
+                    icon: Settings,
+                    visible: true,
                 },
             ],
         },

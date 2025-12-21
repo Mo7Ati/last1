@@ -19,8 +19,6 @@ export function usePermissions() {
         if (!permissions) {
             return false;
         }
-        console.log(permissions);
-
         // Handle both array format and object format (Record<number, string>)
         if (Array.isArray(permissions)) {
             return permissions.length > 0 && permissions.includes(permission);

@@ -25,5 +25,15 @@
     },
     "orders": {
         "title": "Orders"
+    },
+    "additions": {
+        "title": "Additions",
+        "create": "Create Addition",
+        "edit": "Edit Addition"
+    },
+    "options": {
+        "title": "Options",
+        "create": "Create Option",
+        "edit": "Edit Option"
     }
 }

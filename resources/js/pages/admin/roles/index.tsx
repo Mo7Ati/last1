@@ -4,23 +4,13 @@ import { BreadcrumbItem } from '@/types';
 import { PaginatedResponse, Role } from '@/types/dashboard'
 import { Head, router } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
-import { MoreHorizontal, PencilIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-
-} from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
-import DeleteAction from '@/components/delete-action';
 import rolesRoutes from '@/routes/admin/roles';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header';
 import roles from '@/routes/admin/roles';
-import { DeleteActionButton } from '@/components/data-table/column-actions/delete-action-button';
 import { EditAction } from '@/components/data-table/column-actions/edit-action';
+import { DeleteAction } from '@/components/data-table/column-actions/delete-action-button';
 
 const RolesIndex = ({ roles: rolesData }: { roles: PaginatedResponse<Role> }) => {
     const { t: tTables } = useTranslation('tables');
@@ -82,7 +72,7 @@ const RolesIndex = ({ roles: rolesData }: { roles: PaginatedResponse<Role> }) =>
                             editRoute={roles.edit.url({ role: row.original.id })}
                             permission="roles.update"
                         />
-                        <DeleteActionButton
+                        <DeleteAction
                             deleteRoute={roles.destroy.url({ role: row.original.id })}
                             permission="roles.destroy"
                         />

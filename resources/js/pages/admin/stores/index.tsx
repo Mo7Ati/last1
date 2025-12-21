@@ -18,11 +18,10 @@ import { Checkbox } from '@/components/ui/checkbox';
 import StoresFilters from './components/store-filters';
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header';
 import { Badge } from '@/components/ui/badge';
-import DeleteAction from '@/components/delete-action';
 import stores from '@/routes/admin/stores';
 import IsActiveBadge from '@/components/data-table/badges/is-active-badge';
-import { DeleteActionButton } from '@/components/data-table/column-actions/delete-action-button';
 import { EditAction } from '@/components/data-table/column-actions/edit-action';
+import { DeleteAction } from '@/components/data-table/column-actions/delete-action-button';
 
 const StoresIndex = ({ stores: storesData }: { stores: PaginatedResponse<Store> }) => {
     const { t: tTables } = useTranslation('tables');
@@ -92,7 +91,7 @@ const StoresIndex = ({ stores: storesData }: { stores: PaginatedResponse<Store> 
                             editRoute={stores.edit.url({ store: row.original.id })}
                             permission="stores.update"
                         />
-                        <DeleteActionButton
+                        <DeleteAction
                             deleteRoute={stores.destroy.url({ store: row.original.id })}
                             permission="stores.destroy"
                         />

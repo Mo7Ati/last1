@@ -10,7 +10,7 @@ import { DataTableColumnHeader } from '@/components/data-table/data-table-column
 import { Badge } from '@/components/ui/badge';
 import products from '@/routes/admin/products';
 import IsActiveBadge from '@/components/data-table/badges/is-active-badge';
-import ProductsFilters from './components/product-filters';
+import ProductsFilters from '@/components/data-table/table-filters/product-filters';
 
 const ProductsIndex = ({ products: productsData }: { products: PaginatedResponse<Product> }) => {
     const { t: tTables } = useTranslation('tables');
@@ -102,8 +102,8 @@ const ProductsIndex = ({ products: productsData }: { products: PaginatedResponse
 
     const breadcrumbs: BreadcrumbItem[] = [
         {
-            title: tDashboard('products.title') || 'Products',
-            href: '/admin/products',
+            title: tDashboard('products.title'),
+            href: products.index.url(),
         },
     ];
 
@@ -116,7 +116,7 @@ const ProductsIndex = ({ products: productsData }: { products: PaginatedResponse
                     data={productsData.data}
                     meta={productsData.meta}
                     indexRoute={products.index}
-                    filters={<ProductsFilters />}
+                    filters={<ProductsFilters indexRoute={products.index} />}
                     model="products"
                 />
             </div>

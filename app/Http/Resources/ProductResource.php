@@ -32,5 +32,34 @@ class ProductResource extends JsonResource
             }),
         ];
     }
+
+    public function serializeForForm(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->getTranslations('name'),
+            'description' => $this->getTranslations('description'),
+            'keywords' => $this->keywords,
+            'price' => $this->price,
+            'compare_price' => $this->compare_price,
+            'store_id' => $this->store_id,
+            'category_id' => $this->category_id,
+            'is_active' => $this->is_active,
+            'quantity' => $this->quantity,
+            'images' => $this->getMedia('images'),
+            'additions' => $this->additions->map(function ($addition) {
+                return [
+                    'addition_id' => $addition->id,
+                    'price' => $addition->pivot->price ?? 0,
+                ];
+            })->toArray(),
+            'options' => $this->options->map(function ($option) {
+                return [
+                    'option_id' => $option->id,
+                    'price' => $option->pivot->price ?? 0,
+                ];
+            })->toArray(),
+        ];
+    }
 }
 

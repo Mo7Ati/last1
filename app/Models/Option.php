@@ -22,7 +22,7 @@ class Option extends Model
 
     public array $translatable = ['name'];
 
-    
+
     protected static function booted()
     {
         static::creating(function ($model) {
@@ -36,5 +36,16 @@ class Option extends Model
     public function products()
     {
         return $this->belongsToMany(Product::class, 'product_options', 'option_id', 'product_id');
+    }
+    public function scopeSearch($query, $search)
+    {
+        return $query->when($search, function ($query) use ($search) {
+            $query->where('name', 'LIKE', "%{$search}%");
+        });
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
     }
 }

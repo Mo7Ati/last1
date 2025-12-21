@@ -38,4 +38,15 @@ class Addition extends Model
     {
         return $this->belongsToMany(Product::class, 'product_additions', 'addition_id', 'product_id');
     }
+
+    public function scopeSearch($query, $search)
+    {
+        return $query->when($search, function ($query) use ($search) {
+            $query->where('name', 'LIKE', "%{$search}%");
+        });
+    }
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
 }

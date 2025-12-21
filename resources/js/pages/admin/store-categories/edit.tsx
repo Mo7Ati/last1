@@ -13,7 +13,7 @@ const storeCategoryRoutes = {
 
 const StoreCategoriesEdit = ({ category }: { category: StoreCategory }) => {
     const { t } = useTranslation('dashboard');
-    
+
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: t('store_categories.title'),

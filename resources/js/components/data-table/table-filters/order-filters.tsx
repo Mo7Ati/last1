@@ -7,8 +7,10 @@ import { useTranslation } from 'react-i18next';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
+import { RouteQueryOptions } from '@/wayfinder';
+import { RouteDefinition } from '@/wayfinder';
 
-const OrderFilters = () => {
+const OrderFilters = ({ indexRoute }: { indexRoute: (options?: RouteQueryOptions) => RouteDefinition<"get"> }) => {
     const { t: tForms } = useTranslation('forms');
     const { t: tTables } = useTranslation('tables');
     const { orderStatus, paymentStatus } = useEnums();
@@ -19,7 +21,7 @@ const OrderFilters = () => {
         reset,
         activeFiltersCount,
     } = useFilters({
-        indexRoute: orders.index,
+        indexRoute: indexRoute,
         initialKeys: ['status', 'payment_status'],
     })
 

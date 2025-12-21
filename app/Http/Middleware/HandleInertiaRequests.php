@@ -46,7 +46,7 @@ class HandleInertiaRequests extends Middleware
             'name' => config('app.name'),
             'auth' => [
                 'user' => $request->user() ? AuthenticatableResource::make($request->user()) : null,
-                'permissions' => $request->user() ? $request->user()->getAllPermissions()->pluck('name') : [],
+                'permissions' => $request->user() ? $request->user('admin')->getAllPermissions()->pluck('name') : [],
             ],
             'panel' => $panel,
             'locales' => [

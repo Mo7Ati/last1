@@ -39,7 +39,7 @@ interface DataTableProps<TData extends { id: number | string }, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
     meta?: MetaType
-    model: string
+    model?: string
     filters?: React.ReactNode
     createHref?: string
     onRowClick?: (row: TData) => void
@@ -59,7 +59,7 @@ export function DataTable<TData extends { id: number | string }, TValue>({
     const [rowSelection, setRowSelection] = useState({});
     const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
-    const { hasAnyPermission, hasPermission } = usePermissions();
+    const { hasPermission } = usePermissions();
 
     const table = useReactTable({
         data,
@@ -82,7 +82,7 @@ export function DataTable<TData extends { id: number | string }, TValue>({
             <div className="flex justify-between">
 
                 <div id="create-button">
-                    {createHref && hasPermission(`${model}.create`) && (
+                    {createHref && (!model || hasPermission(`${model}.create`)) && (
                         <Button variant="outline" className="cursor-pointer" size="sm" onClick={() => router.visit(createHref, { preserveState: true, preserveScroll: true })}>
                             <Plus /> Create
                         </Button>
@@ -160,13 +160,13 @@ export function DataTable<TData extends { id: number | string }, TValue>({
                                     key={row.id}
                                     data-state={row.getIsSelected() && "selected"}
                                     onClick={(e) => {
-                                        if (hasPermission(`${model}.update`) && onRowClick) {
+                                        if ((!model || hasPermission(`${model}.update`)) && onRowClick) {
                                             const target = e.target as HTMLElement;
                                             if (target.closest('button, a, [role="menuitem"]')) return;
                                             onRowClick?.(row.original);
                                         }
                                     }}
-                                    className={onRowClick && hasPermission(`${model}.update`) ? "cursor-pointer" : ""}
+                                    className={onRowClick && (!model || hasPermission(`${model}.update`)) ? "cursor-pointer" : ""}
                                 >
                                     {row.getVisibleCells().map((cell) => (
                                         <TableCell key={cell.id}>

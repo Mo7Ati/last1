@@ -18,15 +18,15 @@ import { cn } from '@/lib/utils';
 
 type DeleteActionButtonProps = {
     deleteRoute: string;
-    permission: string;
+    permission?: string;
     className?: string;
 }
 
-export function DeleteActionButton({ deleteRoute, permission, className }: DeleteActionButtonProps) {
+export function DeleteAction({ deleteRoute, permission, className }: DeleteActionButtonProps) {
     const { hasPermission } = usePermissions();
     const { t } = useTranslation('general');
 
-    if (!hasPermission(permission)) {
+    if (permission && !hasPermission(permission)) {
         return null;
     }
 

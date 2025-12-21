@@ -64,5 +64,17 @@
         "completed": "Completed",
         "total": "Total",
         "created_at": "Created At"
+    },
+    "additions": {
+        "title": "Additions",
+        "id": "ID",
+        "name": "Name",
+        "created_at": "Created At"
+    },
+    "options": {
+        "title": "Options",
+        "id": "ID",
+        "name": "Name",
+        "created_at": "Created At"
     }
 }

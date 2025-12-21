@@ -6,14 +6,14 @@ import { cn } from '@/lib/utils';
 
 type EditActionProps = {
     editRoute: string;
-    permission: string;
+    permission?: string;
     className?: string;
 }
 
 export function EditAction({ editRoute, permission, className }: EditActionProps) {
     const { hasPermission } = usePermissions();
 
-    if (!hasPermission(permission)) {
+    if (permission && !hasPermission(permission)) {
         return null;
     }
 

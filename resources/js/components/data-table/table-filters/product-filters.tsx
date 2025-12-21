@@ -1,16 +1,12 @@
 import StatusFilter from '@/components/data-table/table-filters/status-filter'
 import FilterDropdown from '@/components/data-table/table-filters/filters-dropdown'
-import { Label } from '@/components/ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useFilters } from '@/hooks/use-filters'
-import products from '@/routes/admin/products'
-import React from 'react'
-import { useTranslation } from 'react-i18next'
 import IsAcceptedFilter from './is-accepted-filter'
+import { RouteQueryOptions } from '@/wayfinder';
+import { RouteDefinition } from '@/wayfinder';
 
-const ProductsFilters = () => {
-    const { t: tTables } = useTranslation('tables');
-    const { t: tForms } = useTranslation('forms');
+const ProductsFilters = ({ indexRoute }: { indexRoute: (options?: RouteQueryOptions) => RouteDefinition<"get"> }) => {
+    console.log(indexRoute);
 
     const {
         filters,
@@ -18,7 +14,7 @@ const ProductsFilters = () => {
         reset,
         activeFiltersCount,
     } = useFilters({
-        indexRoute: products.index,
+        indexRoute: indexRoute,
         initialKeys: ['is_active', 'is_accepted'],
     })
     return (

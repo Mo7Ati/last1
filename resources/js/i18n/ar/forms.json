@@ -1,6 +1,8 @@
 {
     "common": {
         "name": "الاسم",
+        "description": "الوصف",
+        "keywords": "الكلمات الرئيسية",
         "email": "البريد الإلكتروني",
         "password": "كلمة المرور",
         "status": "الحالة",
@@ -19,7 +21,6 @@
         "title": "المشرفين",
         "create": "إنشاء مشرف",
         "edit": "تعديل مشرف",
-        "name": "الاسم",
         "email": "البريد الإلكتروني",
         "password": "كلمة المرور",
         "enter_admin_name": "أدخل اسم المشرف",
@@ -44,7 +45,6 @@
         "title": "الأدوار",
         "create": "إنشاء دور",
         "edit": "تعديل دور",
-        "name": "الاسم",
         "enter_role_name": "أدخل اسم الدور",
         "edit_role": "تعديل الدور",
         "create_role": "إنشاء دور",
@@ -59,10 +59,8 @@
         "title": "المتاجر",
         "create": "إنشاء متجر",
         "edit": "تعديل متجر",
-        "name": "الاسم",
         "email": "البريد الإلكتروني",
         "phone": "الهاتف",
-        "description": "الوصف",
         "address": "العنوان",
         "enter_name": "أدخل الاسم",
         "enter_address": "أدخل العنوان",
@@ -89,11 +87,28 @@
         "title": "فئات المتاجر",
         "create": "إنشاء فئة متجر",
         "edit": "تعديل فئة متجر",
-        "name": "الاسم",
-        "description": "الوصف",
         "create_category": "إنشاء فئة متجر",
         "edit_category": "تعديل فئة متجر",
         "add_new_category": "إضافة فئة متجر جديدة",
         "update_category_info": "تحديث معلومات فئة المتجر"
+    },
+    "products": {
+        "title": "المنتجات",
+        "create": "إنشاء منتج",
+        "edit": "تعديل منتج",
+        "price": "السعر",
+        "quantity": "الكمية"
+    },
+    "additions": {
+        "title": "الإضافات",
+        "name": "الاسم",
+        "enter_name": "أدخل اسم الإضافة",
+        "addition_settings": "إعدادات الإضافة"
+    },
+    "options": {
+        "title": "الخيارات",
+        "name": "الاسم",
+        "enter_name": "أدخل اسم الخيار",
+        "option_settings": "إعدادات الخيار"
     }
 }

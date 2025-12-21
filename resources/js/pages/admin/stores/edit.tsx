@@ -8,7 +8,7 @@ import stores from '@/routes/admin/stores'
 
 const StoresEdit = ({ store, categories }: { store: Store; categories: StoreCategory[] }) => {
     const { t } = useTranslation('dashboard');
-    
+
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: t('stores.title'),

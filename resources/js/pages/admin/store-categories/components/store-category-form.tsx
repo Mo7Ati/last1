@@ -28,7 +28,7 @@ interface StoreCategoryFormProps {
 
 export default function StoreCategoryForm({ category, type }: StoreCategoryFormProps) {
     const { t } = useTranslation('forms');
-    
+
     const fields: Field[] = [
         {
             name: 'name',
