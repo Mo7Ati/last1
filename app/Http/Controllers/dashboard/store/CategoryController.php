@@ -27,5 +27,58 @@ class CategoryController extends Controller
             'categories' => CategoryResource::collection($categories),
         ]);
     }
+    public function create(Request $request)
+    {
+        return Inertia::render('store/categories/create', [
+            'category' => CategoryResource::make(new Category())->serializeForForm(),
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $store = $request->user('store');
+
+        $validated = $request->validated();
+        $validated['store_id'] = $store->id;
+
+        Category::create($validated);
+
+        return redirect()
+            ->route('store.categories.index')
+            ->with('success', __('messages.created_successfully'));
+    }
+
+    public function edit(Request $request, int $id)
+    {
+        $store = $request->user('store');
+        $category = Category::query()
+            ->where('store_id', $store->id)
+            ->findOrFail($id);
+        return Inertia::render('store/categories/edit', [
+            'category' => CategoryResource::make($category)->serializeForForm(),
+        ]);
+    }
+
+    public function update(Request $request, Category $category)
+    {
+        $store = $request->user('store');
+        $validated = $request->validated();
+        $category->update($validated);
+        return redirect()
+            ->route('store.categories.index')
+            ->with('success', __('messages.updated_successfully'));
+    }
+
+    public function destroy(Request $request, int $id)
+    {
+        $store = $request->user('store');
+        $category = Category::query()
+            ->where('store_id', $store->id)
+            ->findOrFail($id);
+        $category->delete();
+        return redirect()
+            ->route('store.categories.index')
+            ->with('success', __('messages.deleted_successfully'));
+    }
 }
 

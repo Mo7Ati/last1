@@ -27,6 +27,7 @@ import FileUpload from '@/components/form/file-upload'
 import products from '@/routes/store/products'
 import IsActiveFormField from '@/components/form/is-active'
 import { Repeater } from '@/components/repeater'
+// import { Repeater } from '@/components/repeater'
 
 interface ProductFormProps {
     product: Product
@@ -38,20 +39,8 @@ interface ProductFormProps {
 
 export default function ProductForm({ product, categories, additionsData = [], optionsData = [], type }: ProductFormProps) {
     const { t } = useTranslation('forms');
-
-    // Ensure arrays are always arrays (safety check)
-    const safeAdditionsData = Array.isArray(additionsData) ? additionsData : [];
-    const safeOptionsData = Array.isArray(optionsData) ? optionsData : [];
-
-    // Initialize with unique IDs for tracking
-    const [additions, setAdditions] = useState<ProductAddition[]>((product.additions || []).map((add, idx) => ({
-        ...add,
-        temp_id: `add-${Date.now()}-${idx}`,
-    })));
-    const [options, setOptions] = useState<ProductOption[]>((product.options || []).map((opt, idx) => ({
-        ...opt,
-        temp_id: `opt-${Date.now()}-${idx}`,
-    })));
+    const [additions, setAdditions] = useState<ProductAddition[]>(product.additions ?? [])
+    console.log(additions)
     return (
         <Form
             method={type === 'edit' ? 'put' : 'post'}
@@ -247,78 +236,47 @@ export default function ProductForm({ product, categories, additionsData = [], o
                                 </CardDescription>
                             </CardHeader>
                             <CardContent className='min-h-fit'>
-                                <Repeater<ProductAddition>
-                                    label="Optional Add-ons"
-                                    items={additions}
-                                    onChange={setAdditions}
-                                    onAddItem={() => ({ addition_id: 0, price: 0, temp_id: `add-${Date.now()}-${Math.random()}` })} // Default structure
-                                    renderFields={(item, index, update) => {
-                                        // Get all selected addition IDs from other items (excluding current item by unique ID)
-                                        const currentItemId = (item as any).temp_id;
-                                        const selectedAdditionIds = additions
-                                            .filter((add) => (add as any).temp_id !== currentItemId)
-                                            .map((add) => add.addition_id)
-                                            .filter((id): id is number => id !== null && id !== 0)
-                                            .map(id => String(id));
-
-                                        // Filter additions: exclude already selected ones, but include current item's selection
-                                        const availableAdditions = safeAdditionsData.filter((addition) => {
-                                            const additionIdStr = String(addition.id);
-                                            // Include if not selected elsewhere, or if it's the current item's selection
-                                            return !selectedAdditionIds.includes(additionIdStr) ||
-                                                (item.addition_id && String(item.addition_id) === additionIdStr);
-                                        });
-
-                                        return (
-                                            <div className="grid grid-cols-2 gap-4">
-                                                <div className="space-y-1.5">
-                                                    <Label htmlFor={`addition_id-${index}`}>Addition</Label>
-                                                    <Select
-                                                        value={item.addition_id ? String(item.addition_id) : ''}
-                                                        onValueChange={(value) => update({ addition_id: value })}
-                                                    >
-                                                        <SelectTrigger id={`addition_id-${index}`}>
-                                                            <SelectValue placeholder="Select an addition" />
-                                                        </SelectTrigger>
-                                                        <SelectContent>
-                                                            {availableAdditions.map((addition) => (
-                                                                <SelectItem key={addition.id} value={String(addition.id)}>
-                                                                    {typeof addition.name === 'string'
-                                                                        ? addition.name
-                                                                        : addition.name.en || addition.name.ar || String(addition.id)}
-                                                                </SelectItem>
-                                                            ))}
-                                                        </SelectContent>
-                                                    </Select>
-                                                    <input
-                                                        type="hidden"
-                                                        name={`additions[${index}][addition_id]`}
-                                                        value={item.addition_id || ''}
-                                                    />
-                                                    <InputError message={errors[`additions.${index}.addition_id`]} />
-                                                </div>
-                                                <div className="space-y-1.5">
-                                                    <Label htmlFor={`price-${index}`}>Price ($)</Label>
-                                                    <Input
-                                                        id={`price-${index}`}
-                                                        name={`additions[${index}][price]`}
-                                                        type="number"
-                                                        step="0.01"
-                                                        min="0"
-                                                        value={item.price}
-                                                        placeholder="0.00"
-                                                        onChange={(e) => update({ price: Number(e.target.value) })}
-                                                    />
-                                                    <InputError message={errors[`additions.${index}.price`]} />
-                                                </div>
-                                            </div>
-                                        );
-                                    }}
+                                <Repeater
+                                    name="additions[]"
+                                    value={additions}
+                                    onChange={(e) => setAdditions(e.target.value)}
+                                    createItem={() => ({
+                                        addition_id: "",
+                                        price: 0,
+                                    })}
+                                    renderRow={(item, index, update) => (
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <Select
+                                                value={String(item.addition_id)}
+                                                onValueChange={(v) =>
+                                                    update({ addition_id: v })
+                                                }
+                                            >
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Addition" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {additionsData.map((a) => (
+                                                        <SelectItem key={a.id} value={String(a.id)}>
+                                                            {a.name as string}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                            <Input
+                                                type="number"
+                                                value={item.price}
+                                                onChange={(e) =>
+                                                    update({ price: Number(e.target.value) })
+                                                }
+                                            />
+                                        </div>
+                                    )}
                                 />
                             </CardContent>
                         </Card>
 
-                        <Card className='w-1/2 h-auto'>
+                        {/* <Card className='w-1/2 h-auto'>
                             <CardHeader>
                                 <CardTitle>{t('products.options')}</CardTitle>
                                 <CardDescription>
@@ -326,72 +284,12 @@ export default function ProductForm({ product, categories, additionsData = [], o
                                 </CardDescription>
                             </CardHeader>
                             <CardContent className='min-h-fit'>
-                                <Repeater<ProductOption>
-                                    label="Optional Options"
-                                    items={options}
-                                    onChange={setOptions}
-                                    onAddItem={() => ({ option_id: 0, price: 0, temp_id: `opt-${Date.now()}-${Math.random()}` })} // Default structure
-                                    renderFields={(item, index, update) => {
-                                        // Get all selected option IDs from other items (excluding current item by unique ID)
-                                        const currentItemId = (item as any).temp_id;
-                                        const selectedOptionIds = options
-                                            .filter((opt) => (opt as any).temp_id !== currentItemId)
-                                            .map((opt) => opt.option_id)
-                                            .filter((id): id is number => id !== null && id !== 0)
-                                            .map(id => String(id));
 
-                                        // Filter options: exclude already selected ones, but include current item's selection
-                                        const availableOptions = safeOptionsData.filter((option) => {
-                                            const optionIdStr = String(option.id);
-                                            // Include if not selected elsewhere, or if it's the current item's selection
-                                            return !selectedOptionIds.includes(optionIdStr) ||
-                                                (item.option_id && String(item.option_id) === optionIdStr);
-                                        });
-
-                                        return (
-                                            <div className="grid grid-cols-2 gap-4">
-                                                <div className="space-y-1.5">
-                                                    <Label htmlFor={`option_id-${index}`}>Option</Label>
-                                                    <Select
-                                                        value={item.option_id ? String(item.option_id) : ''}
-                                                        onValueChange={(value) => update({ option_id: value })}
-                                                    >
-                                                        <SelectTrigger id={`option_id-${index}`}>
-                                                            <SelectValue placeholder="Select an option" />
-                                                        </SelectTrigger>
-                                                        <SelectContent>
-                                                            {availableOptions.map((option) => (
-                                                                <SelectItem key={option.id} value={String(option.id)}>
-                                                                    {option.name as string}
-                                                                </SelectItem>
-                                                            ))}
-                                                        </SelectContent>
-                                                    </Select>
-                                                    <input type="hidden" name={`options[${index}][option_id]`} value={item.option_id || ''} />
-                                                    <InputError message={errors[`options.${index}.option_id`]} />
-                                                </div>
-                                                <div className="space-y-1.5">
-                                                    <Label htmlFor={`price-${index}`}>Price ($)</Label>
-                                                    <Input
-                                                        id={`price-${index}`}
-                                                        name={`options[${index}][price]`}
-                                                        type="number"
-                                                        step="0.01"
-                                                        min="0"
-                                                        value={item.price}
-                                                        placeholder="0.00"
-                                                        onChange={(e) => update({ price: Number(e.target.value) })}
-                                                    />
-                                                    <InputError message={errors[`options.${index}.price`]} />
-                                                </div>
-                                            </div>
-                                        );
-                                    }}
-                                />
                             </CardContent>
-                        </Card>
+                        </Card> */}
                     </div>
 
+                    {/* <input type="hidden" name="additions[]" value={JSON.stringify(additions)} /> */}
 
                     <FormButtons
                         processing={processing}

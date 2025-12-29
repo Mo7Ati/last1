@@ -49,36 +49,9 @@ class ProductController extends Controller
     {
         $store = Auth::guard('store')->user();
 
-        $categories = Category::where('store_id', $store->id)
-            ->active()
-            ->pluck('name', 'id');
-
-        $additions = Addition::where('store_id', $store->id)
-            ->where('is_active', true)
-            ->active()
-            ->get()
-            ->map(function ($addition) {
-                return [
-                    'id' => $addition->id,
-                    'name' => $addition->name,
-                ];
-            });
-
-        $options = Option::where('store_id', $store->id)
-            ->active()
-            ->get()
-            ->map(function ($option) {
-                return [
-                    'id' => $option->id,
-                    'name' => $option->name,
-                ];
-            });
-
         return Inertia::render('store/products/create', [
             'product' => ProductResource::make(new Product())->serializeForForm(),
-            'categories' => $categories,
-            'additions' => $additions,
-            'options' => $options,
+            ...$this->formDependencies($store),
         ]);
     }
 
@@ -121,48 +94,17 @@ class ProductController extends Controller
             ->with('success', __('messages.created_successfully'));
     }
 
-    public function edit(Request $request, Product $product)
+    public function edit(Request $request, int $id)
     {
         $store = $request->user('store');
-
-        // Load relationships for form
-        $product->load(['additions', 'options']);
-
-        $categories = Category::where('store_id', $store->id)
-            ->where('is_active', true)
-            ->get()
-            ->map(function ($category) {
-                return [
-                    'id' => $category->id,
-                    'name' => $category->name,
-                ];
-            });
-
-        $additions = \App\Models\Addition::where('store_id', $store->id)
-            ->where('is_active', true)
-            ->get()
-            ->map(function ($addition) {
-                return [
-                    'id' => $addition->id,
-                    'name' => $addition->name,
-                ];
-            });
-
-        $options = \App\Models\Option::where('store_id', $store->id)
-            ->where('is_active', true)
-            ->get()
-            ->map(function ($option) {
-                return [
-                    'id' => $option->id,
-                    'name' => $option->name,
-                ];
-            });
+        $product = Product::query()
+            ->with(['additions', 'options'])
+            ->where('store_id', $store->id)
+            ->findOrFail($id);
 
         return Inertia::render('store/products/edit', [
             'product' => ProductResource::make($product)->serializeForForm(),
-            'categories' => $categories,
-            'additions' => $additions,
-            'options' => $options,
+            ...$this->formDependencies($store),
         ]);
     }
 
@@ -218,4 +160,39 @@ class ProductController extends Controller
             ->route('store.products.index')
             ->with('success', __('messages.deleted_successfully'));
     }
+    private function formDependencies($store)
+    {
+        return [
+            'categories' => Category::where('store_id', $store->id)
+                ->active()
+                ->get()
+                ->map(function ($category) {
+                    return [
+                        'id' => $category->id,
+                        'name' => $category->name,
+                    ];
+                }),
+
+            'additions' => Addition::where('store_id', $store->id)
+                ->active()
+                ->get()
+                ->map(function ($addition) {
+                    return [
+                        'id' => $addition->id,
+                        'name' => $addition->name,
+                    ];
+                }),
+
+            'options' => Option::where('store_id', $store->id)
+                ->active()
+                ->get()
+                ->map(function ($option) {
+                    return [
+                        'id' => $option->id,
+                        'name' => $option->name,
+                    ];
+                }),
+        ];
+    }
+
 }
