@@ -17,11 +17,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Admin::factory()->count(100)->create();
-        // StoreCategory::factory()->count(10)->create();
-        // Store::factory()->count(100)->create();
-        // Order::factory()->count(100)->create();
+        Admin::create([
+            'name' => 'Admin',
+            'email' => 'admin@ps.com',
+            'password' => 'password',
+            'is_active' => true,
+        ]);
+        Admin::factory()->count(100)->create();
+        StoreCategory::factory()->count(10)->create();
+        Store::factory()->count(100)->create();
+        Order::factory()->count(100)->create();
         Product::factory()->count(100)->create();
-
     }
 }
