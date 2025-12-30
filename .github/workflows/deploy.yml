@@ -37,15 +37,15 @@ jobs:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         REMOTE_HOST: ${{ secrets.VPS_HOST }}
         REMOTE_USER: ${{ secrets.VPS_USER }}
-        TARGET: "/home/multivendor/htdocs/dawly.store/last1"
+        TARGET: "/home/${{ secrets.VPS_USER }}/htdocs/${{ secrets.VPS_HOST }}/last1"
 
-    - name: Run Remote/Artisan Commands
-      uses: appleboy/ssh-action@v0.1.6
-      with:
-        host: ${{ secrets.VPS_HOST }}
-        username: ${{ secrets.VPS_USER }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        script: |
-          cd htdocs/dawly.store/last1
-          php artisan migrate --force
+    # - name: Run Remote/Artisan Commands
+    #   uses: appleboy/ssh-action@v0.1.6
+    #   with:
+    #     host: ${{ secrets.VPS_HOST }}
+    #     username: ${{ secrets.VPS_USER }}
+    #     key: ${{ secrets.SSH_PRIVATE_KEY }}
+    #     script: |
+    #       cd htdocs/dawly.store/last1
+    #       php artisan migrate --force
 
