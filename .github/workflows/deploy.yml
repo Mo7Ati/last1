@@ -30,7 +30,7 @@ jobs:
 
     # - name: Build NPM Assets
     #   run: npm run build
-
+    # php artisan optimize
     - name: Synchronize Files To Server
       uses: easingthemes/ssh-deploy@v2.1.5
       env:
@@ -48,4 +48,4 @@ jobs:
         script: |
           cd htdocs/dawly.store/last1
           php artisan migrate --force
-          php artisan optimize
+

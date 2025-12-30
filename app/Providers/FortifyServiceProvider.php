@@ -6,7 +6,6 @@ use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
@@ -21,14 +20,7 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $requestPath = request()->path() ?? 'N/A';
         $panel = getPanel();
-
-        Log::info('FortifyServiceProvider::register() called', [
-            'request_path' => $requestPath,
-            'panel_detected' => $panel,
-            'running_in_console' => app()->runningInConsole(),
-        ]);
 
         if ($panel) {
             config([
@@ -36,17 +28,6 @@ class FortifyServiceProvider extends ServiceProvider
                 'fortify.home' => $panel,
                 'fortify.passwords' => $panel,
                 'fortify.prefix' => $panel,
-            ]);
-
-            Log::info('Fortify configuration set', [
-                'guard' => $panel,
-                'home' => $panel,
-                'passwords' => $panel,
-                'prefix' => $panel,
-            ]);
-        } else {
-            Log::warning('FortifyServiceProvider: No panel detected', [
-                'request_path' => $requestPath,
             ]);
         }
     }
