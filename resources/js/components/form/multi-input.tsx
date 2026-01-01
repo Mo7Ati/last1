@@ -39,9 +39,10 @@ export default function MultiInput({
 }: MultiInputProps) {
     // Filter out empty strings from defaultValue
     const filteredDefaultValue = defaultValue.filter(tag => tag.trim() !== '')
-    const [internalValue, setInternalValue] = useState<string[]>(filteredDefaultValue)
-    const [inputValue, setInputValue] = useState('')
-    const inputRef = useRef<HTMLInputElement>(null)
+
+    const [internalValue, setInternalValue] = useState<string[]>(filteredDefaultValue);
+    const [inputValue, setInputValue] = useState('');
+    const inputRef = useRef<HTMLInputElement>(null);
 
     const isControlled = controlledValue !== undefined
     // Filter out empty strings from controlled value as well
@@ -121,9 +122,6 @@ export default function MultiInput({
         }
     }
 
-    // Create hidden input for form submission (comma-separated values)
-    const hiddenValue = tags.join(',')
-
     return (
         <div className={cn('space-y-2', className)}>
             {label && (
@@ -165,6 +163,7 @@ export default function MultiInput({
                         id={name}
                         type="text"
                         value={inputValue}
+                        required={required && tags.length < (minItems || 1)}
                         onChange={handleInputChange}
                         onKeyDown={handleKeyDown}
                         placeholder={placeholder}
@@ -174,19 +173,10 @@ export default function MultiInput({
                             tags.length > 0 && 'mt-2'
                         )}
                     />
-                    {/* Hidden input for form submission */}
-                    <input
-                        type="hidden"
-                        name={name}
-                        value={hiddenValue}
-                        required={required && tags.length < (minItems || 1)}
-                    />
                 </div>
             </div>
 
-            {hint && (
-                <span className="text-muted-foreground text-xs">{hint}</span>
-            )}
+            {hint && <span className="text-muted-foreground text-xs">{hint}</span>}
 
             <InputError message={error} />
         </div>

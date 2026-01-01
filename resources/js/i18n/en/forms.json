@@ -145,5 +145,12 @@
         "name": "Name",
         "enter_name": "Enter option name",
         "option_settings": "Option Settings"
+    },
+    "categories": {
+        "title": "Categories",
+        "enter_name": "Enter category name",
+        "category_settings": "Category Settings",
+        "images": "Images",
+        "category_images": "Category Images"
     }
 }

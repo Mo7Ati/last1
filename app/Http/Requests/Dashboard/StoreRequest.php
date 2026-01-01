@@ -5,6 +5,7 @@ namespace App\Http\Requests\Dashboard;
 use App\Models\Store;
 use Closure;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -25,18 +26,26 @@ class StoreRequest extends FormRequest
      */
     public function rules(): array
     {
-        $id = $this->route('store');
-        // dd($this->all());
+        $id = $this->route('store') ?? auth('store')->id() ?? null;
+
         return [
             'name' => ['required', 'array'],
             'name.*' => ['required', 'string', 'max:255'],
+
             'address' => ['required', 'array'],
             'address.*' => ['required', 'string'],
+
             'description' => ['nullable', 'array'],
             'description.*' => ['nullable', 'string'],
-            'keywords' => 'nullable|array',
-            'keywords.*' => ['nullable', 'string'],
+
+            'keywords' => ['nullable', 'array'],
+            'keywords.*' => ['required_with:keywords', 'string', 'max:255'],
+
             'social_media' => ['nullable', 'array'],
+            'social_media.*.platform' => ['required_with:social_media.*', 'string', 'max:255'],
+            'social_media.*.url' => ['required_with:social_media.*', 'url'],
+
+
             'email' => ['required', 'email', Rule::unique('stores', 'email')->ignore($id)],
             'phone' => ['required', 'string', Rule::unique('stores', 'phone')->ignore($id)],
             'password' => [
@@ -44,10 +53,12 @@ class StoreRequest extends FormRequest
                 'string',
                 'min:8',
             ],
-            'category_id' => 'nullable|exists:store_categories,id',
-            'delivery_time' => 'required|integer|min:1',
-            // 'delivery_area_polygon' => 'nullable|array',
-            'is_active' => 'nullable|boolean',
+
+            'category_id' => ['nullable', 'exists:store_categories,id'],
+
+            'delivery_time' => ['required', 'integer', 'min:1'],
+
+            'is_active' => ['nullable', 'boolean'],
             'temp_ids' => [
                 Rule::requiredIf(function () use ($id) {
                     if ($id) {
@@ -68,6 +79,31 @@ class StoreRequest extends FormRequest
             ],
         ];
     }
+
+    // public function generalSettingsRules(): array
+    // {
+    //     $id = Auth::guard('store')->id();
+    //     return [
+    //         'name' => ['required', 'array'],
+    //         'name.*' => ['required', 'string', 'max:255'],
+    //         'address' => ['required', 'array'],
+    //         'address.*' => ['required', 'string'],
+    //         'description' => ['nullable', 'array'],
+    //         'description.*' => ['nullable', 'string'],
+    //         'keywords' => 'nullable|array',
+    //         'keywords.*' => ['nullable', 'string'],
+    //         'social_media' => ['nullable', 'array'],
+    //         'email' => ['required', 'email', Rule::unique('stores', 'email')->ignore($id)],
+    //         'phone' => ['required', 'string', Rule::unique('stores', 'phone')->ignore($id)],
+    //         'password' => [
+    //             'nullable',
+    //             'string',
+    //             'min:8',
+    //         ],
+    //         'category_id' => 'required|exists:store_categories,id',
+    //         'delivery_time' => 'required|integer|min:1',
+    //     ];
+    // }
 
     public function messages(): array
     {

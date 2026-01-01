@@ -30,6 +30,7 @@ class Product extends Model implements HasMedia
 
     protected $casts = [
         'name' => 'array',
+        'description' => 'array',
         'address' => 'array',
         'keywords' => 'array',
     ];
@@ -44,7 +45,7 @@ class Product extends Model implements HasMedia
         });
     }
 
-    public array $translatable = ['name', 'description', 'keywords'];
+    public array $translatable = ['name', 'description'];
 
 
     public function Store()

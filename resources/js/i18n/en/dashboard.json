@@ -35,5 +35,10 @@
         "title": "Options",
         "create": "Create Option",
         "edit": "Edit Option"
+    },
+    "categories": {
+        "title": "Categories",
+        "create": "Create Category",
+        "edit": "Edit Category"
     }
 }

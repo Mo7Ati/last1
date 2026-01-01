@@ -93,7 +93,6 @@ class ProductController extends Controller
     public function update(ProductRequest $request, Product $product)
     {
         DB::transaction(function () use ($request, $product) {
-
             $product->update(
                 $request->safe()->except([
                     'additions',
@@ -101,10 +100,8 @@ class ProductController extends Controller
                     'images',
                 ])
             );
-
             $product->syncAdditions($request->input('additions', []));
             $product->syncOptions($request->input('options', []));
-
             $this->syncMedia($request, $product, 'images');
         });
 

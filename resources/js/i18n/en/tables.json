@@ -76,5 +76,11 @@
         "id": "ID",
         "name": "Name",
         "created_at": "Created At"
+    },
+    "categories": {
+        "title": "Categories",
+        "id": "ID",
+        "name": "Name",
+        "created_at": "Created At"
     }
 }

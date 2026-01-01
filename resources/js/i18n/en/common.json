@@ -11,7 +11,8 @@
         "settings": "Settings",
         "logout": "Logout",
         "additions": "Additions",
-        "options": "Options"
+        "options": "Options",
+        "categories": "Categories"
     },
     "nav_groups": {
         "overview": "Overview",

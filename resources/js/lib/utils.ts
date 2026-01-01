@@ -19,6 +19,7 @@ import storeOrders from '@/routes/store/orders';
 import storeProducts from '@/routes/store/products';
 import additions from '@/routes/store/additions';
 import options from '@/routes/store/options';
+import categories from '@/routes/store/categories';
 
 
 
@@ -122,6 +123,12 @@ export function getStorePanelNavItems(): NavGroup[] {
                     icon: LayoutGrid,
                     visible: true,
                 },
+                {
+                    title: t('nav_labels.settings'),
+                    href: '/store/settings/general',
+                    icon: Settings,
+                    visible: true,
+                },
             ],
         },
         {
@@ -137,6 +144,12 @@ export function getStorePanelNavItems(): NavGroup[] {
                     title: t('nav_labels.products'),
                     href: storeProducts.index.url(),
                     icon: Package,
+                    visible: true,
+                },
+                {
+                    title: t('nav_labels.categories'),
+                    href: categories.index.url(),
+                    icon: List,
                     visible: true,
                 },
             ],

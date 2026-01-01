@@ -19,52 +19,35 @@ class ProductRequest extends FormRequest
     }
 
     /**
-     * Prepare the data for validation.
-     */
-    protected function prepareForValidation(): void
-    {
-        // Convert comma-separated keywords string to array
-        if ($this->has('keywords') && is_string($this->keywords)) {
-            $keywords = array_filter(
-                array_map('trim', explode(',', $this->keywords)),
-                fn($keyword) => !empty($keyword)
-            );
-            $this->merge([
-                'keywords' => empty($keywords) ? null : $keywords,
-            ]);
-        }
-
-        // Convert empty string category_id to null
-        if ($this->has('category_id') && $this->category_id === '') {
-            $this->merge(['category_id' => null]);
-        }
-    }
-
-    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
-        $id = $this->route('product');
         $store = $this->user('store');
-        // dd($this->all());
+
         return [
             'name' => ['required', 'array'],
             'name.*' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'array'],
-            'description.*' => ['required', 'string'],
+
+            'description' => ['nullable', 'array'],
+            'description.*' => ['required_with:description', 'string'],
+
             'keywords' => ['nullable', 'array'],
-            'keywords.*' => ['nullable', 'string'],
+            'keywords.*' => ['required_with:keywords', 'string'],
+
             'price' => ['required', 'numeric', 'min:0'],
             'compare_price' => ['nullable', 'numeric', 'min:0'],
-            // 'category_id' => [
-            //     'nullable',
-            //     Rule::exists('categories', 'id')->where('store_id', $store->id),
-            // ],
+
+            'category_id' => [
+                'required',
+                Rule::exists('categories', 'id')->where('store_id', $store->id),
+            ],
+
             'quantity' => ['nullable', 'integer', 'min:0'],
             'is_active' => ['nullable', 'boolean'],
+
             'temp_ids' => [
                 'nullable',
                 function (string $attribute, mixed $value, Closure $fail) {
@@ -77,12 +60,14 @@ class ProductRequest extends FormRequest
                     }
                 },
             ],
+
             'additions' => ['nullable', 'array'],
             'additions.*.addition_id' => [
                 'required_with:additions.*',
                 Rule::exists('additions', 'id')->where('store_id', $store->id),
             ],
             'additions.*.price' => ['required_with:additions.*', 'numeric', 'min:0'],
+
             'options' => ['nullable', 'array'],
             'options.*.option_id' => [
                 'required_with:options.*',

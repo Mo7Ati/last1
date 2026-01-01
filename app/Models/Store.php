@@ -39,7 +39,7 @@ class Store extends Authenticatable implements HasMedia
     ];
 
 
-    public array $translatable = ['name', 'description', 'address', 'keywords'];
+    public array $translatable = ['name', 'description', 'address'];
 
     public function setPasswordAttribute($value)
     {

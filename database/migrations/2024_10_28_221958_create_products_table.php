@@ -16,7 +16,7 @@ return new class extends Migration {
 
             $table->json('name');
             $table->json('description')->nullable();
-            $table->json('keywords');
+            $table->json('keywords')->nullable();
 
             $table->foreignId('store_id')->constrained('stores')->cascadeOnDelete();
             $table->foreignId('category_id')->nullable()->constrained('categories')->nullOnDelete();
