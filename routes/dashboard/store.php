@@ -3,7 +3,7 @@
 use App\Http\Controllers\dashboard\store\AdditionController;
 use App\Http\Controllers\dashboard\store\CategoryController;
 use App\Http\Controllers\dashboard\store\DashboardController;
-use App\Http\Controllers\dashboard\store\GeneralSettingsController;
+use App\Http\Controllers\dashboard\store\StoreSettingsController;
 use App\Http\Controllers\dashboard\store\OptionController;
 use App\Http\Controllers\dashboard\store\OrderController;
 use App\Http\Controllers\dashboard\store\ProductController;
@@ -33,10 +33,7 @@ Route::middleware(['auth:store'])
 
 
         Route::prefix('settings')->name('settings.')->group(function () {
-            Route::get('/general', [GeneralSettingsController::class, 'general'])->name('general');
-            Route::put('/general', [GeneralSettingsController::class, 'generalUpdate'])->name('general.update');
-
-
-
+            Route::get('/profile', [StoreSettingsController::class, 'profile'])->name('profile');
+            Route::put('/profile', [StoreSettingsController::class, 'profileUpdate'])->name('profile.update');
         });
     });

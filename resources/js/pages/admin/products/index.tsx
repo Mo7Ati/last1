@@ -75,7 +75,7 @@ const ProductsIndex = ({ products: productsData }: { products: PaginatedResponse
         },
         {
             accessorKey: "is_active",
-            header: tTables('common.is_active'),
+            header: tTables('common.status'),
             cell: ({ row }) => <IsActiveBadge isActive={row.original.is_active} />,
         },
         {

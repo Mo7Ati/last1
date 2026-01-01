@@ -13,13 +13,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
-class GeneralSettingsController extends Controller
+class StoreSettingsController extends Controller
 {
     use MediaSyncTrait;
 
-    public function general(Request $request)
+    public function profile(Request $request)
     {
-        return Inertia::render('store/settings/general-settings', [
+        return Inertia::render('store/settings/profile', [
             'store' => StoreResource::make(Auth::guard('store')->user())->serializeForForm(),
             'storeCategories' => StoreCategory::all()->map(function ($category) {
                 return [
@@ -30,7 +30,7 @@ class GeneralSettingsController extends Controller
         ]);
     }
 
-    public function generalUpdate(StoreRequest $request)
+    public function profileUpdate(StoreRequest $request)
     {
         $data = $request->validated();
         $store = Auth::guard('store')->user();

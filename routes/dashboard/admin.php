@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\dashboard\admin\AdminController;
+use App\Http\Controllers\dashboard\admin\AdminSettingsController;
 use App\Http\Controllers\dashboard\admin\DashboardController;
 use App\Http\Controllers\dashboard\admin\OrderController;
 use App\Http\Controllers\dashboard\admin\ProductController;
@@ -30,4 +31,10 @@ Route::middleware(['auth:admin'])
             'stores' => StoreController::class,
             'store-categories' => StoreCategoryController::class,
         ]);
+
+
+        Route::prefix('settings')->name('settings.')->group(function () {
+            Route::get('/profile', [AdminSettingsController::class, 'profile'])->name('profile');
+            Route::put('/profile', [AdminSettingsController::class, 'profileUpdate'])->name('profile.update');
+        });
     });

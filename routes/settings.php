@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 return function () {
-    Route::redirect('settings', '/settings/profile');
+    // Route::redirect('settings', '/settings/profile');
 
-    Route::get('settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('settings/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('settings/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // Route::get('settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    // Route::patch('settings/profile', [ProfileController::class, 'update'])->name('profile.update');
+    // Route::delete('settings/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('settings/password', [PasswordController::class, 'edit'])->name('user-password.edit');
 
@@ -23,6 +23,6 @@ return function () {
         return Inertia::render('settings/appearance');
     })->name('appearance.edit');
 
-    Route::get('settings/two-factor', [TwoFactorAuthenticationController::class, 'show'])
-        ->name('two-factor.show');
+    // Route::get('settings/two-factor', [TwoFactorAuthenticationController::class, 'show'])
+    //     ->name('two-factor.show');
 };

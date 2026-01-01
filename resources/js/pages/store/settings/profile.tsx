@@ -5,7 +5,6 @@ import AppLayout from '@/layouts/app-layout'
 import { useTranslation } from 'react-i18next'
 import { type BreadcrumbItem } from '@/types'
 import { Store, StoreCategory } from '@/types/dashboard'
-import StoreSettingsLayout from '../layouts/settings/store-settings-layout'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import InputError from '@/components/input-error'
@@ -23,13 +22,15 @@ import FormButtons from '@/components/form/form-buttons'
 import { normalizeFieldValue } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Transition } from '@headlessui/react'
+import SettingsLayout from '@/layouts/settings/layout'
+import settings from '@/routes/store/settings'
 
-interface GeneralSettingsProps {
+interface StoreProfileSettingsProps {
     store: Store
     storeCategories: StoreCategory[]
 }
 
-const GeneralSettings = ({ store, storeCategories }: GeneralSettingsProps) => {
+const StoreProfileSettings = ({ store, storeCategories }: StoreProfileSettingsProps) => {
     const { t: tSettings } = useTranslation('settings')
     const { t: tForms } = useTranslation('forms')
 
@@ -37,7 +38,7 @@ const GeneralSettings = ({ store, storeCategories }: GeneralSettingsProps) => {
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: tSettings('profile.page_title'),
-            href: `/store/settings/general`,
+            href: settings.profile.url(),
         },
     ]
     const [keywords, setKeywords] = useState<string[]>(store.keywords ?? []);
@@ -46,7 +47,7 @@ const GeneralSettings = ({ store, storeCategories }: GeneralSettingsProps) => {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={tSettings('profile.page_title')} />
 
-            <StoreSettingsLayout>
+            <SettingsLayout>
                 <div className="space-y-6">
                     <HeadingSmall
                         title={tSettings('profile.heading_title')}
@@ -55,7 +56,7 @@ const GeneralSettings = ({ store, storeCategories }: GeneralSettingsProps) => {
 
                     <Form
                         method="PUT"
-                        action="/store/settings/general"
+                        action={settings.profile.url()}
                         options={{
                             preserveScroll: true,
                         }}
@@ -106,21 +107,6 @@ const GeneralSettings = ({ store, storeCategories }: GeneralSettingsProps) => {
                                             aria-invalid={errors.email ? 'true' : 'false'}
                                         />
                                         <InputError message={errors.email} />
-                                    </div>
-
-                                    {/* Password */}
-                                    <div>
-                                        <Label htmlFor="password">{tForms('common.password')}</Label>
-                                        <Input
-                                            id="password"
-                                            name="password"
-                                            type="password"
-                                            aria-invalid={errors.password ? 'true' : 'false'}
-                                        />
-                                        <span className="text-muted-foreground text-xs">
-                                            {tForms('stores.leave_blank')}
-                                        </span>
-                                        <InputError message={errors.password} />
                                     </div>
 
                                     {/* Store Category */}
@@ -243,9 +229,9 @@ const GeneralSettings = ({ store, storeCategories }: GeneralSettingsProps) => {
                         )}
                     </Form>
                 </div >
-            </StoreSettingsLayout >
+            </SettingsLayout >
         </AppLayout >
     )
 }
 
-export default GeneralSettings
+export default StoreProfileSettings
