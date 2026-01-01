@@ -1,6 +1,8 @@
 {
     "common": {
         "name": "Name",
+        "description": "Description",
+        "keywords": "Keywords",
         "email": "Email",
         "password": "Password",
         "status": "Status",
