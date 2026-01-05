@@ -7,19 +7,21 @@ import en_settings from "./en/settings.json";
 import en_dashboard from "./en/dashboard.json";
 import en_tables from "./en/tables.json";
 import en_forms from "./en/forms.json";
+import en_subscription from "./en/subscription.json";
 import ar_common from "./ar/common.json";
 import ar_auth from "./ar/auth.json";
 import ar_settings from "./ar/settings.json";
 import ar_dashboard from "./ar/dashboard.json";
 import ar_tables from "./ar/tables.json";
 import ar_forms from "./ar/forms.json";
+import ar_subscription from "./ar/subscription.json";
 
 
 i18n
     .use(initReactI18next)
     .init({
-        ns: ['common', 'auth', 'settings', 'dashboard', 'tables', 'forms'],
-        defaultNS: ['common', 'auth', 'settings', 'dashboard', 'tables', 'forms'],   // <= multiple
+        ns: ['common', 'auth', 'settings', 'dashboard', 'tables', 'forms', 'subscription'],
+        defaultNS: ['common', 'auth', 'settings', 'dashboard', 'tables', 'forms', 'subscription'],   // <= multiple
         resources: {
             en: {
                 common: en_common,
@@ -28,6 +30,7 @@ i18n
                 dashboard: en_dashboard,
                 tables: en_tables,
                 forms: en_forms,
+                subscription: en_subscription,
             },
             ar: {
                 common: ar_common,
@@ -36,6 +39,7 @@ i18n
                 dashboard: ar_dashboard,
                 tables: ar_tables,
                 forms: ar_forms,
+                subscription: ar_subscription,
             },
         },
         lng: "en",

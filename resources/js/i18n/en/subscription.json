@@ -1,0 +1,23 @@
+{
+    "page_title": "Subscription",
+    "page_description": "Choose a subscription plan to continue using our platform",
+    "active_subscription": "Active Subscription",
+    "subscription_status": "Status",
+    "subscription_ends": "Subscription ends",
+    "manage_billing": "Manage Billing",
+    "resume_subscription": "Resume Subscription",
+    "cancel_subscription": "Cancel Subscription",
+    "cancel_confirmation": "Are you sure you want to cancel your subscription?",
+    "trial_active": "Trial Period Active",
+    "trial_days_remaining": "You have {{days}} day(s) remaining in your trial period",
+    "trial_ends": "Trial ends",
+    "trial_expired": "Trial Period Expired",
+    "trial_expired_description": "Your trial period has ended. Please subscribe to continue using the platform.",
+    "best_value": "Best Value",
+    "subscribe": "Subscribe Now",
+    "current_plan": "Current Plan",
+    "subscription_canceled": "Subscription canceled successfully",
+    "subscription_resumed": "Subscription resumed successfully",
+    "cancel_error": "Failed to cancel subscription",
+    "resume_error": "Failed to resume subscription"
+}

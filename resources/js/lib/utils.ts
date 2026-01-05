@@ -2,7 +2,7 @@ import { usePermissions } from '@/hooks/use-permissions';
 import { Locale, NavGroup, NavItem, PanelType } from '@/types';
 import { InertiaLinkProps } from '@inertiajs/react';
 import { type ClassValue, clsx } from 'clsx';
-import { LayoutGrid, List, Monitor, Package, Plus, Settings, Shield, ShoppingCart, Store, Users } from 'lucide-react';
+import { CreditCard, LayoutGrid, List, Monitor, Package, Plus, Settings, Shield, ShoppingCart, Store, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { twMerge } from 'tailwind-merge';
 
@@ -140,6 +140,12 @@ export function getStorePanelNavItems(): NavGroup[] {
                     title: t('nav_labels.dashboard'),
                     href: '/store',
                     icon: LayoutGrid,
+                    visible: true,
+                },
+                {
+                    title: t('nav_labels.subscription'),
+                    href: '/store/subscription',
+                    icon: CreditCard,
                     visible: true,
                 },
                 {

@@ -40,6 +40,8 @@ Route::get('language/{locale}', function ($locale) {
     return redirect()->back()->withCookie(cookie('locale', $locale, 60 * 24 * 365));
 });
 
+// Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])
+//     ->name('stripe.webhook');
 
 // API routes for temporary file uploads
 Route::prefix('api/temp-uploads')

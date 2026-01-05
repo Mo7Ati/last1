@@ -12,7 +12,8 @@
         "logout": "Logout",
         "additions": "Additions",
         "options": "Options",
-        "categories": "Categories"
+        "categories": "Categories",
+        "subscription": "Subscription"
     },
     "nav_groups": {
         "overview": "Overview",

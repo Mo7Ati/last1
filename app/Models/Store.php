@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Cashier\Billable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -12,7 +13,7 @@ use Spatie\Translatable\HasTranslations;
 
 class Store extends Authenticatable implements HasMedia
 {
-    use HasFactory, HasTranslations, TwoFactorAuthenticatable, InteractsWithMedia;
+    use HasFactory, HasTranslations, TwoFactorAuthenticatable, InteractsWithMedia, Billable;
 
     protected $fillable = [
         'name',
