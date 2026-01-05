@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 export default function Password() {
     const { t } = useTranslation('settings');
     const { panel } = usePage<SharedData>().props;
+
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: t('password.page_title'),

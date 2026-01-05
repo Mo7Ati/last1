@@ -3,23 +3,22 @@
 namespace App\Http\Controllers\dashboard\store;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Dashboard\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class CategoryController extends Controller
 {
     public function index(Request $request)
     {
-        $store = $request->user('store');
+        $storeId = Auth::guard('store')->id();
 
         $categories = Category::query()
-            ->where('store_id', $store->id)
-            ->when($request->get('is_active') !== null, function ($query) use ($request) {
-                $query->where('is_active', $request->get('is_active'));
-            })
-            ->orderBy($request->get('sort', 'id'), $request->get('direction', 'desc'))
+            ->where('store_id', $storeId)
+            ->applyFilters($request->all())
             ->paginate($request->get('per_page', 10))
             ->withQueryString();
 
@@ -34,14 +33,14 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        $store = $request->user('store');
+        $storeId = Auth::guard('store')->id();
 
         $validated = $request->validated();
-        $validated['store_id'] = $store->id;
+        $validated['store_id'] = $storeId;
 
-        Category::create($validated);
+        $category = Category::create($validated);
 
         return redirect()
             ->route('store.categories.index')
@@ -50,20 +49,27 @@ class CategoryController extends Controller
 
     public function edit(Request $request, int $id)
     {
-        $store = $request->user('store');
+        $storeId = Auth::guard('store')->id();
+
         $category = Category::query()
-            ->where('store_id', $store->id)
+            ->where('store_id', $storeId)
             ->findOrFail($id);
+
         return Inertia::render('store/categories/edit', [
             'category' => CategoryResource::make($category)->serializeForForm(),
         ]);
     }
 
-    public function update(Request $request, Category $category)
+    public function update(CategoryRequest $request, int $id)
     {
-        $store = $request->user('store');
-        $validated = $request->validated();
-        $category->update($validated);
+        $storeId = Auth::guard('store')->id();
+
+        $category = Category::query()
+            ->where('store_id', $storeId)
+            ->findOrFail($id);
+
+        $category->update($request->validated());
+
         return redirect()
             ->route('store.categories.index')
             ->with('success', __('messages.updated_successfully'));
@@ -71,11 +77,13 @@ class CategoryController extends Controller
 
     public function destroy(Request $request, int $id)
     {
-        $store = $request->user('store');
-        $category = Category::query()
-            ->where('store_id', $store->id)
-            ->findOrFail($id);
-        $category->delete();
+        $storeId = Auth::guard('store')->id();
+
+        Category::query()
+            ->where('store_id', $storeId)
+            ->findOrFail($id)
+            ->delete();
+
         return redirect()
             ->route('store.categories.index')
             ->with('success', __('messages.deleted_successfully'));

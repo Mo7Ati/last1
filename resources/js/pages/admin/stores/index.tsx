@@ -71,7 +71,7 @@ const StoresIndex = ({ stores: storesData }: { stores: PaginatedResponse<Store> 
         },
         {
             accessorKey: "is_active",
-            header: tTables('stores.status'),
+            header: tTables('common.status'),
             cell: ({ row }) => <IsActiveBadge isActive={row.original.is_active} />,
             enableHiding: false,
         },

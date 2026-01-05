@@ -1,6 +1,8 @@
 {
     "common": {
         "name": "Name",
+        "description": "Description",
+        "keywords": "Keywords",
         "email": "Email",
         "password": "Password",
         "status": "Status",
@@ -73,6 +75,12 @@
     },
     "options": {
         "title": "Options",
+        "id": "ID",
+        "name": "Name",
+        "created_at": "Created At"
+    },
+    "categories": {
+        "title": "Categories",
         "id": "ID",
         "name": "Name",
         "created_at": "Created At"

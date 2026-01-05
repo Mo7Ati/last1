@@ -1,7 +1,7 @@
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { cn, isSameUrl, resolveUrl } from '@/lib/utils';
+import { cn, getSettingsNavItems, isSameUrl, resolveUrl } from '@/lib/utils';
 import { SharedData, type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 import { type PropsWithChildren } from 'react';
@@ -10,32 +10,11 @@ import { useTranslation } from 'react-i18next';
 
 
 export default function SettingsLayout({ children }: PropsWithChildren) {
-    const page = usePage<SharedData>();
-    const { panel } = page.props;
+    const { panel } = usePage<SharedData>().props;
+    const sidebarNavItems: NavItem[] = getSettingsNavItems(panel);
+
     const { t } = useTranslation('settings');
 
-    const sidebarNavItems: NavItem[] = [
-        {
-            title: t('sections.profile'),
-            href: `/${panel}/settings/profile`,
-            icon: null,
-        },
-        {
-            title: t('sections.password'),
-            href: `/${panel}/settings/password`,
-            icon: null,
-        },
-        {
-            title: t('sections.two_factor_auth'),
-            href: `/${panel}/settings/two-factor`,
-            icon: null,
-        },
-        {
-            title: t('sections.appearance'),
-            href: `/${panel}/settings/appearance`,
-            icon: null,
-        },
-    ];
 
     // When server-side rendering, we only render the layout on the client...
     if (typeof window === 'undefined') {

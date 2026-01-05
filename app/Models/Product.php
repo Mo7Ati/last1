@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -29,6 +30,7 @@ class Product extends Model implements HasMedia
 
     protected $casts = [
         'name' => 'array',
+        'description' => 'array',
         'address' => 'array',
         'keywords' => 'array',
     ];
@@ -37,14 +39,13 @@ class Product extends Model implements HasMedia
     {
         static::creating(function ($model) {
             $model->uuid = (string) Str::uuid();
-            // Only set store_id from auth if it's not already set (e.g., from factory or manual creation)
             if (is_null($model->store_id) && auth()->guard('store')->check()) {
                 $model->store_id = auth()->guard('store')->id();
             }
         });
     }
 
-    public array $translatable = ['name', 'description', 'keywords'];
+    public array $translatable = ['name', 'description'];
 
 
     public function Store()
@@ -58,10 +59,10 @@ class Product extends Model implements HasMedia
             ->withDefault(['name' => 'No Category']);
     }
 
-    public function Cart()
-    {
-        return $this->hasMany(Cart::class, 'product_id', 'id');
-    }
+    // public function Cart()
+    // {
+    //     return $this->hasMany(Cart::class, 'product_id', 'id');
+    // }
 
     public function orders()
     {
@@ -71,27 +72,83 @@ class Product extends Model implements HasMedia
     public function additions()
     {
         return $this->belongsToMany(Addition::class, 'product_additions', 'product_id', 'addition_id')
-            ->withPivot('price');
+            ->withPivot('price')
+            ->active();
     }
 
     public function options()
     {
         return $this->belongsToMany(Option::class, 'product_options', 'product_id', 'option_id')
-            ->withPivot('price');
+            ->withPivot('price')
+            ->active();
+    }
+
+    /**
+     * Scope to filter products for the current authenticated store
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeForAuthStore(Builder $query): Builder
+    {
+        return $query->where('store_id', auth()->guard('store')->id());
+    }
+
+    public function scopeApplyFilters(Builder $query, array $filters): Builder
+    {
+        return $query
+            ->when(
+                isset($filters['is_active']),
+                fn($q) => $q->where('is_active', $filters['is_active'])
+            )
+            ->when(
+                isset($filters['is_accepted']),
+                fn($q) => $q->where('is_accepted', $filters['is_accepted'])
+            )
+            ->when(
+                isset($filters['tableSearch']),
+                fn($q) => $q->search($filters['tableSearch'])
+            )
+            ->when(
+                isset($filters['category_id']),
+                fn($q) => $q->where('category_id', $filters['category_id'])
+            )
+            ->orderBy($filters['sort'] ?? 'id', $filters['direction'] ?? 'desc');
+    }
+
+    public function scopeAccepted($query)
+    {
+        return $query->where('is_accepted', true);
+    }
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
     }
 
     public function scopeSearch($query, $search)
     {
-        return $query->when($search, function ($query) use ($search) {
-            $query->where('id', 'LIKE', "%{$search}%")
-                ->orWhere('price', 'LIKE', "%{$search}%")
-                ->orWhereHas('Store', function ($q) use ($search) {
-                    $q->where('email', 'LIKE', "%{$search}%")
-                        ->orWhere('phone', 'LIKE', "%{$search}%");
-                })
-                ->orWhereHas('Category', function ($q) use ($search) {
-                    $q->where('name', 'LIKE', "%{$search}%");
-                });
-        });
+        return $query->where('name', 'LIKE', "%{$search}%")
+            ->orWhere('description', 'LIKE', "%{$search}%")
+            ->orWhere('keywords', 'LIKE', "%{$search}%");
     }
+
+    public function syncAdditions(array $additions = []): void
+    {
+        $this->additions()->sync(
+            collect($additions)
+                ->mapWithKeys(fn($item) => [
+                    $item['addition_id'] => ['price' => $item['price']],
+                ])
+        );
+    }
+
+    public function syncOptions(array $options = []): void
+    {
+        $this->options()->sync(
+            collect($options)
+                ->mapWithKeys(fn($item) => [
+                    $item['option_id'] => ['price' => $item['price']],
+                ])
+        );
+    }
+
 }

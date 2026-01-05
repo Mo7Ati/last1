@@ -38,6 +38,7 @@ export type Admin = {
     id: number | string;
     name: string;
     email: string;
+    email_verified_at?:Date
     password: string;
     is_active: boolean;
     created_at: string;
@@ -167,6 +168,11 @@ export type ProductOption = {
 export interface Category {
     id: number | string
     name: Record<string, string> | string
+    description?: Record<string, string> | string
+    store_id: number | string
+    is_active: boolean
+    created_at?: string
+    updated_at?: string
 }
 
 

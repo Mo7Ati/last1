@@ -39,22 +39,25 @@ class Category extends Model implements HasMedia
         return $this->hasMany(Product::class, 'category_id', 'id');
     }
 
-    public function scopeFilter(Builder $query, $filters)
+    public function scopeApplyFilters(Builder $query, array $filters)
     {
-        $query->when($filters['name'] ?? false, function ($query, $value) {
-            $query->where('name', 'LIKE', "%$value%");
-        });
-
-        $query->when($filters['status'] ?? false, function ($query, $value) {
-            $query->where('status', 'LIKE', "%$value%");
-        });
+        return $query
+            ->when(
+                isset($filters['is_active']),
+                fn($q) => $q->where('is_active', $filters['is_active'])
+            )
+            ->when(
+                isset($filters['tableSearch']),
+                fn($q) => $q->search($filters['tableSearch'])
+            )
+            ->orderBy($filters['sort'] ?? 'id', $filters['direction'] ?? 'desc');
     }
-    /**
-     * Scope a query to only include active categories.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
+
+    public function scopeSearch($query, $search)
+    {
+        return $query->where('name', 'LIKE', "%{$search}%")
+            ->orWhere('description', 'LIKE', "%{$search}%");
+    }
     public function scopeActive($query)
     {
         return $query->where('is_active', true);

@@ -1,3 +1,4 @@
+import { ChartAreaInteractive } from '@/components/orders-chart';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { SharedData, type BreadcrumbItem } from '@/types';
@@ -101,6 +102,9 @@ export default function Dashboard() {
                     })}
                 </div>
             </div> */}
+            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
+                <ChartAreaInteractive />
+            </div>
         </AppLayout>
     );
 }

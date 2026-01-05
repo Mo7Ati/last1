@@ -27,6 +27,7 @@ import FileUpload from '@/components/form/file-upload'
 import products from '@/routes/store/products'
 import IsActiveFormField from '@/components/form/is-active'
 import { Repeater } from '@/components/repeater'
+import MultiInput from '@/components/form/multi-input'
 // import { Repeater } from '@/components/repeater'
 
 interface ProductFormProps {
@@ -42,7 +43,7 @@ export default function ProductForm({ product, categories, additionsData = [], o
 
     const [additions, setAdditions] = useState<ProductAddition[]>(product.additions ?? []);
     const [options, setOptions] = useState<ProductOption[]>(product.options ?? []);
-
+    const [keywords, setKeywords] = useState<string[]>(product.keywords ?? []);
 
     return (
         <Form
@@ -52,10 +53,14 @@ export default function ProductForm({ product, categories, additionsData = [], o
                     ? products.update.url({ product: Number(product.id) })
                     : products.store.url()
             }
+            options={{
+                preserveScroll: true,
+            }}
             transform={data => ({
                 ...data,
                 additions,
                 options,
+                keywords,
             })}
         >
             {({ processing, errors }) => (
@@ -91,19 +96,14 @@ export default function ProductForm({ product, categories, additionsData = [], o
                                 </CardHeader>
                                 <CardContent>
                                     <div>
-                                        <Label htmlFor="keywords">{t('products.keywords')}</Label>
-                                        <Input
-                                            id="keywords"
+                                        <MultiInput
                                             name="keywords"
-                                            type="text"
-                                            defaultValue={Array.isArray(product.keywords) ? product.keywords.join(', ') : ''}
+                                            label={t('products.keywords')}
                                             placeholder={t('products.enter_keywords')}
-                                            aria-invalid={errors.keywords ? 'true' : 'false'}
+                                            value={keywords}
+                                            onChange={setKeywords}
+                                            error={errors.keywords}
                                         />
-                                        <span className="text-muted-foreground text-xs">
-                                            {t('products.keywords_hint')}
-                                        </span>
-                                        <InputError message={errors.keywords} />
                                     </div>
                                 </CardContent>
                             </Card>
@@ -187,14 +187,14 @@ export default function ProductForm({ product, categories, additionsData = [], o
                                     <div>
                                         <Label htmlFor="category_id">{t('products.category')}</Label>
                                         <Select
-                                            defaultValue={String(product.category_id)}
+                                            defaultValue={product.category_id ? String(product.category_id) : undefined}
                                             name="category_id"
+                                            required
                                         >
                                             <SelectTrigger id="category_id" aria-invalid={errors.category_id ? 'true' : 'false'}>
                                                 <SelectValue placeholder={t('products.select_category')} />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="null">{t('products.no_category')}</SelectItem>
                                                 {categories.map((category) => (
                                                     <SelectItem
                                                         key={category.id}
@@ -367,8 +367,6 @@ export default function ProductForm({ product, categories, additionsData = [], o
                         </Card>
 
                     </div>
-
-                    {/* <input type="hidden" name="additions[]" value={JSON.stringify(additions)} /> */}
 
                     <FormButtons
                         processing={processing}

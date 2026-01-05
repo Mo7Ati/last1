@@ -11,11 +11,10 @@ import { useTranslation } from 'react-i18next';
 
 export default function Appearance() {
     const { t } = useTranslation('settings');
-    const { panel } = usePage<SharedData>().props;
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: t('appearance.page_title'),
-            href: `/${panel}/settings/appearance`,
+            href: '',
         },
     ];
     return (

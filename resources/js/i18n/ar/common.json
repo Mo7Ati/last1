@@ -11,7 +11,9 @@
         "settings": "الإعدادات",
         "logout": "تسجيل الخروج",
         "additions": "الإضافات",
-        "options": "الخيارات"
+        "options": "الخيارات",
+        "categories": "الفئات",
+        "subscription": "الاشتراك"
     },
     "nav_groups": {
         "overview": "نظرة عامة",

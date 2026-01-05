@@ -2,7 +2,7 @@ import { usePermissions } from '@/hooks/use-permissions';
 import { Locale, NavGroup, NavItem, PanelType } from '@/types';
 import { InertiaLinkProps } from '@inertiajs/react';
 import { type ClassValue, clsx } from 'clsx';
-import { LayoutGrid, List, Package, Plus, Settings, Shield, ShoppingCart, Store, Users } from 'lucide-react';
+import { CreditCard, LayoutGrid, List, Monitor, Package, Plus, Settings, Shield, ShoppingCart, Store, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { twMerge } from 'tailwind-merge';
 
@@ -19,6 +19,8 @@ import storeOrders from '@/routes/store/orders';
 import storeProducts from '@/routes/store/products';
 import additions from '@/routes/store/additions';
 import options from '@/routes/store/options';
+import categories from '@/routes/store/categories';
+import settings from '@/routes/store/settings';
 
 
 
@@ -35,6 +37,18 @@ export function isSameUrl(
 
 export function resolveUrl(url: NonNullable<InertiaLinkProps['href']>): string {
     return typeof url === 'string' ? url : url.url;
+}
+
+export function normalizeFieldValue(value: string | Record<Locale, string> | undefined): Record<Locale, string> {
+    if (!value) {
+        return { en: '', ar: '' }
+    }
+
+    if (typeof value === 'string') {
+        return { en: value, ar: value }
+    }
+
+    return value
 }
 
 export function getPanelNavItems(panel: PanelType): NavGroup[] {
@@ -57,6 +71,12 @@ export function getAdminPanelNavItems(): NavGroup[] {
                     href: '/admin',
                     icon: LayoutGrid,
                     visible: hasPermission('dashboard.index'),
+                },
+                {
+                    title: t('nav_labels.settings'),
+                    href: '/admin/settings/profile',
+                    icon: Settings,
+                    visible: true,
                 },
             ],
         },
@@ -122,6 +142,18 @@ export function getStorePanelNavItems(): NavGroup[] {
                     icon: LayoutGrid,
                     visible: true,
                 },
+                {
+                    title: t('nav_labels.subscription'),
+                    href: '/store/subscription',
+                    icon: CreditCard,
+                    visible: true,
+                },
+                {
+                    title: t('nav_labels.settings'),
+                    href: settings.profile.url(),
+                    icon: Settings,
+                    visible: true,
+                },
             ],
         },
         {
@@ -137,6 +169,12 @@ export function getStorePanelNavItems(): NavGroup[] {
                     title: t('nav_labels.products'),
                     href: storeProducts.index.url(),
                     icon: Package,
+                    visible: true,
+                },
+                {
+                    title: t('nav_labels.categories'),
+                    href: categories.index.url(),
+                    icon: List,
                     visible: true,
                 },
             ],
@@ -161,14 +199,54 @@ export function getStorePanelNavItems(): NavGroup[] {
     ];
 }
 
-export function normalizeFieldValue(value: string | Record<Locale, string> | undefined): Record<Locale, string> {
-    if (!value) {
-        return { en: '', ar: '' }
-    }
 
-    if (typeof value === 'string') {
-        return { en: value, ar: value }
+export function getSettingsNavItems(panel: PanelType): NavItem[] {
+    switch (panel) {
+        case PanelType.ADMIN: return getAdminSettingsNavItems();
+        case PanelType.STORE: return getStoreSettingsNavItems();
+        default: return [];
     }
+}
 
-    return value
+export function getAdminSettingsNavItems(): NavItem[] {
+    const { t } = useTranslation("settings");
+    return [
+        {
+            title: t('sections.profile'),
+            href: '/admin/settings/profile',
+            icon: Settings,
+        },
+        {
+            title: t('sections.password'),
+            href: '/admin/settings/password',
+            icon: Shield,
+        },
+        {
+            title: t('sections.appearance'),
+            href: '/admin/settings/appearance',
+            icon: Monitor,
+        },
+    ];
+}
+
+
+export function getStoreSettingsNavItems(): NavItem[] {
+    const { t } = useTranslation("settings");
+    return [
+        {
+            title: t('sections.profile'),
+            href: settings.profile.url(),
+            icon: Settings,
+        },
+        {
+            title: t('sections.password'),
+            href: '/store/settings/password',
+            icon: Shield,
+        },
+        {
+            title: t('sections.appearance'),
+            href: '/store/settings/appearance',
+            icon: Monitor,
+        },
+    ];
 }

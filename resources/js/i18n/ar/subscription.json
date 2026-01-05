@@ -1,0 +1,23 @@
+{
+    "page_title": "الاشتراك",
+    "page_description": "اختر خطة اشتراك للمتابعة في استخدام منصتنا",
+    "active_subscription": "اشتراك نشط",
+    "subscription_status": "الحالة",
+    "subscription_ends": "ينتهي الاشتراك",
+    "manage_billing": "إدارة الفواتير",
+    "resume_subscription": "استئناف الاشتراك",
+    "cancel_subscription": "إلغاء الاشتراك",
+    "cancel_confirmation": "هل أنت متأكد أنك تريد إلغاء اشتراكك؟",
+    "trial_active": "فترة التجربة نشطة",
+    "trial_days_remaining": "لديك {{days}} يوم متبقي في فترة التجربة",
+    "trial_ends": "تنتهي التجربة",
+    "trial_expired": "انتهت فترة التجربة",
+    "trial_expired_description": "انتهت فترة التجربة الخاصة بك. يرجى الاشتراك للمتابعة في استخدام المنصة.",
+    "best_value": "أفضل قيمة",
+    "subscribe": "اشترك الآن",
+    "current_plan": "الخطة الحالية",
+    "subscription_canceled": "تم إلغاء الاشتراك بنجاح",
+    "subscription_resumed": "تم استئناف الاشتراك بنجاح",
+    "cancel_error": "فشل في إلغاء الاشتراك",
+    "resume_error": "فشل في استئناف الاشتراك"
+}

@@ -51,7 +51,7 @@ const AdminsIndex = ({ admins: adminsData }: { admins: PaginatedResponse<Admin> 
         },
         {
             accessorKey: "is_active",
-            header: tTables('admins.status'),
+            header: tTables('common.status'),
             cell: ({ row }) => <IsActiveTableColumn isActive={row.original.is_active} />,
             enableHiding: false,
         },
