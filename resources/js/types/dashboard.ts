@@ -38,7 +38,7 @@ export type Admin = {
     id: number | string;
     name: string;
     email: string;
-    email_verified_at?:Date
+    email_verified_at?: Date
     password: string;
     is_active: boolean;
     created_at: string;
@@ -194,6 +194,29 @@ export type Option = {
     created_at?: string;
     updated_at?: string;
     store?: Store | null;
+}
+
+export type Section = {
+    id: number | string;
+    title: Record<Locale, string> | string;
+    description?: Record<Locale, string> | string;
+    type: string;
+    data: any;
+    ordered: number;
+    is_active: boolean;
+    items?: SectionItem[];
+    created_at?: string;
+    updated_at?: string;
+}
+
+export type SectionItem = {
+    id: number | string;
+    type: string;
+    data: any;
+    ordered: number;
+    is_active: boolean;
+    created_at?: string;
+    updated_at?: string;
 }
 
 export interface LocaleData {

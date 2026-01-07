@@ -6,6 +6,7 @@ use App\Http\Controllers\dashboard\admin\DashboardController;
 use App\Http\Controllers\dashboard\admin\OrderController;
 use App\Http\Controllers\dashboard\admin\ProductController;
 use App\Http\Controllers\dashboard\admin\RoleController;
+use App\Http\Controllers\dashboard\admin\SectionController;
 use App\Http\Controllers\dashboard\admin\StoreController;
 use App\Http\Controllers\dashboard\admin\StoreCategoryController;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,7 @@ Route::middleware(['auth:admin'])
             'roles' => RoleController::class,
             'stores' => StoreController::class,
             'store-categories' => StoreCategoryController::class,
+            'sections' => SectionController::class,
         ]);
 
 
