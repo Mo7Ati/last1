@@ -56,6 +56,13 @@ enum PermissionsEnum: string
     case USERS_UPDATE = 'users.update';
     case USERS_DESTROY = 'users.destroy';
 
+    // sections permissions
+    case SECTIONS_INDEX = 'sections.index';
+    case SECTIONS_SHOW = 'sections.show';
+    case SECTIONS_CREATE = 'sections.create';
+    case SECTIONS_UPDATE = 'sections.update';
+    case SECTIONS_DESTROY = 'sections.destroy';
+
 
     public function label(): string
     {
@@ -96,6 +103,11 @@ enum PermissionsEnum: string
             self::USERS_CREATE => __('enums.permissions.users.create'),
             self::USERS_UPDATE => __('enums.permissions.users.update'),
             self::USERS_DESTROY => __('enums.permissions.users.destroy'),
+            self::SECTIONS_INDEX => __('enums.permissions.sections.index'),
+            self::SECTIONS_SHOW => __('enums.permissions.sections.show'),
+            self::SECTIONS_CREATE => __('enums.permissions.sections.create'),
+            self::SECTIONS_UPDATE => __('enums.permissions.sections.update'),
+            self::SECTIONS_DESTROY => __('enums.permissions.sections.destroy'),
         };
     }
 
