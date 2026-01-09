@@ -31,10 +31,7 @@ class StoreFactory extends Factory
                 'en' => $this->faker->paragraph(),
                 'ar' => $this->faker->paragraph(),
             ],
-            'keywords' => [
-                'en' => implode(', ', $this->faker->words(5)),
-                'ar' => implode(', ', $this->faker->words(5)),
-            ],
+            'keywords' => $this->faker->words(5),
             'social_media' => [
                 'facebook' => $this->faker->url(),
                 'instagram' => $this->faker->url(),
