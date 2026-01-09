@@ -82,11 +82,11 @@ export function DataTable<TData extends { id: number | string }, TValue>({
             <div className="flex justify-between">
 
                 <div id="create-button">
-                    {createHref && (!model || hasPermission(`${model}.create`)) && (
-                        <Button variant="outline" className="cursor-pointer" size="sm" onClick={() => router.visit(createHref, { preserveState: true, preserveScroll: true })}>
-                            <Plus /> Create
-                        </Button>
-                    )}
+                    {/* {createHref && (!model || hasPermission(`${model}.create`)) && (
+                    )} */}
+                    <Button variant="outline" className="cursor-pointer" size="sm" onClick={() => router.visit(createHref || '', { preserveState: true, preserveScroll: true })}>
+                        <Plus /> Create
+                    </Button>
                 </div>
 
                 <div className="flex items-center gap-2">

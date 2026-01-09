@@ -31,7 +31,6 @@ Route::middleware(['auth:admin'])
             'roles' => RoleController::class,
             'stores' => StoreController::class,
             'store-categories' => StoreCategoryController::class,
-            'sections' => SectionController::class,
         ]);
 
 
