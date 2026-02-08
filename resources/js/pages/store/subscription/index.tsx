@@ -1,4 +1,4 @@
-import { Head, router, useForm } from '@inertiajs/react';
+import { router, useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
@@ -147,9 +147,7 @@ export default function SubscriptionIndex({ store, plans }: SubscriptionIndexPro
     };
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={t('page_title')} />
-
+        <AppLayout breadcrumbs={breadcrumbs} title={t('page_title')}>
             <div className="flex h-full flex-1 flex-col overflow-x-auto">
                 <div className="container mx-auto px-4 py-8  space-y-8">
                     {/* Pricing Plans */}

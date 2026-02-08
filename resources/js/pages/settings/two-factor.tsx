@@ -7,7 +7,7 @@ import { useTwoFactorAuth } from '@/hooks/use-two-factor-auth';
 import AppLayout from '@/layouts/app-layout';
 import SettingsLayout from '@/layouts/settings/layout';
 import { SharedData, type BreadcrumbItem } from '@/types';
-import { Form, Head, usePage } from '@inertiajs/react';
+import { Form, usePage } from '@inertiajs/react';
 import { ShieldBan, ShieldCheck } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -43,8 +43,7 @@ export default function TwoFactor({
     } = useTwoFactorAuth();
     const [showSetupModal, setShowSetupModal] = useState<boolean>(false);
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={t('two_factor_auth.page_title')} />
+        <AppLayout breadcrumbs={breadcrumbs} title={t('two_factor_auth.page_title')}>
             <SettingsLayout>
                 <div className="space-y-6">
                     <HeadingSmall

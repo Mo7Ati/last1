@@ -1,6 +1,6 @@
 import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types';
-import { Head, router } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { ColumnDef } from "@tanstack/react-table"
 import { Admin, PaginatedResponse } from '@/types/dashboard';
@@ -89,20 +89,17 @@ const AdminsIndex = ({ admins: adminsData }: { admins: PaginatedResponse<Admin> 
     ];
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={tDashboard('admins.title')} />
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <DataTable
-                    columns={columns}
-                    data={adminsData.data}
-                    meta={adminsData.meta}
-                    model="admins"
-                    filters={<AdminsFilters />}
-                    onRowClick={(admin) => router.visit(admins.edit({ admin: admin.id }), { preserveState: true, preserveScroll: true })}
-                    createHref={admins.create.url()}
-                    indexRoute={admins.index}
-                />
-            </div>
+        <AppLayout breadcrumbs={breadcrumbs} title={tDashboard('admins.title')}>
+            <DataTable
+                columns={columns}
+                data={adminsData.data}
+                meta={adminsData.meta}
+                model="admins"
+                filters={<AdminsFilters />}
+                onRowClick={(admin) => router.visit(admins.edit({ admin: admin.id }), { preserveState: true, preserveScroll: true })}
+                createHref={admins.create.url()}
+                indexRoute={admins.index}
+            />
         </AppLayout>
     )
 }

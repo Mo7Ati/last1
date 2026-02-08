@@ -1,4 +1,4 @@
-import { Head, usePage } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
 
 import AppearanceTabs from '@/components/appearance-tabs';
 import HeadingSmall from '@/components/heading-small';
@@ -18,9 +18,7 @@ export default function Appearance() {
         },
     ];
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={t('appearance.page_title')} />
-
+        <AppLayout breadcrumbs={breadcrumbs} title={t('appearance.page_title')}>
             <SettingsLayout>
                 <div className="space-y-6">
                     <HeadingSmall

@@ -1,6 +1,5 @@
 import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types'
-import { Head } from '@inertiajs/react'
 import { useTranslation } from 'react-i18next'
 import StoreForm from './components/store-form'
 import { Store, StoreCategory } from '@/types/dashboard'
@@ -21,12 +20,9 @@ const StoresCreate = ({ store, categories }: { store: Store; categories: StoreCa
     ]
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs} >
-            <Head title={t('stores.create')} />
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <StoreForm store={store} categories={categories} type="create" />
-            </div>
-        </AppLayout >
+        <AppLayout breadcrumbs={breadcrumbs} title={t('stores.create')}>
+            <StoreForm store={store} categories={categories} type="create" />
+        </AppLayout>
     )
 }
 

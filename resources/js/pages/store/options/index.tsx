@@ -1,6 +1,6 @@
 import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types';
-import { Head, router } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { ColumnDef } from "@tanstack/react-table"
 import { Option, PaginatedResponse } from '@/types/dashboard';
@@ -105,19 +105,16 @@ const OptionsIndex = ({ options: optionsData }: { options: PaginatedResponse<Opt
     ];
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={tDashboard('options.title')} />
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <DataTable
-                    columns={columns}
-                    data={optionsData.data}
-                    meta={optionsData.meta}
-                    indexRoute={options.index}
-                    filters={<OptionsFilters indexRoute={options.index} />}
-                    createHref={options.create.url()}
-                    onRowClick={(row: Option) => router.visit(options.edit.url({ option: Number(row.id) }))}
-                />
-            </div>
+        <AppLayout breadcrumbs={breadcrumbs} title={tDashboard('options.title')}>
+            <DataTable
+                columns={columns}
+                data={optionsData.data}
+                meta={optionsData.meta}
+                indexRoute={options.index}
+                filters={<OptionsFilters indexRoute={options.index} />}
+                createHref={options.create.url()}
+                onRowClick={(row: Option) => router.visit(options.edit.url({ option: Number(row.id) }))}
+            />
         </AppLayout>
     )
 }

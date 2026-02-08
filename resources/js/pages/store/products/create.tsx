@@ -1,6 +1,5 @@
 import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types'
-import { Head } from '@inertiajs/react'
 import { useTranslation } from 'react-i18next'
 import ProductForm from './components/product-form'
 import { Addition, Category, Option, Product } from '@/types/dashboard'
@@ -21,11 +20,8 @@ const ProductsCreate = ({ product, categories, additions, options }: { product: 
     ]
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={t('products.create')} />
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <ProductForm product={product} categories={categories} additionsData={additions} optionsData={options} type="create" />
-            </div>
+        <AppLayout breadcrumbs={breadcrumbs} title={t('products.create')}>
+            <ProductForm product={product} categories={categories} additionsData={additions} optionsData={options} type="create" />
         </AppLayout>
     )
 }

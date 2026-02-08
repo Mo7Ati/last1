@@ -1,6 +1,6 @@
 import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types';
-import { Head, router } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { ColumnDef } from "@tanstack/react-table"
 import { Category, PaginatedResponse } from '@/types/dashboard';
@@ -105,19 +105,16 @@ const CategoriesIndex = ({ categories: categoriesData }: { categories: Paginated
     ];
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={tDashboard('categories.title')} />
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <DataTable
-                    columns={columns}
-                    data={categoriesData.data}
-                    meta={categoriesData.meta}
-                    indexRoute={categories.index}
-                    filters={<CategoriesFilters indexRoute={categories.index} />}
-                    createHref={categories.create.url()}
-                    onRowClick={(row: Category) => router.visit(categories.edit.url({ category: Number(row.id) }))}
-                />
-            </div>
+        <AppLayout breadcrumbs={breadcrumbs} title={tDashboard('categories.title')}>
+            <DataTable
+                columns={columns}
+                data={categoriesData.data}
+                meta={categoriesData.meta}
+                indexRoute={categories.index}
+                filters={<CategoriesFilters indexRoute={categories.index} />}
+                createHref={categories.create.url()}
+                onRowClick={(row: Category) => router.visit(categories.edit.url({ category: Number(row.id) }))}
+            />
         </AppLayout>
     )
 }

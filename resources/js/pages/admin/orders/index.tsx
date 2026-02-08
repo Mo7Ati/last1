@@ -1,6 +1,5 @@
 import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { ColumnDef } from "@tanstack/react-table"
 import { Order, PaginatedResponse, Store } from '@/types/dashboard';
@@ -85,18 +84,15 @@ const OrdersIndex = ({ orders: ordersData }: { orders: PaginatedResponse<Order> 
     ];
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={tDashboard('orders.title')} />
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <DataTable
-                    columns={columns}
-                    data={ordersData.data}
-                    meta={ordersData.meta}
-                    indexRoute={orders.index}
-                    model="orders"
-                    filters={<OrderFilters indexRoute={orders.index} />}
-                />
-            </div>
+        <AppLayout breadcrumbs={breadcrumbs} title={tDashboard('orders.title')}>
+            <DataTable
+                columns={columns}
+                data={ordersData.data}
+                meta={ordersData.meta}
+                indexRoute={orders.index}
+                model="orders"
+                filters={<OrderFilters indexRoute={orders.index} />}
+            />
         </AppLayout>
     )
 }

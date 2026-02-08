@@ -1,7 +1,6 @@
 import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types'
 import { Store, PaginatedResponse, StoreCategory } from '@/types/dashboard'
-import { Head } from '@inertiajs/react'
 import { useTranslation } from 'react-i18next'
 import StoreForm from './components/store-form'
 import stores from '@/routes/admin/stores'
@@ -21,11 +20,8 @@ const StoresEdit = ({ store, categories }: { store: Store; categories: StoreCate
     ];
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={t('stores.edit')} />
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <StoreForm store={store} categories={categories} type="edit" />
-            </div>
+        <AppLayout breadcrumbs={breadcrumbs} title={t('stores.edit')}>
+            <StoreForm store={store} categories={categories} type="edit" />
         </AppLayout>
     )
 }

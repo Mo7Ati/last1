@@ -1,6 +1,5 @@
 import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types'
-import { Head } from '@inertiajs/react'
 import { useTranslation } from 'react-i18next'
 import SectionForm from './components/section-form'
 import { Section } from '@/types/dashboard'
@@ -33,19 +32,16 @@ const SectionsCreate = ({
     ]
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs} >
-            <Head title={t('sections.create') || 'Create Section'} />
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <SectionForm
-                    section={section}
-                    sectionTypes={sectionTypes}
-                    products={products}
-                    categories={categories}
-                    stores={stores}
-                    type="create"
-                />
-            </div>
-        </AppLayout >
+        <AppLayout breadcrumbs={breadcrumbs} title={t('sections.create') || 'Create Section'}>
+            <SectionForm
+                section={section}
+                sectionTypes={sectionTypes}
+                products={products}
+                categories={categories}
+                stores={stores}
+                type="create"
+            />
+        </AppLayout>
     )
 }
 

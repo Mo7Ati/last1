@@ -1,10 +1,10 @@
 import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types';
-import { Head, router, useForm } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { ColumnDef } from "@tanstack/react-table"
 import { Section, PaginatedResponse } from '@/types/dashboard';
-import { DataTable } from '@/components/table/data-table';
+import { ReorderableDataTable } from '@/components/table/reorderable-data-table';
 import { Checkbox } from '@/components/ui/checkbox';
 import sections from '@/routes/admin/sections';
 import { EditAction } from '@/components/data-table/column-actions/edit-action';
@@ -72,20 +72,16 @@ const SectionsIndex = ({ sections: sectionsData, sectionTypes }: { sections: Pag
     ];
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={tDashboard('sections.title') || 'Sections'} />
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <DataTable
-                    columns={columns}
-                    data={sectionsData.data}
-                    meta={sectionsData.meta}
-                    model="sections"
-                    createHref={sections.create.url()}
-                    indexRoute={sections.index}
-                    reorderable={true}
-                    onReorder={handleReorder}
-                />
-            </div>
+        <AppLayout breadcrumbs={breadcrumbs} title={tDashboard('sections.title') || 'Sections'}>
+            <ReorderableDataTable
+                columns={columns}
+                data={sectionsData.data}
+                meta={sectionsData.meta}
+                model="sections"
+                createHref={sections.create.url()}
+                indexRoute={sections.index}
+                onReorder={handleReorder}
+            />
         </AppLayout>
     )
 }

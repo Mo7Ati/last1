@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import AppLayout from '@/layouts/app-layout';
 import { SharedData, type BreadcrumbItem } from '@/types';
-import { Head, usePage } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
 import { DollarSign, Package, ShoppingCart, Store, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -70,8 +70,7 @@ export default function Dashboard() {
     // ];
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={t('title')} />
+        <AppLayout breadcrumbs={breadcrumbs} title={t('title')}>
             {/* <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="grid auto-rows-min gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
                     {statCards.map((stat, index) => {

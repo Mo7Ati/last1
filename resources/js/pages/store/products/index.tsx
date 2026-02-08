@@ -1,6 +1,6 @@
 import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types';
-import { Head, router } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { ColumnDef } from "@tanstack/react-table"
 import { Product, PaginatedResponse } from '@/types/dashboard';
@@ -118,19 +118,16 @@ const ProductsIndex = ({ products: productsData }: { products: PaginatedResponse
     ];
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={tDashboard('products.title')} />
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <DataTable
-                    columns={columns}
-                    data={productsData.data}
-                    meta={productsData.meta}
-                    indexRoute={products.index}
-                    filters={<ProductsFilters indexRoute={products.index} />}
-                    createHref={products.create.url()}
-                    onRowClick={(row: Product) => router.visit(products.edit.url({ product: Number(row.id) }))}
-                />
-            </div>
+        <AppLayout breadcrumbs={breadcrumbs} title={tDashboard('products.title')}>
+            <DataTable
+                columns={columns}
+                data={productsData.data}
+                meta={productsData.meta}
+                indexRoute={products.index}
+                filters={<ProductsFilters indexRoute={products.index} />}
+                createHref={products.create.url()}
+                onRowClick={(row: Product) => router.visit(products.edit.url({ product: Number(row.id) }))}
+            />
         </AppLayout>
     )
 }

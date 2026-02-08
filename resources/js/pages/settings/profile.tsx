@@ -1,7 +1,7 @@
 
 import { type BreadcrumbItem, type SharedData } from '@/types';
 import { Transition } from '@headlessui/react';
-import { Form, Head, Link, usePage } from '@inertiajs/react';
+import { Form, Link, usePage } from '@inertiajs/react';
 
 import DeleteUser from '@/components/delete-user';
 import HeadingSmall from '@/components/heading-small';
@@ -31,9 +31,7 @@ export default function Profile({
         },
     ];
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={t('profile.page_title')} />
-
+        <AppLayout breadcrumbs={breadcrumbs} title={t('profile.page_title')}>
             <SettingsLayout>
                 <div className="space-y-6">
                     <HeadingSmall

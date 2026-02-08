@@ -1,6 +1,6 @@
 import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types';
-import { Head, router } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 import { MoreHorizontal, PencilIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { ColumnDef } from "@tanstack/react-table"
@@ -97,19 +97,16 @@ const StoreCategoriesIndex = ({ categories: categoriesData }: { categories: Pagi
     ];
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={tDashboard('store_categories.title')} />
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <DataTable
-                    columns={columns}
-                    data={categoriesData.data}
-                    meta={categoriesData.meta}
-                    onRowClick={(category) => router.visit(storeCategories.edit({ store_category: category.id }), { preserveState: true, preserveScroll: true })}
-                    createHref={storeCategories.create.url()}
-                    indexRoute={storeCategories.index}
-                    model="store-categories"
-                />
-            </div>
+        <AppLayout breadcrumbs={breadcrumbs} title={tDashboard('store_categories.title')}>
+            <DataTable
+                columns={columns}
+                data={categoriesData.data}
+                meta={categoriesData.meta}
+                onRowClick={(category) => router.visit(storeCategories.edit({ store_category: category.id }), { preserveState: true, preserveScroll: true })}
+                createHref={storeCategories.create.url()}
+                indexRoute={storeCategories.index}
+                model="store-categories"
+            />
         </AppLayout>
     )
 }

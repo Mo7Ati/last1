@@ -1,6 +1,6 @@
 import HeadingSmall from '@/components/heading-small'
 import React, { useState } from 'react'
-import { Form, Head, router } from '@inertiajs/react'
+import { Form, router } from '@inertiajs/react'
 import AppLayout from '@/layouts/app-layout'
 import { useTranslation } from 'react-i18next'
 import { type BreadcrumbItem } from '@/types'
@@ -44,9 +44,7 @@ const StoreProfileSettings = ({ store, storeCategories }: StoreProfileSettingsPr
     const [keywords, setKeywords] = useState<string[]>(store.keywords ?? []);
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={tSettings('profile.page_title')} />
-
+        <AppLayout breadcrumbs={breadcrumbs} title={tSettings('profile.page_title')}>
             <SettingsLayout>
                 <div className="space-y-6">
                     <HeadingSmall

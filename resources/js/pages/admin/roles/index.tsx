@@ -2,7 +2,7 @@ import { DataTable } from '@/components/table/data-table';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
 import { PaginatedResponse, Role } from '@/types/dashboard'
-import { Head, router } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
 import { useTranslation } from 'react-i18next';
 import rolesRoutes from '@/routes/admin/roles';
@@ -90,19 +90,16 @@ const RolesIndex = ({ roles: rolesData }: { roles: PaginatedResponse<Role> }) =>
     ];
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={tDashboard('roles.title')} />
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <DataTable
-                    columns={columns}
-                    data={rolesData.data}
-                    meta={rolesData.meta}
-                    createHref={rolesRoutes.create.url()}
-                    model="roles"
-                    indexRoute={rolesRoutes.index}
-                    onRowClick={(role) => router.visit(rolesRoutes.edit({ role: role.id }), { preserveState: true, preserveScroll: true })}
-                />
-            </div>
+        <AppLayout breadcrumbs={breadcrumbs} title={tDashboard('roles.title')}>
+            <DataTable
+                columns={columns}
+                data={rolesData.data}
+                meta={rolesData.meta}
+                createHref={rolesRoutes.create.url()}
+                model="roles"
+                indexRoute={rolesRoutes.index}
+                onRowClick={(role) => router.visit(rolesRoutes.edit({ role: role.id }), { preserveState: true, preserveScroll: true })}
+            />
         </AppLayout>
     );
 }
