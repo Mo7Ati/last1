@@ -4,7 +4,7 @@ import {
     getCoreRowModel,
     useReactTable,
     VisibilityState,
-} from "@tanstack/react-table"
+} from "@tanstack/react-table";
 
 import {
     Table,
@@ -25,14 +25,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { useState, useEffect, useMemo } from "react";
-import { Link, router } from "@inertiajs/react";
+import { router } from "@inertiajs/react";
 import { MetaType } from "@/types/dashboard";
-import DataTablePagination from "./data-table-pagination";
-import SearchInput from "./search-input";
+import DataTablePagination from "../data-table/data-table-pagination";
+import SearchInput from "../data-table/search-input";
 import { Button } from "../ui/button";
-import { Plus, Pointer, Settings2, GripVertical } from "lucide-react";
+import { Plus, Settings2, GripVertical } from "lucide-react";
 import { type RouteDefinition, type RouteQueryOptions } from "@/wayfinder";
-import Filters from "./table-filters/filters-dropdown";
 import { usePermissions } from "@/hooks/use-permissions";
 import {
     DndContext,
@@ -60,9 +59,9 @@ interface DataTableProps<TData extends { id: number | string }, TValue> {
     model?: string
     filters?: React.ReactNode
     createHref?: string
+    reorderable?: boolean
     onRowClick?: (row: TData) => void
     indexRoute: (options?: RouteQueryOptions) => RouteDefinition<"get">
-    reorderable?: boolean
     onReorder?: (newOrder: TData[]) => void
 }
 
@@ -141,10 +140,10 @@ export function DataTable<TData extends { id: number | string }, TValue>({
     meta,
     filters,
     model,
-    onRowClick,
-    createHref,
-    indexRoute,
     reorderable = false,
+    createHref,
+    onRowClick,
+    indexRoute,
     onReorder,
 }: DataTableProps<TData, TValue>) {
     const [rowSelection, setRowSelection] = useState({});

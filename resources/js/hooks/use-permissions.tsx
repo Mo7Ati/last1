@@ -6,7 +6,7 @@ import { SharedData } from '@/types';
  * @returns Object with permission checking methods
  */
 export function usePermissions() {
-    const { auth, enums } = usePage<SharedData>().props;
+    const { auth } = usePage<SharedData>().props;
 
     const permissions = auth?.permissions || [];
 

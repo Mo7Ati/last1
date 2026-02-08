@@ -22,11 +22,12 @@ import { MetaType } from "@/types/dashboard";
 import { type RouteDefinition, type RouteQueryOptions } from "@/wayfinder";
 import { router } from "@inertiajs/react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function DataTablePagination({ meta, indexRoute }: { meta: MetaType, indexRoute: (options?: RouteQueryOptions) => RouteDefinition<"get"> }) {
     const [perPage, setPerPage] = useState<string>(meta.per_page || '10');
     const { links } = meta;
-
+    const { t } = useTranslation('common');
     if (!links || links.length === 0) {
         return null;
     }
@@ -75,6 +76,7 @@ export default function DataTablePagination({ meta, indexRoute }: { meta: MetaTy
                         href={link.url || "#"}
                         onClick={(e) => handlePageClick(e, link.url)}
                         className={!link.url ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                        text={t('pagination.previous')}
                     />
                 </PaginationItem>
             );
@@ -84,6 +86,7 @@ export default function DataTablePagination({ meta, indexRoute }: { meta: MetaTy
             return (
                 <PaginationItem key={`next-${index}`}>
                     <PaginationNext
+                        text={t('pagination.next')}
                         href={link.url || "#"}
                         onClick={(e) => handlePageClick(e, link.url)}
                         className={!link.url ? "pointer-events-none opacity-50" : "cursor-pointer"}
@@ -118,12 +121,12 @@ export default function DataTablePagination({ meta, indexRoute }: { meta: MetaTy
         <Pagination className="flex items-center justify-between">
 
             <div className="flex items-center space-x-2">
-                <span className="text-sm font-medium">Showing {meta.from} to {meta.to} of {meta.total} items</span>
+                <span className="text-sm font-medium">{t('pagination.showing', { from: meta.from, to: meta.to, total: meta.total })}</span>
             </div>
 
             <div className="flex items-center space-x-2">
                 <div className="flex items-center space-x-2">
-                    <p className="text-sm font-medium">Rows per page</p>
+                    <p className="text-sm font-medium">{t('pagination.rows_per_page')}</p>
                     <Select
                         onValueChange={(value) => {
                             setPerPage(value);

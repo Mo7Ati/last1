@@ -8,12 +8,10 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SharedData } from "@/types";
-import { router, usePage } from "@inertiajs/react";
-import { useTranslation } from "react-i18next";
+import { usePage } from "@inertiajs/react";
 
 const LanguageSwitch = () => {
     const { locales, currentLocale } = usePage<SharedData>().props;
-    const { i18n } = useTranslation();
 
     const handleLanguageChange = (locale: string) => {
         // Fully reload the page by redirecting to the language route

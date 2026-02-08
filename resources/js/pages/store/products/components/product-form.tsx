@@ -11,7 +11,7 @@ import {
 import { Addition, Category, Option, Product, ProductAddition, ProductOption } from '@/types/dashboard'
 import FormButtons from '@/components/form/form-buttons'
 import { normalizeFieldValue } from '@/lib/utils'
-import TranslatableTabs from '@/components/form/translatable-tabs'
+import TranslatableTabs from '@/components/ui/translatable-tabs'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import InputError from '@/components/input-error'

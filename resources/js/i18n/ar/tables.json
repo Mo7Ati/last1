@@ -7,6 +7,7 @@
         "password": "كلمة المرور",
         "status": "الحالة",
         "created_at": "تاريخ الإنشاء",
+        "phone": "الهاتف",
         "actions": "الإجراءات",
         "select_all": "تحديد الكل",
         "select_row": "تحديد الصف",

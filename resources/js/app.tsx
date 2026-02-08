@@ -7,6 +7,7 @@ import { initializeTheme } from './hooks/use-appearance';
 import './i18n';
 import { PanelType } from '@/types';
 import { changeLanguage } from 'i18next';
+import { DirectionProvider } from './components/ui/direction';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -23,16 +24,16 @@ createInertiaApp({
 
         initializeTheme(panel as PanelType);
         changeLanguage(currentLocale as string);
-        document.documentElement.setAttribute('dir', currentLocale === 'ar' ? 'rtl' : 'ltr');
 
         root.render(
-            <App {...props} />
-
+            <DirectionProvider dir={currentLocale === 'ar' ? 'rtl' : 'ltr'}>
+                <App {...props} />
+            </DirectionProvider>
             // <StrictMode>
             // </StrictMode>,
         );
     },
     progress: {
-        color: '#4B5563',
+        color: '#f59e0b',
     },
 });

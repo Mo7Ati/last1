@@ -60,8 +60,8 @@ class HandleInertiaRequests extends Middleware
             'currentLocale' => app()->getLocale(),
             'sidebarOpen' => !$request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'enums' => [
-                'orderStatus' => OrderStatusEnum::toArray(),
-                'paymentStatus' => PaymentStatusEnum::toArray(),
+                'orderStatus' => OrderStatusEnum::cases(),
+                'paymentStatus' => PaymentStatusEnum::cases(),
                 'permissions' => PermissionsEnum::toArray(),
             ],
         ];

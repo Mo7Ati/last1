@@ -10,15 +10,15 @@ const ProductsFilters = ({ indexRoute }: { indexRoute: (options?: RouteQueryOpti
 
     const {
         filters,
+        activeFiltersCount,
         onChange,
         reset,
-        activeFiltersCount,
     } = useFilters({
         indexRoute: indexRoute,
         initialKeys: ['is_active', 'is_accepted'],
     })
     return (
-        <FilterDropdown activeFiltersCount={activeFiltersCount}>
+        <FilterDropdown activeFiltersCount={activeFiltersCount} onClearFilters={reset}>
             <div className="flex flex-col gap-4">
                 {/* Status Filter */}
                 <StatusFilter value={filters.is_active} onChange={onChange} />

@@ -5,7 +5,7 @@ import { MoreHorizontal, PencilIcon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { ColumnDef } from "@tanstack/react-table"
 import { StoreCategory, PaginatedResponse } from '@/types/dashboard';
-import { DataTable } from '@/components/data-table/data-table';
+import { DataTable } from '@/components/table/data-table';
 import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,

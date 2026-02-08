@@ -17,9 +17,9 @@ const OrderFilters = ({ indexRoute }: { indexRoute: (options?: RouteQueryOptions
 
     const {
         filters,
+        activeFiltersCount,
         onChange,
         reset,
-        activeFiltersCount,
     } = useFilters({
         indexRoute: indexRoute,
         initialKeys: ['status', 'payment_status'],
@@ -27,14 +27,14 @@ const OrderFilters = ({ indexRoute }: { indexRoute: (options?: RouteQueryOptions
 
 
     return (
-        <FilterDropdown activeFiltersCount={activeFiltersCount}>
+        <FilterDropdown activeFiltersCount={activeFiltersCount} onClearFilters={reset}>
             <div className="flex flex-col gap-4">
                 {/* Status Filter */}
                 <div className="flex flex-col gap-2">
                     <Label>{tTables('orders.status')}</Label>
                     <Select value={filters.status ?? 'all'} onValueChange={(value) => onChange("status", value)}>
                         <SelectTrigger>
-                            <SelectValue placeholder="Select status" />
+                            <SelectValue placeholder={tForms('common.select_status')} />
                         </SelectTrigger>
 
                         <SelectContent>
@@ -78,14 +78,6 @@ const OrderFilters = ({ indexRoute }: { indexRoute: (options?: RouteQueryOptions
                 </div>
 
             </div>
-
-
-            {activeFiltersCount > 0 && (
-                <Button variant="ghost" size="sm" onClick={reset} className="h-9 px-2 lg:px-3">
-                    <X className="h-4 w-4 mr-1" />
-                    {tForms('common.clear_filters')}
-                </Button>
-            )}
         </FilterDropdown>
     )
 }

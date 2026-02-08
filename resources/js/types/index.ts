@@ -21,7 +21,7 @@ export interface NavItem {
     href: NonNullable<InertiaLinkProps['href']>;
     icon?: LucideIcon | string | null;
     isActive?: boolean;
-    visible?: boolean; // if false, the item will not be shown in the sidebar
+    visible?: boolean;
 }
 
 export interface Flash {
@@ -37,7 +37,6 @@ export interface EnumOption {
 
 export interface SharedData {
     name: string;
-    quote: { message: string; author: string };
     auth: Auth;
     panel: PanelType;
     locales: Record<string, string>;

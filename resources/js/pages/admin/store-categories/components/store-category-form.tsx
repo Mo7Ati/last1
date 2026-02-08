@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/card'
 import { Field, StoreCategory } from '@/types/dashboard'
 import FormButtons from '@/components/form/form-buttons'
-import TranslatableTabs from '@/components/form/translatable-tabs'
+import TranslatableTabs from '@/components/ui/translatable-tabs'
 import { normalizeFieldValue } from '@/lib/utils'
 import AlertError from '@/components/alert-error'
 

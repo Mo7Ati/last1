@@ -21,6 +21,16 @@
         "commerce": "Commerce",
         "settings": "Products Settings"
     },
+    "pagination": {
+        "previous": "Previous",
+        "next": "Next",
+        "rows_per_page": "Rows per page",
+        "showing": "Showing {from} to {total} of {total} items",
+        "all": "All",
+        "page": "Page"
+    },
+    "filters": "Filters",
+    "clear_filters": "Clear filters",
     "settings": "Settings",
     "log_out": "Log out",
     "platform": "Platform"

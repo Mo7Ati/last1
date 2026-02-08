@@ -33,13 +33,11 @@ const footerNavItems: NavItem[] = [
 
 export function AppSidebar() {
     const page = usePage<SharedData>();
-    const { panel, currentLocale } = page.props;
+    const { panel } = page.props;
     const mainNavGroups = getPanelNavItems(panel);
 
-    const isRTL = currentLocale === 'ar';
-
     return (
-        <Sidebar collapsible="icon" variant="inset" side={isRTL ? "right" : "left"}>
+        <Sidebar collapsible="icon" variant="inset" side="left">
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>

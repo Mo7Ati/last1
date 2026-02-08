@@ -15,7 +15,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select'
-import TranslatableTabs from '@/components/form/translatable-tabs'
+import TranslatableTabs from '@/components/ui/translatable-tabs'
 import MultiInput from '@/components/form/multi-input'
 import FileUpload from '@/components/form/file-upload'
 import FormButtons from '@/components/form/form-buttons'
@@ -34,13 +34,13 @@ const StoreProfileSettings = ({ store, storeCategories }: StoreProfileSettingsPr
     const { t: tSettings } = useTranslation('settings')
     const { t: tForms } = useTranslation('forms')
 
-    console.log(storeCategories)
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: tSettings('profile.page_title'),
             href: settings.profile.url(),
         },
     ]
+
     const [keywords, setKeywords] = useState<string[]>(store.keywords ?? []);
 
     return (

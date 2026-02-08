@@ -1,4 +1,4 @@
-import { DataTable } from '@/components/data-table/data-table';
+import { DataTable } from '@/components/table/data-table';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
 import { PaginatedResponse, Role } from '@/types/dashboard'

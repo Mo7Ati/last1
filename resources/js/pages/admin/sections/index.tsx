@@ -4,7 +4,7 @@ import { Head, router, useForm } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { ColumnDef } from "@tanstack/react-table"
 import { Section, PaginatedResponse } from '@/types/dashboard';
-import { DataTable } from '@/components/data-table/data-table';
+import { DataTable } from '@/components/table/data-table';
 import { Checkbox } from '@/components/ui/checkbox';
 import sections from '@/routes/admin/sections';
 import { EditAction } from '@/components/data-table/column-actions/edit-action';

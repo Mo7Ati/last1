@@ -1,23 +1,13 @@
 import AppLayout from '@/layouts/app-layout'
-import { BreadcrumbItem, SharedData } from '@/types';
-import { Head, router, usePage } from '@inertiajs/react';
-import { MoreHorizontal, PencilIcon } from 'lucide-react';
+import { BreadcrumbItem } from '@/types';
+import { Head, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { ColumnDef } from "@tanstack/react-table"
 import { Store, PaginatedResponse } from '@/types/dashboard';
-import { DataTable } from '@/components/data-table/data-table';
-import { Button } from "@/components/ui/button";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DataTable } from '@/components/table/data-table';
 import { Checkbox } from '@/components/ui/checkbox';
-
 import StoresFilters from './components/store-filters';
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header';
-import { Badge } from '@/components/ui/badge';
 import stores from '@/routes/admin/stores';
 import IsActiveBadge from '@/components/data-table/badges/is-active-badge';
 import { EditAction } from '@/components/data-table/column-actions/edit-action';
@@ -26,7 +16,6 @@ import { DeleteAction } from '@/components/data-table/column-actions/delete-acti
 const StoresIndex = ({ stores: storesData }: { stores: PaginatedResponse<Store> }) => {
     const { t: tTables } = useTranslation('tables');
     const { t: tDashboard } = useTranslation('dashboard');
-    const { t: tForms } = useTranslation('forms');
 
     const columns: ColumnDef<Store>[] = [
         {
@@ -109,20 +98,17 @@ const StoresIndex = ({ stores: storesData }: { stores: PaginatedResponse<Store> 
     ];
 
     return (
-        <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={tDashboard('stores.title')} />
-            <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-                <DataTable
-                    columns={columns}
-                    data={storesData.data}
-                    meta={storesData.meta}
-                    filters={<StoresFilters />}
-                    model="stores"
-                    onRowClick={(store) => router.visit(stores.edit.url({ store: store.id }), { preserveState: true, preserveScroll: true })}
-                    createHref={stores.create.url()}
-                    indexRoute={stores.index}
-                />
-            </div>
+        <AppLayout breadcrumbs={breadcrumbs} title={tDashboard('stores.title')}>
+            <DataTable
+                columns={columns}
+                data={storesData.data}
+                meta={storesData.meta}
+                filters={<StoresFilters />}
+                model="stores"
+                onRowClick={(store) => router.visit(stores.edit.url({ store: store.id }), { preserveState: true, preserveScroll: true })}
+                createHref={stores.create.url()}
+                indexRoute={stores.index}
+            />
         </AppLayout>
     )
 }

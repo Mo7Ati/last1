@@ -4,7 +4,7 @@ import { Head, router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { ColumnDef } from "@tanstack/react-table"
 import { Product, PaginatedResponse } from '@/types/dashboard';
-import { DataTable } from '@/components/data-table/data-table';
+import { DataTable } from '@/components/table/data-table';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DataTableColumnHeader } from '@/components/data-table/data-table-column-header';
 import { Badge } from '@/components/ui/badge';

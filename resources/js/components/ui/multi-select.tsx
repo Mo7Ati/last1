@@ -62,7 +62,7 @@ const multiSelectVariants = cva("m-1 transition-all duration-300 ease-in-out", {
             pulse: "hover:animate-pulse",
             wiggle: "hover:animate-wiggle",
             fade: "hover:opacity-80",
-            slide: "hover:translate-x-1",
+            slide: "hover:translate-x-1 rtl:hover:-translate-x-1",
             none: "",
         },
     },
@@ -873,9 +873,9 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
                                                         {IconComponent && !responsiveSettings.hideIcons && (
                                                             <IconComponent
                                                                 className={cn(
-                                                                    "h-4 w-4 mr-2",
+                                                                    "h-4 w-4 me-2",
                                                                     responsiveSettings.compactMode &&
-                                                                    "h-3 w-3 mr-1",
+                                                                    "h-3 w-3 me-1",
                                                                     customStyle?.iconColor && "text-current"
                                                                 )}
                                                                 {...(customStyle?.iconColor && {
@@ -907,7 +907,7 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
                                                                 }
                                                             }}
                                                             aria-label={`Remove ${option.label} from selection`}
-                                                            className="ml-2 h-4 w-4 cursor-pointer hover:bg-white/20 rounded-sm p-0.5 -m-0.5 focus:outline-none focus:ring-1 focus:ring-white/50">
+                                                            className="ms-2 h-4 w-4 cursor-pointer hover:bg-white/20 rounded-sm p-0.5 -m-0.5 focus:outline-none focus:ring-1 focus:ring-white/50">
                                                             <XCircle
                                                                 className={cn(
                                                                     "h-3 w-3",
@@ -940,8 +940,8 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
                                                     } more`}
                                                 <XCircle
                                                     className={cn(
-                                                        "ml-2 h-4 w-4 cursor-pointer",
-                                                        responsiveSettings.compactMode && "ml-1 h-3 w-3"
+                                                        "ms-2 h-4 w-4 cursor-pointer",
+                                                        responsiveSettings.compactMode && "ms-1 h-3 w-3"
                                                     )}
                                                     onClick={(event) => {
                                                         event.stopPropagation();
@@ -1052,7 +1052,7 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
                                             className="cursor-pointer">
                                             <div
                                                 className={cn(
-                                                    "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
+                                                    "me-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
                                                     selectedValues.length ===
                                                         getAllOptions().filter((opt) => !opt.disabled)
                                                             .length
@@ -1095,7 +1095,7 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
                                                         disabled={option.disabled}>
                                                         <div
                                                             className={cn(
-                                                                "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
+                                                                "me-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
                                                                 isSelected
                                                                     ? "bg-primary text-primary-foreground"
                                                                     : "opacity-50 [&_svg]:invisible"
@@ -1105,7 +1105,7 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
                                                         </div>
                                                         {option.icon && (
                                                             <option.icon
-                                                                className="mr-2 h-4 w-4 text-muted-foreground"
+                                                                className="me-2 h-4 w-4 text-muted-foreground"
                                                                 aria-hidden="true"
                                                             />
                                                         )}
@@ -1135,7 +1135,7 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
                                                     disabled={option.disabled}>
                                                     <div
                                                         className={cn(
-                                                            "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
+                                                            "me-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
                                                             isSelected
                                                                 ? "bg-primary text-primary-foreground"
                                                                 : "opacity-50 [&_svg]:invisible"
@@ -1145,7 +1145,7 @@ export const MultiSelect = React.forwardRef<MultiSelectRef, MultiSelectProps>(
                                                     </div>
                                                     {option.icon && (
                                                         <option.icon
-                                                            className="mr-2 h-4 w-4 text-muted-foreground"
+                                                            className="me-2 h-4 w-4 text-muted-foreground"
                                                             aria-hidden="true"
                                                         />
                                                     )}

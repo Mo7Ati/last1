@@ -1,11 +1,11 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { useState, useEffect } from 'react';
 import { Field, LocalizedData } from '@/types/dashboard';
 import InputError from '../input-error';
-import { Textarea } from '../ui/textarea';
+import { Textarea } from './textarea';
 import { cn } from '@/lib/utils';
 
 type Locale = {
@@ -18,8 +18,6 @@ const TranslatableTabs = ({ fields, errors }: { fields: Field[], errors: Record<
     const [values, setValues] = useState<LocalizedData>({});
 
     useEffect(() => {
-        console.log(Object.keys(errors));
-
         if (errors && Object.keys(errors).length > 0) {
             const errorLocale = locales.find(locale =>
                 Object.keys(errors).some(key => key.includes(`.${locale.code}`))

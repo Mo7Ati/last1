@@ -21,6 +21,16 @@
         "commerce": "التجارة",
         "settings": "إعدادات المنتجات"
     },
+    "pagination": {
+        "previous": "السابق",
+        "next": "التالي",
+        "rows_per_page": "عدد الصفوف في الصفحة",
+        "showing": "عرض {from} إلى {to} من {total} عناصر",
+        "all": "الكل",
+        "page": "الصفحة"
+    },
+    "filters": "التصفيات",
+    "clear_filters": "مسح التصفيات",
     "settings": "الإعدادات",
     "logout": "تسجيل الخروج",
     "platform": "المنصة"

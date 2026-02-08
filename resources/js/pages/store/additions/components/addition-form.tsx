@@ -10,7 +10,7 @@ import {
 import { Addition } from '@/types/dashboard'
 import FormButtons from '@/components/form/form-buttons'
 import { normalizeFieldValue } from '@/lib/utils'
-import TranslatableTabs from '@/components/form/translatable-tabs'
+import TranslatableTabs from '@/components/ui/translatable-tabs'
 import IsActive from '@/components/form/is-active'
 import additions from '@/routes/store/additions'
 

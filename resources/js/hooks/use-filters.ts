@@ -49,8 +49,8 @@ export function useFilters({ indexRoute, initialKeys }: UseFiltersProps) {
 
     return {
         filters,
+        activeFiltersCount,
         onChange,
         reset,
-        activeFiltersCount,
     }
 }
