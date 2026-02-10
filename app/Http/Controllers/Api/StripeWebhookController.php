@@ -6,6 +6,7 @@ use App\Enums\OrderStatusEnum;
 use App\Enums\PaymentStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Services\TransactionsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Stripe\Exception\SignatureVerificationException;
@@ -14,6 +15,11 @@ use Stripe\Webhook;
 
 class StripeWebhookController extends Controller
 {
+    public function __construct(
+        protected TransactionsService $transactionsService,
+    ) {
+    }
+
     /**
      * POST /api/stripe/webhook
      *
@@ -52,7 +58,7 @@ class StripeWebhookController extends Controller
                 break;
 
             default:
-                Log::info("Stripe webhook received unhandled event: {$event->type}");
+                // Log::info("Stripe webhook received unhandled event: {$event->type}");
                 break;
         }
 
@@ -64,6 +70,12 @@ class StripeWebhookController extends Controller
      */
     protected function handleSessionCompleted(object $session): void
     {
+        Log::info('Stripe webhook: checkout.session.completed received', [
+            'session_id' => $session->id ?? null,
+            'customer' => $session->customer ?? null,
+            'amount_total' => $session->amount_total ?? null,
+        ]);
+
         $stripeSessionId = $session->id;
 
         $orders = Order::where('stripe_session_id', $stripeSessionId)->get();
@@ -73,20 +85,46 @@ class StripeWebhookController extends Controller
             return;
         }
 
+        Log::info('Stripe webhook: orders found for session', [
+            'session_id' => $stripeSessionId,
+            'order_ids' => $orders->pluck('id')->all(),
+        ]);
+
         /** @var Order $order */
         foreach ($orders as $order) {
-            // Idempotency: only update if currently unpaid
+            // Idempotency: only process if currently unpaid
             if ($order->payment_status === PaymentStatusEnum::PAID->value) {
                 Log::info("Stripe webhook: Order #{$order->id} already marked as paid. Skipping.");
                 continue;
             }
 
+            Log::info('Stripe webhook: processing order before payment handling', [
+                'order_id' => $order->id,
+                'status' => $order->status,
+                'payment_status' => $order->payment_status,
+                'total' => $order->total,
+                'store_id' => $order->store_id,
+            ]);
+
+            // Mark order as preparing and let TransactionsService handle wallet deposits + payment_status
             $order->update([
-                'payment_status' => PaymentStatusEnum::PAID->value,
                 'status' => OrderStatusEnum::PREPARING->value,
             ]);
 
-            Log::info("Stripe webhook: Order #{$order->id} marked as paid.");
+            try {
+                $this->transactionsService->handleOrderPaid($order);
+            } catch (\Throwable $e) {
+                Log::error('Stripe webhook: handleOrderPaid failed', [
+                    'order_id' => $order->id,
+                    'message' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString(),
+                ]);
+
+                // Do not rethrow to avoid Stripe retry storm; just log.
+                continue;
+            }
+
+            Log::info("Stripe webhook: Order #{$order->id} marked as paid and wallets updated.");
         }
     }
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Settings\HomePageSettings;
+use App\Settings\PaymentsSettings;
 
 return [
 
@@ -9,7 +10,7 @@ return [
      * put them (manually) here.
      */
     'settings' => [
-       
+        PaymentsSettings::class,
     ],
 
     /*

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Bavix\Wallet\Interfaces\Wallet;
+use Bavix\Wallet\Traits\HasWallet;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Hash;
@@ -11,9 +13,9 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Translatable\HasTranslations;
 
-class Store extends Authenticatable implements HasMedia
+class Store extends Authenticatable implements HasMedia, Wallet
 {
-    use HasFactory, HasTranslations, TwoFactorAuthenticatable, InteractsWithMedia, Billable;
+    use HasFactory, HasTranslations, TwoFactorAuthenticatable, InteractsWithMedia, Billable, HasWallet;
 
     protected $fillable = [
         'name',
