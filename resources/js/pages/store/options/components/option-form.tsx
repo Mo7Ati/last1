@@ -7,15 +7,15 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card'
-import { App } from '@/wayfinder/types';
+import { Option } from '@/types/dashboard'
 import FormButtons from '@/components/form/form-buttons'
 import { normalizeFieldValue } from '@/lib/utils'
 import TranslatableTabs from '@/components/ui/translatable-tabs'
 import IsActive from '@/components/form/is-active'
-import OptionController from '@/wayfinder/App/Http/Controllers/dashboard/store/OptionController'
+import options from '@/routes/store/options'
 
 interface OptionFormProps {
-    option: App.Models.Option
+    option: Option
     type: 'create' | 'edit'
 }
 
@@ -27,8 +27,8 @@ export default function OptionForm({ option, type }: OptionFormProps) {
             method={type === 'edit' ? 'put' : 'post'}
             action={
                 (type === 'edit' && option.id)
-                    ? OptionController.update.url({ option: Number(option.id) })
-                    : OptionController.store.url()
+                    ? options.update.url({ option: Number(option.id) })
+                    : options.store.url()
             }
         >
             {({ processing, errors }) => (
@@ -65,7 +65,7 @@ export default function OptionForm({ option, type }: OptionFormProps) {
 
                     <FormButtons
                         processing={processing}
-                        handleCancel={() => router.visit(OptionController.index.url())}
+                        handleCancel={() => router.visit(options.index.url())}
                         isEditMode={type === 'edit'}
                     />
                 </>

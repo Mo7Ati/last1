@@ -7,16 +7,15 @@ import { DataTable } from '@/components/table/data-table';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header';
 import { Badge } from '@/components/ui/badge';
-import ProductController from '@/wayfinder/App/Http/Controllers/dashboard/admin/ProductController';
+import products from '@/routes/admin/products';
 import IsActiveBadge from '@/components/table/badges/is-active-badge';
 import ProductsFilters from '@/components/table/table-filters/product-filters';
-import { App } from '@/wayfinder/types';
 
-const ProductsIndex = ({ products: productsData }: { products: PaginatedResponse<App.Models.Product> }) => {
+const ProductsIndex = ({ products: productsData }: { products: PaginatedResponse<Product> }) => {
     const { t: tTables } = useTranslation('tables');
     const { t: tDashboard } = useTranslation('dashboard');
 
-    const columns: ColumnDef<App.Models.Product>[] = [
+    const columns: ColumnDef<Product>[] = [
         {
             id: "select",
             header: ({ table }) => (
@@ -41,7 +40,7 @@ const ProductsIndex = ({ products: productsData }: { products: PaginatedResponse
         {
             accessorKey: "id",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={tTables('products.id') || 'ID'} indexRoute={ProductController.index} />
+                <DataTableColumnHeader column={column} title={tTables('products.id') || 'ID'} indexRoute={products.index} />
             ),
             enableHiding: false,
         },
@@ -60,7 +59,7 @@ const ProductsIndex = ({ products: productsData }: { products: PaginatedResponse
         {
             accessorKey: "price",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={tTables('products.price') || 'Price'} indexRoute={ProductController.index} />
+                <DataTableColumnHeader column={column} title={tTables('products.price') || 'Price'} indexRoute={products.index} />
             ),
             cell: ({ row }) => {
                 const price = row.original.price;
@@ -70,7 +69,7 @@ const ProductsIndex = ({ products: productsData }: { products: PaginatedResponse
         {
             accessorKey: "quantity",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={tTables('products.quantity') || 'Quantity'} indexRoute={ProductController.index} />
+                <DataTableColumnHeader column={column} title={tTables('products.quantity') || 'Quantity'} indexRoute={products.index} />
             ),
         },
         {
@@ -81,7 +80,7 @@ const ProductsIndex = ({ products: productsData }: { products: PaginatedResponse
         {
             accessorKey: "is_accepted",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={tTables('products.is_accepted') || 'Accepted'} indexRoute={ProductController.index} />
+                <DataTableColumnHeader column={column} title={tTables('products.is_accepted') || 'Accepted'} indexRoute={products.index} />
             ),
             cell: ({ row }) => {
                 const isAccepted = row.original.is_accepted;
@@ -95,7 +94,7 @@ const ProductsIndex = ({ products: productsData }: { products: PaginatedResponse
         {
             accessorKey: "created_at",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={tTables('products.created_at') || 'Created At'} indexRoute={ProductController.index} />
+                <DataTableColumnHeader column={column} title={tTables('products.created_at') || 'Created At'} indexRoute={products.index} />
             ),
         },
     ];
@@ -103,7 +102,7 @@ const ProductsIndex = ({ products: productsData }: { products: PaginatedResponse
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: tDashboard('products.title'),
-            href: ProductController.index.url(),
+            href: products.index.url(),
         },
     ];
 
@@ -113,8 +112,8 @@ const ProductsIndex = ({ products: productsData }: { products: PaginatedResponse
                 columns={columns}
                 data={productsData.data}
                 meta={productsData.meta}
-                indexRoute={ProductController.index}
-                filters={<ProductsFilters indexRoute={ProductController.index} />}
+                indexRoute={products.index}
+                filters={<ProductsFilters indexRoute={products.index} />}
                 model="products"
             />
         </AppLayout>

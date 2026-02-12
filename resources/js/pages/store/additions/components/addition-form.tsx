@@ -7,15 +7,15 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card'
-import { App } from '@/wayfinder/types';
+import { Addition } from '@/types/dashboard'
 import FormButtons from '@/components/form/form-buttons'
 import { normalizeFieldValue } from '@/lib/utils'
 import TranslatableTabs from '@/components/ui/translatable-tabs'
 import IsActive from '@/components/form/is-active'
-import AdditionController from '@/wayfinder/App/Http/Controllers/dashboard/store/AdditionController'
+import additions from '@/routes/store/additions'
 
 interface AdditionFormProps {
-    addition: App.Models.Addition
+    addition: Addition
     type: 'create' | 'edit'
 }
 
@@ -27,8 +27,8 @@ export default function AdditionForm({ addition, type }: AdditionFormProps) {
             method={type === 'edit' ? 'put' : 'post'}
             action={
                 (type === 'edit' && addition.id)
-                    ? AdditionController.update.url({ addition: Number(addition.id) })
-                    : AdditionController.store.url()
+                    ? additions.update.url({ addition: Number(addition.id) })
+                    : additions.store.url()
             }
         >
             {({ processing, errors }) => (
@@ -65,7 +65,7 @@ export default function AdditionForm({ addition, type }: AdditionFormProps) {
 
                     <FormButtons
                         processing={processing}
-                        handleCancel={() => router.visit(AdditionController.index.url())}
+                        handleCancel={() => router.visit(additions.index.url())}
                         isEditMode={type === 'edit'}
                     />
                 </>

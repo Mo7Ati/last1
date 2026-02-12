@@ -2,20 +2,20 @@ import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types'
 import { useTranslation } from 'react-i18next'
 import AdditionForm from './components/addition-form'
-import { App } from '@/wayfinder/types';
-import AdditionController from '@/wayfinder/App/Http/Controllers/dashboard/store/AdditionController'
+import { Addition } from '@/types/dashboard'
+import additions from '@/routes/store/additions'
 
-const AdditionsCreate = ({ addition }: { addition: App.Models.Addition }) => {
+const AdditionsCreate = ({ addition }: { addition: Addition }) => {
     const { t } = useTranslation('dashboard')
 
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: t('additions.title'),
-            href: AdditionController.index.url(),
+            href: additions.index.url(),
         },
         {
             title: t('additions.create'),
-            href: AdditionController.create.url(),
+            href: additions.create.url(),
         },
     ]
 

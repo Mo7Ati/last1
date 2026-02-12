@@ -2,21 +2,20 @@ import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types'
 import { useTranslation } from 'react-i18next'
 import AdminForm from './components/admin-form'
-import AdminController from '@/wayfinder/App/Http/Controllers/dashboard/admin/AdminController'
+import adminRoutes from '@/routes/admin/admins'
 import { Admin, Role } from '@/types/dashboard'
-import { App } from "@/wayfinder/types";
 
-const AdminsCreate = ({ admin, roles }: { admin: App.Models.Admin; roles: Role[] }) => {
+const AdminsCreate = ({ admin, roles }: { admin: Admin; roles: Role[] }) => {
     const { t } = useTranslation('dashboard');
 
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: t('admins.title'),
-            href: AdminController.create.url(),
+            href: adminRoutes.index.url(),
         },
         {
             title: t('admins.create'),
-            href: AdminController.create.url(),
+            href: adminRoutes.create.url(),
         },
     ]
 

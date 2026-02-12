@@ -2,22 +2,19 @@ import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types';
 import { useTranslation } from 'react-i18next';
 import { ColumnDef } from "@tanstack/react-table"
-import { App } from '@/wayfinder/types';
+import { Order, PaginatedResponse, Store } from '@/types/dashboard';
 import { DataTable } from '@/components/table/data-table';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header';
 import { StatusBadge } from '@/components/table/table-filters/status-badge';
-import OrderController from '@/wayfinder/App/Http/Controllers/dashboard/store/OrderController';
+import orders from '@/routes/store/orders';
 import OrderFilters from '@/components/table/table-filters/order-filters';
-import { PaginatedResponse } from '@/types/dashboard';
 
-const OrdersIndex = ({ orders: ordersData }: { orders: PaginatedResponse<App.Models.Order> }) => {
+const OrdersIndex = ({ orders: ordersData }: { orders: PaginatedResponse<Order> }) => {
     const { t: tTables } = useTranslation('tables');
     const { t: tDashboard } = useTranslation('dashboard');
 
-    console.log(ordersData);
-
-    const columns: ColumnDef<App.Models.Order>[] = [
+    const columns: ColumnDef<Order>[] = [
         {
             id: "select",
             header: ({ table }) => (
@@ -42,7 +39,7 @@ const OrdersIndex = ({ orders: ordersData }: { orders: PaginatedResponse<App.Mod
         {
             accessorKey: "id",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={tTables('orders.id') || 'ID'} indexRoute={OrderController.index} />
+                <DataTableColumnHeader column={column} title={tTables('orders.id') || 'ID'} indexRoute={orders.index} />
             ),
             enableHiding: false,
         },
@@ -53,24 +50,24 @@ const OrdersIndex = ({ orders: ordersData }: { orders: PaginatedResponse<App.Mod
         {
             accessorKey: "status",
             header: tTables('orders.status'),
-            cell: ({ row }) => <StatusBadge type="orderStatus" value={row.original.status.value} />,
+            cell: ({ row }) => <StatusBadge type="orderStatus" value={row.original.status} />,
         },
         {
             accessorKey: "payment_status",
             header: tTables('orders.payment_status'),
-            cell: ({ row }) => <StatusBadge type="paymentStatus" value={row.original.payment_status.value} />,
+            cell: ({ row }) => <StatusBadge type="paymentStatus" value={row.original.payment_status} />,
         },
         {
             accessorKey: "total",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={tTables('orders.total') || 'Total'} indexRoute={OrderController.index} />
+                <DataTableColumnHeader column={column} title={tTables('orders.total') || 'Total'} indexRoute={orders.index} />
             ),
             cell: ({ row }) => `$${row.original.total.toFixed(2)}`,
         },
         {
             accessorKey: "created_at",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={tTables('orders.created_at') || 'Created At'} indexRoute={OrderController.index} />
+                <DataTableColumnHeader column={column} title={tTables('orders.created_at') || 'Created At'} indexRoute={orders.index} />
             ),
         },
     ];
@@ -78,7 +75,7 @@ const OrdersIndex = ({ orders: ordersData }: { orders: PaginatedResponse<App.Mod
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: tDashboard('orders.title'),
-            href: OrderController.index.url(),
+            href: orders.index.url(),
         },
     ];
 
@@ -88,8 +85,8 @@ const OrdersIndex = ({ orders: ordersData }: { orders: PaginatedResponse<App.Mod
                 columns={columns}
                 data={ordersData.data}
                 meta={ordersData.meta}
-                indexRoute={OrderController.index}
-                filters={<OrderFilters indexRoute={OrderController.index} />}
+                indexRoute={orders.index}
+                filters={<OrderFilters indexRoute={orders.index}/>}
             />
         </AppLayout>
     )

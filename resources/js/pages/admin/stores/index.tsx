@@ -8,17 +8,17 @@ import { DataTable } from '@/components/table/data-table';
 import { Checkbox } from '@/components/ui/checkbox';
 import StoresFilters from './components/store-filters';
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header';
+import stores from '@/routes/admin/stores';
+
 import IsActiveBadge from '@/components/table/badges/is-active-badge';
 import { EditAction } from '@/components/table/column-actions/edit-action';
 import { DeleteAction } from '@/components/table/column-actions/delete-action-button';
-import StoreController from '@/wayfinder/App/Http/Controllers/dashboard/admin/StoreController';
-import { App } from '@/wayfinder/types';
 
-const StoresIndex = ({ stores: storesData }: { stores: PaginatedResponse<App.Models.Store> }) => {
+const StoresIndex = ({ stores: storesData }: { stores: PaginatedResponse<Store> }) => {
     const { t: tTables } = useTranslation('tables');
     const { t: tDashboard } = useTranslation('dashboard');
 
-    const columns: ColumnDef<App.Models.Store>[] = [
+    const columns: ColumnDef<Store>[] = [
         {
             id: "select",
             header: ({ table }) => (
@@ -68,11 +68,7 @@ const StoresIndex = ({ stores: storesData }: { stores: PaginatedResponse<App.Mod
         {
             accessorKey: "created_at",
             header: ({ column }) => (
-                <DataTableColumnHeader
-                    column={column}
-                    title={tTables('stores.created_at')}
-                    indexRoute={StoreController.index}
-                />
+                <DataTableColumnHeader column={column} title={tTables('stores.created_at')} indexRoute={stores.index} />
             ),
         },
         {
@@ -82,11 +78,11 @@ const StoresIndex = ({ stores: storesData }: { stores: PaginatedResponse<App.Mod
                 return (
                     <div className="flex items-center gap-2">
                         <EditAction
-                            editRoute={StoreController.edit.url({ store: row.original.id.toString() })}
+                            editRoute={stores.edit.url({ store: row.original.id })}
                             permission="stores.update"
                         />
                         <DeleteAction
-                            deleteRoute={StoreController.destroy.url({ store: row.original.id.toString() })}
+                            deleteRoute={stores.destroy.url({ store: row.original.id })}
                             permission="stores.destroy"
                         />
                     </div>
@@ -98,7 +94,7 @@ const StoresIndex = ({ stores: storesData }: { stores: PaginatedResponse<App.Mod
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: tDashboard('stores.title'),
-            href: StoreController.index.url(),
+            href: stores.index.url(),
         },
     ];
 
@@ -109,10 +105,10 @@ const StoresIndex = ({ stores: storesData }: { stores: PaginatedResponse<App.Mod
                 data={storesData.data}
                 meta={storesData.meta}
                 filters={<StoresFilters />}
-                onRowClick={(store) => router.visit(StoreController.edit.url({ store: store.id.toString() }))}
-                createHref={StoreController.create.url()}
-                indexRoute={StoreController.index}
                 model="stores"
+                onRowClick={(store) => router.visit(stores.edit.url({ store: store.id }), { preserveState: true, preserveScroll: true })}
+                createHref={stores.create.url()}
+                indexRoute={stores.index}
             />
         </AppLayout>
     )

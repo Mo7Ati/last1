@@ -2,20 +2,20 @@ import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types'
 import { useTranslation } from 'react-i18next'
 import StoreForm from './components/store-form'
-import StoreController from '@/wayfinder/App/Http/Controllers/dashboard/admin/StoreController'
-import { App } from '@/wayfinder/types';
+import { Store, StoreCategory } from '@/types/dashboard'
+import stores from '@/routes/admin/stores'
 
-const StoresCreate = ({ store, categories }: { store: App.Models.Store; categories: App.Models.StoreCategory[] }) => {
+const StoresCreate = ({ store, categories }: { store: Store; categories: StoreCategory[] }) => {
     const { t } = useTranslation('dashboard');
 
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: t('stores.title'),
-            href: StoreController.index.url(),
+            href: stores.index.url(),
         },
         {
             title: t('stores.create'),
-            href: StoreController.create.url(),
+            href: stores.create.url(),
         },
     ]
 

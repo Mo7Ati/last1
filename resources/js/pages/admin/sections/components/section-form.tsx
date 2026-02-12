@@ -21,22 +21,18 @@ import {
 } from '@/components/ui/select'
 import { MultiSelect } from '@/components/ui/multi-select'
 import InputError from '@/components/shared/input-error'
-import SectionController from '@/wayfinder/App/Http/Controllers/dashboard/admin/SectionController'
+import sections from '@/routes/admin/sections'
 import IsActiveFormField from '@/components/form/is-active'
 import TranslatableTabs from '@/components/ui/translatable-tabs'
 import { normalizeFieldValue } from '@/lib/utils'
 import { Repeater } from '@/components/shared/repeater'
-import { App } from '@/wayfinder/types';
-import { SectionEnum } from "@/wayfinder/App/Enums/SectionEnum";
-
-
 
 interface SectionFormProps {
-    section: App.Models.Section;
-    sectionTypes: typeof SectionEnum;
-    products?: App.Models.Product[];
-    categories?: App.Models.Category[];
-    stores?: App.Models.Store[];
+    section: Section;
+    sectionTypes: Record<string, string>;
+    products?: Array<{ id: number | string; name: string | Record<string, string> }>;
+    categories?: Array<{ id: number | string; name: string | Record<string, string> }>;
+    stores?: Array<{ id: number | string; name: string | Record<string, string> }>;
     type: 'create' | 'edit';
 }
 
@@ -52,7 +48,7 @@ export default function SectionForm({
 
     const [sectionType, setSectionType] = useState<Section['type']>(section.type);
     const [sectionData, setSectionData] = useState<any>(section.data);
-    const [features, setFeatures] = useState<App.Models.Section['data']['features']>(section.data?.features || []);
+    const [features, setFeatures] = useState<any[]>(section.data?.features || []);
 
     useEffect(() => {
         if (type === 'create') {
@@ -60,13 +56,15 @@ export default function SectionForm({
         }
     }, [sectionType, type]);
 
+    console.log(sectionData);
+
     return (
         <Form
             method={type === 'edit' ? 'put' : 'post'}
             action={
                 (type === 'edit' && section.id)
-                    ? SectionController.update.url({ section: section.id })
-                    : SectionController.store.url()
+                    ? sections.update.url({ section: section.id })
+                    : sections.store.url()
             }
             transform={prev => {
                 // Preserve form-collected data from inputs (formData takes precedence)
@@ -161,7 +159,7 @@ export default function SectionForm({
                             {/* Features Section Fields */}
                             {sectionType === 'features' && (
                                 <div className="space-y-4">
-                                    {/* <Repeater
+                                    <Repeater
                                         name="data[features]"
                                         value={features}
                                         onChange={e => {
@@ -195,7 +193,7 @@ export default function SectionForm({
                                                 errors={errors}
                                             />
                                         )}
-                                    /> */}
+                                    />
                                     {errors['data.features'] && (
                                         <InputError message={errors['data.features']} />
                                     )}
@@ -226,7 +224,7 @@ export default function SectionForm({
                                         <Label htmlFor="sectionData.source">{t('sections.source')}</Label>
                                         <Select
                                             onValueChange={value => setSectionData((prev: any) => ({ ...prev, source: value }))}
-                                            defaultValue={section.data?.source as string | undefined}
+                                            defaultValue={section.data?.source || undefined}
                                         >
                                             <SelectTrigger id="sectionData.source">
                                                 <SelectValue placeholder={t('sections.select_source')} />
@@ -244,10 +242,10 @@ export default function SectionForm({
                                         <div className="space-y-2">
                                             <Label>{t('sections.select_products')} *</Label>
                                             <MultiSelect
-                                                defaultValue={section.data?.product_ids as string[] | undefined}
+                                                defaultValue={section.data?.product_ids || []}
                                                 options={products.map(p => ({
                                                     value: String(p.id),
-                                                    label: typeof p.name === 'string' ? p.name : (normalizeFieldValue(p.name).en || normalizeFieldValue(p.name).ar || String(p.id))
+                                                    label: typeof p.name === 'string' ? p.name : (p.name.en || p.name.ar || String(p.id))
                                                 }))}
                                                 onValueChange={(value) => setSectionData((prev: any) => ({ ...prev, product_ids: value }))}
                                                 placeholder={t('sections.select_products_placeholder')}
@@ -281,7 +279,7 @@ export default function SectionForm({
                                     <div className="space-y-2">
                                         <Label htmlFor="sectionData.source">{t('sections.source')}</Label>
                                         <Select
-                                            defaultValue={section.data?.source as string | undefined}
+                                            defaultValue={section.data?.source || undefined}
                                             onValueChange={(value) => {
                                                 setSectionData((prev: any) => ({ ...prev, source: value }));
                                             }}
@@ -301,10 +299,10 @@ export default function SectionForm({
                                         <div className="space-y-2">
                                             <Label>{t('sections.select_categories')} *</Label>
                                             <MultiSelect
-                                                defaultValue={section.data?.category_ids as string[] | undefined}
+                                                defaultValue={section.data?.category_ids || []}
                                                 options={categories.map(c => ({
                                                     value: String(c.id),
-                                                    label: typeof c.name === 'string' ? c.name : (normalizeFieldValue(c.name).en || normalizeFieldValue(c.name).ar || String(c.id))
+                                                    label: typeof c.name === 'string' ? c.name : (c.name.en || c.name.ar || String(c.id))
                                                 }))}
                                                 onValueChange={(value) => setSectionData((prev: any) => ({ ...prev, category_ids: value }))}
                                                 placeholder={t('sections.select_categories_placeholder')}
@@ -338,7 +336,7 @@ export default function SectionForm({
                                     <div className="space-y-2">
                                         <Label htmlFor="sectionData.source">{t('sections.source')}</Label>
                                         <Select
-                                            defaultValue={section.data?.source as string | undefined}
+                                            defaultValue={section.data?.source || undefined}
                                             onValueChange={(value) => {
                                                 setSectionData((prev: any) => ({ ...prev, source: value }));
                                             }}
@@ -360,9 +358,9 @@ export default function SectionForm({
                                             <MultiSelect
                                                 options={stores.map(s => ({
                                                     value: String(s.id),
-                                                    label: typeof s.name === 'string' ? s.name : (normalizeFieldValue(s.name).en || normalizeFieldValue(s.name).ar || String(s.id))
+                                                    label: typeof s.name === 'string' ? s.name : (s.name.en || s.name.ar || String(s.id))
                                                 }))}
-                                                defaultValue={section.data?.store_ids as string[] | undefined}
+                                                defaultValue={section.data?.store_ids || []}
                                                 onValueChange={(value) => setSectionData((prev: any) => ({ ...prev, store_ids: value }))}
                                                 placeholder={t('sections.select_stores_placeholder')}
                                             />
@@ -380,14 +378,14 @@ export default function SectionForm({
                                                 name: 'data.title',
                                                 label: t('common.title'),
                                                 type: 'text',
-                                                value: normalizeFieldValue(section.data?.title),
+                                                value: normalizeFieldValue(sectionData.title || {}),
                                                 required: true,
                                             },
                                             {
                                                 name: 'data.description',
                                                 label: t('common.description'),
                                                 type: 'textarea',
-                                                value: normalizeFieldValue(section.data?.description),
+                                                value: normalizeFieldValue(sectionData.description || {}),
                                             },
                                         ]}
                                         errors={errors}
@@ -399,7 +397,7 @@ export default function SectionForm({
 
 
                     <FormButtons
-                        handleCancel={() => router.visit(SectionController.index.url())}
+                        handleCancel={() => router.visit(sections.index.url())}
                         processing={processing}
                         isEditMode={type === 'edit'}
                     />

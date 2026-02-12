@@ -8,17 +8,16 @@ import { DataTable } from '@/components/table/data-table';
 import { Checkbox } from '@/components/ui/checkbox';
 import AdminsFilters from './components/admin-filters';
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header';
-import AdminController from '@/wayfinder/App/Http/Controllers/dashboard/admin/AdminController';
+import admins from '@/routes/admin/admins';
 import { EditAction } from '@/components/table/column-actions/edit-action';
 import { DeleteAction } from '@/components/table/column-actions/delete-action-button';
 import IsActiveTableColumn from '@/components/table/badges/is-active-badge';
-import { App } from "@/wayfinder/types";
 
-const AdminsIndex = ({ admins: adminsData }: { admins: PaginatedResponse<App.Models.Admin> }) => {
+const AdminsIndex = ({ admins: adminsData }: { admins: PaginatedResponse<Admin> }) => {
     const { t: tTables } = useTranslation('tables');
     const { t: tDashboard } = useTranslation('dashboard');
 
-    const columns: ColumnDef<App.Models.Admin>[] = [
+    const columns: ColumnDef<Admin>[] = [
         {
             id: "select",
             header: ({ table }) => (
@@ -59,7 +58,7 @@ const AdminsIndex = ({ admins: adminsData }: { admins: PaginatedResponse<App.Mod
         {
             accessorKey: "created_at",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={tTables('admins.created_at')} indexRoute={AdminController.index} />
+                <DataTableColumnHeader column={column} title={tTables('admins.created_at')} indexRoute={admins.index} />
             ),
         },
         {
@@ -69,11 +68,11 @@ const AdminsIndex = ({ admins: adminsData }: { admins: PaginatedResponse<App.Mod
                 return (
                     <div className="flex items-center gap-2">
                         <EditAction
-                            editRoute={AdminController.edit.url({ admin: row.original.id.toString() })}
+                            editRoute={admins.edit.url({ admin: row.original.id })}
                             permission="admins.update"
                         />
                         <DeleteAction
-                            deleteRoute={AdminController.destroy.url({ admin: row.original.id.toString() })}
+                            deleteRoute={admins.destroy.url({ admin: row.original.id })}
                             permission="admins.destroy"
                         />
                     </div>
@@ -85,7 +84,7 @@ const AdminsIndex = ({ admins: adminsData }: { admins: PaginatedResponse<App.Mod
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: tDashboard('admins.title'),
-            href: AdminController.index.url(),
+            href: admins.index.url(),
         },
     ];
 
@@ -97,9 +96,9 @@ const AdminsIndex = ({ admins: adminsData }: { admins: PaginatedResponse<App.Mod
                 meta={adminsData.meta}
                 model="admins"
                 filters={<AdminsFilters />}
-                onRowClick={(admin) => router.visit(AdminController.edit.url({ admin: admin.id.toString() }), { preserveState: true, preserveScroll: true })}
-                createHref={AdminController.create.url()}
-                indexRoute={AdminController.index}
+                onRowClick={(admin) => router.visit(admins.edit({ admin: admin.id }), { preserveState: true, preserveScroll: true })}
+                createHref={admins.create.url()}
+                indexRoute={admins.index}
             />
         </AppLayout>
     )

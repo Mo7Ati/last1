@@ -1,33 +1,27 @@
 import { usePermissions } from '@/hooks/use-permissions';
 import { Locale, NavGroup, NavItem, PanelType } from '@/types';
-
 import { InertiaLinkProps } from '@inertiajs/react';
 import { type ClassValue, clsx } from 'clsx';
 import { CreditCard, LayoutGrid, List, Monitor, Package, Plus, Receipt, Settings, Shield, ShoppingCart, Store, Users, Wallet } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { twMerge } from 'tailwind-merge';
-import PasswordController from '@/wayfinder/App/Http/Controllers/Settings/PasswordController';
-
 
 // Admin routes
-import AdminController from '@/wayfinder/App/Http/Controllers/dashboard/admin/AdminController';
-import OrderController from '@/wayfinder/App/Http/Controllers/dashboard/admin/OrderController';
-import ProductController from '@/wayfinder/App/Http/Controllers/dashboard/admin/ProductController';
-import RoleController from '@/wayfinder/App/Http/Controllers/dashboard/admin/RoleController';
-import StoreController from '@/wayfinder/App/Http/Controllers/dashboard/admin/StoreController';
-import StoreCategoryController from '@/wayfinder/App/Http/Controllers/dashboard/admin/StoreCategoryController';
-import TransactionController from '@/wayfinder/App/Http/Controllers/dashboard/admin/TransactionController';
-import WalletController from '@/wayfinder/App/Http/Controllers/dashboard/admin/WalletController';
+import admins from '@/routes/admin/admins';
+import orders from '@/routes/admin/orders';
+import products from '@/routes/admin/products';
+import roles from '@/routes/admin/roles';
+import storeCategories from '@/routes/admin/store-categories';
+import stores from '@/routes/admin/stores';
 
+// Store routes
+import storeOrders from '@/routes/store/orders';
+import storeProducts from '@/routes/store/products';
+import additions from '@/routes/store/additions';
+import options from '@/routes/store/options';
+import categories from '@/routes/store/categories';
+import settings from '@/routes/store/settings';
 
-// // Store routes
-import StoreSettingsController from '@/wayfinder/App/Http/Controllers/dashboard/store/StoreSettingsController';
-import StoreOrderController from '@/wayfinder/App/Http/Controllers/dashboard/store/OrderController';
-import CategoryController from '@/wayfinder/App/Http/Controllers/dashboard/store/CategoryController';
-import AdditionController from '@/wayfinder/App/Http/Controllers/dashboard/store/AdditionController';
-import OptionController from '@/wayfinder/App/Http/Controllers/dashboard/store/OptionController';
-import AdminSettingsController from '@/wayfinder/App/Http/Controllers/dashboard/admin/AdminSettingsController';
-import SectionController from '@/wayfinder/App/Http/Controllers/dashboard/admin/SectionController';
 
 
 export function cn(...inputs: ClassValue[]) {
@@ -45,9 +39,7 @@ export function resolveUrl(url: NonNullable<InertiaLinkProps['href']>): string {
     return typeof url === 'string' ? url : url.url;
 }
 
-export function normalizeFieldValue(
-    value: unknown
-): Record<Locale, string> {
+export function normalizeFieldValue(value: string | Record<Locale, string> | undefined): Record<Locale, string> {
     if (!value) {
         return { en: '', ar: '' }
     }
@@ -56,16 +48,7 @@ export function normalizeFieldValue(
         return { en: value, ar: value }
     }
 
-    if (
-        typeof value === 'object' &&
-        value !== null &&
-        'en' in value &&
-        'ar' in value
-    ) {
-        return value as Record<Locale, string>
-    }
-
-    return { en: '', ar: '' }
+    return value
 }
 
 export function getPanelNavItems(panel: PanelType): NavGroup[] {
@@ -108,13 +91,13 @@ export function getAdminPanelNavItems(): NavGroup[] {
             items: [
                 {
                     title: t('nav_labels.admins'),
-                    href: AdminController.index.url(),
+                    href: admins.index.url(),
                     icon: Users,
                     visible: hasPermission('admins.index'),
                 },
                 {
                     title: t('nav_labels.roles'),
-                    href: RoleController.index.url(),
+                    href: roles.index.url(),
                     icon: Shield,
                     visible: hasPermission('roles.index'),
                 },
@@ -125,25 +108,25 @@ export function getAdminPanelNavItems(): NavGroup[] {
             items: [
                 {
                     title: t('nav_labels.stores'),
-                    href: StoreController.index.url(),
+                    href: stores.index.url(),
                     icon: Store,
                     visible: hasPermission('stores.index'),
                 },
                 {
                     title: t('nav_labels.store_categories'),
-                    href: StoreCategoryController.index.url(),
+                    href: storeCategories.index.url(),
                     icon: List,
                     visible: hasPermission('store-categories.index'),
                 },
                 {
                     title: t('nav_labels.orders'),
-                    href: OrderController.index.url(),
+                    href: orders.index.url(),
                     icon: ShoppingCart,
                     visible: hasPermission('orders.index'),
                 },
                 {
                     title: t('nav_labels.products'),
-                    href: ProductController.index.url(),
+                    href: products.index.url(),
                     icon: Package,
                     visible: hasPermission('products.index'),
                 },
@@ -196,7 +179,7 @@ export function getStorePanelNavItems(): NavGroup[] {
                 },
                 {
                     title: t('nav_labels.settings'),
-                    href: StoreSettingsController.profile.url(),
+                    href: settings.profile.url(),
                     icon: Settings,
                     visible: true,
                 },
@@ -207,19 +190,19 @@ export function getStorePanelNavItems(): NavGroup[] {
             items: [
                 {
                     title: t('nav_labels.orders'),
-                    href: StoreOrderController.index.url(),
+                    href: storeOrders.index.url(),
                     icon: ShoppingCart,
                     visible: true,
                 },
                 {
                     title: t('nav_labels.products'),
-                    href: ProductController.index.url(),
+                    href: storeProducts.index.url(),
                     icon: Package,
                     visible: true,
                 },
                 {
                     title: t('nav_labels.categories'),
-                    href: CategoryController.index.url(),
+                    href: categories.index.url(),
                     icon: List,
                     visible: true,
                 },
@@ -230,13 +213,13 @@ export function getStorePanelNavItems(): NavGroup[] {
             items: [
                 {
                     title: t('nav_labels.additions'),
-                    href: AdditionController.index.url(),
+                    href: additions.index.url(),
                     icon: Plus,
                     visible: true,
                 },
                 {
                     title: t('nav_labels.options'),
-                    href: OptionController.index.url(),
+                    href: options.index.url(),
                     icon: Settings,
                     visible: true,
                 },
@@ -259,12 +242,12 @@ export function getAdminSettingsNavItems(): NavItem[] {
     return [
         {
             title: t('sections.profile'),
-            href: AdminSettingsController.profile.url(),
+            href: '/admin/settings/profile',
             icon: Settings,
         },
         {
             title: t('sections.password'),
-            href: PasswordController.edit['/admin/settings/password'].url(),
+            href: '/admin/settings/password',
             icon: Shield,
         },
         {
@@ -281,12 +264,12 @@ export function getStoreSettingsNavItems(): NavItem[] {
     return [
         {
             title: t('sections.profile'),
-            href: StoreSettingsController.profile.url(),
+            href: settings.profile.url(),
             icon: Settings,
         },
         {
             title: t('sections.password'),
-            href: PasswordController.edit['/store/settings/password'].url(),
+            href: '/store/settings/password',
             icon: Shield,
         },
         {

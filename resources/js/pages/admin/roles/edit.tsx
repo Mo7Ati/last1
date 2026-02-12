@@ -3,7 +3,7 @@ import { BreadcrumbItem } from '@/types'
 import { GroupedPermissions, Role } from '@/types/dashboard'
 import { useTranslation } from 'react-i18next'
 import RoleForm from './components/role-form'
-import RoleController from '@/wayfinder/App/Http/Controllers/dashboard/admin/RoleController'
+import rolesRoutes from '@/routes/admin/roles'
 
 const RolesEdit = ({ role, permissions }: { role: Role; permissions: GroupedPermissions }) => {
     const { t } = useTranslation('dashboard');
@@ -11,11 +11,11 @@ const RolesEdit = ({ role, permissions }: { role: Role; permissions: GroupedPerm
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: t('roles.title'),
-            href: RoleController.index.url(),
+            href: rolesRoutes.index.url(),
         },
         {
             title: t('roles.edit'),
-            href: RoleController.edit.url({ role: role.id.toString() }),
+            href: rolesRoutes.edit.url({ role: role.id }),
         },
     ]
 

@@ -2,20 +2,20 @@ import AppLayout from '@/layouts/app-layout'
 import { BreadcrumbItem } from '@/types'
 import { useTranslation } from 'react-i18next'
 import CategoryForm from './components/category-form'
-import { App } from '@/wayfinder/types';
-import CategoryController from '@/wayfinder/App/Http/Controllers/dashboard/store/CategoryController'
+import { Category } from '@/types/dashboard'
+import categories from '@/routes/store/categories'
 
-const CategoriesCreate = ({ category }: { category: App.Models.Category }) => {
+const CategoriesCreate = ({ category }: { category: Category }) => {
     const { t } = useTranslation('dashboard')
 
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: t('categories.title'),
-            href: CategoryController.index.url(),
+            href: categories.index.url(),
         },
         {
             title: t('categories.create'),
-            href: CategoryController.create.url(),
+            href: categories.create.url(),
         },
     ]
 

@@ -3,12 +3,11 @@ import { BreadcrumbItem } from '@/types';
 import { router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { ColumnDef } from "@tanstack/react-table"
-import { App } from '@/wayfinder/types';
-import { PaginatedResponse } from '@/types/dashboard';
+import { Addition, PaginatedResponse } from '@/types/dashboard';
 import { DataTable } from '@/components/table/data-table';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header';
-import AdditionController from '@/wayfinder/App/Http/Controllers/dashboard/store/AdditionController';
+import additions from '@/routes/store/additions';
 import IsActiveBadge from '@/components/table/badges/is-active-badge';
 import StatusFilter from '@/components/table/table-filters/status-filter';
 import FilterDropdown from '@/components/table/table-filters/filters-dropdown';
@@ -36,11 +35,11 @@ const AdditionsFilters = ({ indexRoute }: { indexRoute: (options?: RouteQueryOpt
     )
 }
 
-const AdditionsIndex = ({ additions: additionsData }: { additions: PaginatedResponse<App.Models.Addition> }) => {
+const AdditionsIndex = ({ additions: additionsData }: { additions: PaginatedResponse<Addition> }) => {
     const { t: tTables } = useTranslation('tables');
     const { t: tDashboard } = useTranslation('dashboard');
 
-    const columns: ColumnDef<App.Models.Addition>[] = [
+    const columns: ColumnDef<Addition>[] = [
         {
             id: "select",
             header: ({ table }) => (
@@ -65,7 +64,7 @@ const AdditionsIndex = ({ additions: additionsData }: { additions: PaginatedResp
         {
             accessorKey: "id",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={tTables('additions.id') || 'ID'} indexRoute={AdditionController.index} />
+                <DataTableColumnHeader column={column} title={tTables('additions.id') || 'ID'} indexRoute={additions.index} />
             ),
             enableHiding: false,
         },
@@ -81,17 +80,17 @@ const AdditionsIndex = ({ additions: additionsData }: { additions: PaginatedResp
         {
             accessorKey: "created_at",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={tTables('additions.created_at') || 'Created At'} indexRoute={AdditionController.index} />
+                <DataTableColumnHeader column={column} title={tTables('additions.created_at') || 'Created At'} indexRoute={additions.index} />
             ),
         },
         {
             id: 'actions',
             enableHiding: false,
-            cell: ({ row }) => {
+            cell: ({ row }: any) => {
                 return (
                     <div className="flex items-center gap-2">
-                        <EditAction editRoute={AdditionController.edit.url({ addition: Number(row.original.id) })} />
-                        <DeleteAction deleteRoute={AdditionController.destroy.url({ addition: Number(row.original.id) })} />
+                        <EditAction editRoute={additions.edit.url({ addition: Number(row.original.id) })} />
+                        <DeleteAction deleteRoute={additions.destroy.url({ addition: Number(row.original.id) })} />
                     </div>
                 )
             },
@@ -101,7 +100,7 @@ const AdditionsIndex = ({ additions: additionsData }: { additions: PaginatedResp
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: tDashboard('additions.title'),
-            href: AdditionController.index.url(),
+            href: additions.index.url(),
         },
     ];
 
@@ -111,10 +110,10 @@ const AdditionsIndex = ({ additions: additionsData }: { additions: PaginatedResp
                 columns={columns}
                 data={additionsData.data}
                 meta={additionsData.meta}
-                indexRoute={AdditionController.index}
-                filters={<AdditionsFilters indexRoute={AdditionController.index} />}
-                createHref={AdditionController.create.url()}
-                onRowClick={(row: App.Models.Addition) => router.visit(AdditionController.edit.url({ addition: Number(row.id) }))}
+                indexRoute={additions.index}
+                filters={<AdditionsFilters indexRoute={additions.index} />}
+                createHref={additions.create.url()}
+                onRowClick={(row: Addition) => router.visit(additions.edit.url({ addition: Number(row.id) }))}
             />
         </AppLayout>
     )

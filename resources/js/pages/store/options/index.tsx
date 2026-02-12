@@ -3,12 +3,11 @@ import { BreadcrumbItem } from '@/types';
 import { router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { ColumnDef } from "@tanstack/react-table"
-import { App } from '@/wayfinder/types';
-import { PaginatedResponse } from '@/types/dashboard';
+import { Option, PaginatedResponse } from '@/types/dashboard';
 import { DataTable } from '@/components/table/data-table';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header';
-import OptionController from '@/wayfinder/App/Http/Controllers/dashboard/store/OptionController';
+import options from '@/routes/store/options';
 import IsActiveBadge from '@/components/table/badges/is-active-badge';
 import StatusFilter from '@/components/table/table-filters/status-filter';
 import FilterDropdown from '@/components/table/table-filters/filters-dropdown';
@@ -36,11 +35,11 @@ const OptionsFilters = ({ indexRoute }: { indexRoute: (options?: RouteQueryOptio
     )
 }
 
-const OptionsIndex = ({ options: optionsData }: { options: PaginatedResponse<App.Models.Option> }) => {
+const OptionsIndex = ({ options: optionsData }: { options: PaginatedResponse<Option> }) => {
     const { t: tTables } = useTranslation('tables');
     const { t: tDashboard } = useTranslation('dashboard');
 
-    const columns: ColumnDef<App.Models.Option>[] = [
+    const columns: ColumnDef<Option>[] = [
         {
             id: "select",
             header: ({ table }) => (
@@ -65,7 +64,7 @@ const OptionsIndex = ({ options: optionsData }: { options: PaginatedResponse<App
         {
             accessorKey: "id",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={tTables('options.id') || 'ID'} indexRoute={OptionController.index} />
+                <DataTableColumnHeader column={column} title={tTables('options.id') || 'ID'} indexRoute={options.index} />
             ),
             enableHiding: false,
         },
@@ -81,7 +80,7 @@ const OptionsIndex = ({ options: optionsData }: { options: PaginatedResponse<App
         {
             accessorKey: "created_at",
             header: ({ column }) => (
-                <DataTableColumnHeader column={column} title={tTables('options.created_at') || 'Created At'} indexRoute={OptionController.index} />
+                <DataTableColumnHeader column={column} title={tTables('options.created_at') || 'Created At'} indexRoute={options.index} />
             ),
         },
         {
@@ -90,8 +89,8 @@ const OptionsIndex = ({ options: optionsData }: { options: PaginatedResponse<App
             cell: ({ row }: any) => {
                 return (
                     <div className="flex items-center gap-2">
-                        <EditAction editRoute={OptionController.edit.url({ option: Number(row.original.id) })} />
-                        <DeleteAction deleteRoute={OptionController.destroy.url({ option: Number(row.original.id) })} />
+                        <EditAction editRoute={options.edit.url({ option: Number(row.original.id) })} />
+                        <DeleteAction deleteRoute={options.destroy.url({ option: Number(row.original.id) })} />
                     </div>
                 )
             },
@@ -101,7 +100,7 @@ const OptionsIndex = ({ options: optionsData }: { options: PaginatedResponse<App
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: tDashboard('options.title'),
-            href: OptionController.index.url(),
+            href: options.index.url(),
         },
     ];
 
@@ -111,10 +110,10 @@ const OptionsIndex = ({ options: optionsData }: { options: PaginatedResponse<App
                 columns={columns}
                 data={optionsData.data}
                 meta={optionsData.meta}
-                indexRoute={OptionController.index}
-                filters={<OptionsFilters indexRoute={OptionController.index} />}
-                createHref={OptionController.create.url()}
-                onRowClick={(row: App.Models.Option) => router.visit(OptionController.edit.url({ option: Number(row.id) }))}
+                indexRoute={options.index}
+                filters={<OptionsFilters indexRoute={options.index} />}
+                createHref={options.create.url()}
+                onRowClick={(row: Option) => router.visit(options.edit.url({ option: Number(row.id) }))}
             />
         </AppLayout>
     )

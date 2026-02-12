@@ -1,17 +1,21 @@
-
+import { X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { Button } from '@/components/ui/button'
 import FilterDropdown from '@/components/table/table-filters/filters-dropdown'
 import StatusFilter from '@/components/table/table-filters/status-filter'
+import stores from '@/routes/admin/stores'
 import { useFilters } from '@/hooks/use-filters'
-import StoreController from '@/wayfinder/App/Http/Controllers/dashboard/admin/StoreController'
 
 export default function StoresFilters() {
+    const { t: tForms } = useTranslation('forms')
+
     const {
         filters,
         activeFiltersCount,
         onChange,
         reset,
     } = useFilters({
-        indexRoute: StoreController.index,
+        indexRoute: stores.index,
         initialKeys: ['is_active'],
     })
 

@@ -1,20 +1,21 @@
 import { DataTable } from '@/components/table/data-table';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem } from '@/types';
-import { PaginatedResponse, Role } from '@/types/dashboard';
+import { PaginatedResponse, Role } from '@/types/dashboard'
 import { router } from '@inertiajs/react';
 import { ColumnDef } from '@tanstack/react-table';
 import { useTranslation } from 'react-i18next';
+import rolesRoutes from '@/routes/admin/roles';
 import { Checkbox } from '@/components/ui/checkbox';
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header';
+import roles from '@/routes/admin/roles';
 import { EditAction } from '@/components/table/column-actions/edit-action';
 import { DeleteAction } from '@/components/table/column-actions/delete-action-button';
-import RoleController from '@/wayfinder/App/Http/Controllers/dashboard/admin/RoleController';
 
 const RolesIndex = ({ roles: rolesData }: { roles: PaginatedResponse<Role> }) => {
     const { t: tTables } = useTranslation('tables');
     const { t: tDashboard } = useTranslation('dashboard');
-
+    const { t: tForms } = useTranslation('forms');
 
     const columns: ColumnDef<Role>[] = [
         {
@@ -51,22 +52,14 @@ const RolesIndex = ({ roles: rolesData }: { roles: PaginatedResponse<Role> }) =>
         {
             accessorKey: 'permissions_count',
             header: ({ column }) => (
-                <DataTableColumnHeader
-                    column={column}
-                    title={tTables('roles.permissions_count')}
-                    indexRoute={RoleController.index}
-                />
+                <DataTableColumnHeader column={column} title={tTables('roles.permissions_count')} indexRoute={roles.index} />
             ),
             enableHiding: false,
         },
         {
             accessorKey: 'created_at',
             header: ({ column }) => (
-                <DataTableColumnHeader
-                    column={column}
-                    title={tTables('roles.created_at')}
-                    indexRoute={RoleController.index}
-                />
+                <DataTableColumnHeader column={column} title={tTables('roles.created_at')} indexRoute={roles.index} />
             ),
         },
         {
@@ -76,11 +69,11 @@ const RolesIndex = ({ roles: rolesData }: { roles: PaginatedResponse<Role> }) =>
                 return (
                     <div className="flex items-center gap-2">
                         <EditAction
-                            editRoute={RoleController.edit.url({ role: row.original.id.toString() })}
+                            editRoute={roles.edit.url({ role: row.original.id })}
                             permission="roles.update"
                         />
                         <DeleteAction
-                            deleteRoute={RoleController.destroy.url({ role: row.original.id.toString() })}
+                            deleteRoute={roles.destroy.url({ role: row.original.id })}
                             permission="roles.destroy"
                         />
                     </div>
@@ -92,7 +85,7 @@ const RolesIndex = ({ roles: rolesData }: { roles: PaginatedResponse<Role> }) =>
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: tDashboard('roles.title'),
-            href: RoleController.index.url(),
+            href: '/admin/roles',
         },
     ];
 
@@ -102,15 +95,10 @@ const RolesIndex = ({ roles: rolesData }: { roles: PaginatedResponse<Role> }) =>
                 columns={columns}
                 data={rolesData.data}
                 meta={rolesData.meta}
+                createHref={rolesRoutes.create.url()}
                 model="roles"
-                createHref={RoleController.create.url()}
-                indexRoute={RoleController.index}
-                onRowClick={(role) =>
-                    router.visit(RoleController.edit.url({ role: role.id.toString() }), {
-                        preserveState: true,
-                        preserveScroll: true,
-                    })
-                }
+                indexRoute={rolesRoutes.index}
+                onRowClick={(role) => router.visit(rolesRoutes.edit({ role: role.id }), { preserveState: true, preserveScroll: true })}
             />
         </AppLayout>
     );
