@@ -11,6 +11,7 @@ import { Link, usePage } from '@inertiajs/react';
 
 export function NavMain({ groups = [] }: { groups: NavGroup[] }) {
     const page = usePage();
+    console.log(groups);
     return (
         <>
             {
@@ -24,12 +25,7 @@ export function NavMain({ groups = [] }: { groups: NavGroup[] }) {
                                     if (!item.visible) {
                                         return null;
                                     }
-                                    const itemUrl = resolveUrl(item.href);
-                                    const isActive = item.isActive !== undefined
-                                        ? item.isActive
-                                        : itemUrl === '/admin'
-                                            ? isSameUrl(page.url, itemUrl)
-                                            : page.url.startsWith(itemUrl);
+                                    const isActive = isSameUrl(page.url, item.href);
 
                                     return (
                                         <SidebarMenuItem key={item.title}>

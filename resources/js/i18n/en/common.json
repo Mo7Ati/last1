@@ -8,18 +8,22 @@
         "store_categories": "Store Categories",
         "products": "Products",
         "orders": "Orders",
+        "transactions": "Transactions",
+        "wallets": "Wallets",
         "settings": "Settings",
         "logout": "Logout",
         "additions": "Additions",
         "options": "Options",
         "categories": "Categories",
-        "subscription": "Subscription"
+        "subscription": "Subscription",
+        "subscriptions_transactions": "Subscriptions Transactions"
     },
     "nav_groups": {
         "overview": "Overview",
         "users_permissions": "Users & Permissions",
         "commerce": "Commerce",
-        "settings": "Products Settings"
+        "settings": "Products Settings",
+        "finance": "Finance"
     },
     "pagination": {
         "previous": "Previous",

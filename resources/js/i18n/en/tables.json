@@ -85,5 +85,28 @@
         "id": "ID",
         "name": "Name",
         "created_at": "Created At"
+    },
+    "transactions": {
+        "title": "Transactions",
+        "id": "ID",
+        "source": "Source",
+        "receiver": "Receiver",
+        "store_name": "Store Name",
+        "amount": "Amount",
+        "explanation": "Explanation",
+        "type": "Type",
+        "created_at": "Created At",
+        "explanation_ORDER_PAYMENT": "Order Payment",
+        "explanation_PLATFORM_SHARE": "Platform Share",
+        "explanation_STORE_SUBSCRIPTION": "Store Subscription"
+    },
+    "wallets": {
+        "title": "Wallets",
+        "id": "ID",
+        "holder": "Holder",
+        "name": "Name",
+        "slug": "Slug",
+        "balance": "Balance",
+        "created_at": "Created At"
     }
 }

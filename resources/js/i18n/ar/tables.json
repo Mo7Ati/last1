@@ -78,5 +78,28 @@
         "id": "المعرف",
         "name": "الاسم",
         "created_at": "تاريخ الإنشاء"
+    },
+    "transactions": {
+        "title": "المعاملات",
+        "id": "المعرف",
+        "source": "المصدر",
+        "receiver": "المستلم",
+        "store_name": "اسم المتجر",
+        "amount": "المبلغ",
+        "explanation": "الشرح",
+        "type": "النوع",
+        "created_at": "تاريخ الإنشاء",
+        "explanation_ORDER_PAYMENT": "دفع الطلب",
+        "explanation_PLATFORM_SHARE": "حصة المنصة",
+        "explanation_STORE_SUBSCRIPTION": "اشتراك المتجر"
+    },
+    "wallets": {
+        "title": "المحافظ",
+        "id": "المعرف",
+        "holder": "المالك",
+        "name": "الاسم",
+        "slug": "المعرف",
+        "balance": "الرصيد",
+        "created_at": "تاريخ الإنشاء"
     }
 }

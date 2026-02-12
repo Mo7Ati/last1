@@ -3,7 +3,7 @@ import { BreadcrumbItem } from '@/types';
 import { router } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
 import { ColumnDef } from "@tanstack/react-table"
-import { Store, PaginatedResponse } from '@/types/dashboard';
+import { PaginatedResponse } from '@/types/dashboard';
 import { DataTable } from '@/components/table/data-table';
 import { Checkbox } from '@/components/ui/checkbox';
 import StoresFilters from './components/store-filters';
@@ -109,15 +109,10 @@ const StoresIndex = ({ stores: storesData }: { stores: PaginatedResponse<App.Mod
                 data={storesData.data}
                 meta={storesData.meta}
                 filters={<StoresFilters />}
-                model="stores"
-                onRowClick={(store) =>
-                    router.visit(StoreController.edit.url({ store: store.id.toString() }), {
-                        preserveState: true,
-                        preserveScroll: true,
-                    })
-                }
+                onRowClick={(store) => router.visit(StoreController.edit.url({ store: store.id.toString() }))}
                 createHref={StoreController.create.url()}
                 indexRoute={StoreController.index}
+                model="stores"
             />
         </AppLayout>
     )

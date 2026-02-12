@@ -8,18 +8,22 @@
         "store_categories": "فئات المتاجر",
         "products": "المنتجات",
         "orders": "الطلبات",
+        "transactions": "المعاملات",
+        "wallets": "المحافظ",
         "settings": "الإعدادات",
         "logout": "تسجيل الخروج",
         "additions": "الإضافات",
         "options": "الخيارات",
         "categories": "الفئات",
-        "subscription": "الاشتراك"
+        "subscription": "الاشتراك",
+        "subscriptions_transactions": "معاملات الاشتراك"
     },
     "nav_groups": {
         "overview": "نظرة عامة",
         "users_permissions": "المستخدمين والصلاحيات",
         "commerce": "التجارة",
-        "settings": "إعدادات المنتجات"
+        "settings": "إعدادات المنتجات",
+        "finance": "المالية"
     },
     "pagination": {
         "previous": "السابق",

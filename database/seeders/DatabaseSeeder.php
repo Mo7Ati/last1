@@ -10,7 +10,6 @@ use App\Models\Store;
 use App\Models\StoreCategory;
 use Illuminate\Database\Seeder;
 
-
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -33,6 +32,10 @@ class DatabaseSeeder extends Seeder
         //     StoreSeeder::class,
         // ]);
 
-        Platform::create();
+        Platform::firstOrCreate(['id' => 1], ['name' => 'Platform']);
+
+        $this->call([
+            OrderSeeder::class,
+        ]);
     }
 }

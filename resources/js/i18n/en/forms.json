@@ -57,6 +57,23 @@
         "select_all_permissions": "Select All Permissions",
         "select_all": "Select All"
     },
+    "permissions": {
+        "dashboard": "Dashboard",
+        "admins": "Admins",
+        "roles": "Roles",
+        "stores": "Stores",
+        "store-categories": "Store Categories",
+        "store_categories": "Store Categories",
+        "products": "Products",
+        "orders": "Orders",
+        "users": "Users",
+        "sections": "Sections",
+        "index": "Index",
+        "show": "Show",
+        "create": "Create",
+        "update": "Update",
+        "destroy": "Delete"
+    },
     "stores": {
         "title": "Stores",
         "create": "Create Store",

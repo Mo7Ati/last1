@@ -416,7 +416,7 @@ return [
          *
          * @see Transaction
          */
-        'model' => Transaction::class,
+        'model' => App\Models\Transaction::class,
     ],
 
     /**

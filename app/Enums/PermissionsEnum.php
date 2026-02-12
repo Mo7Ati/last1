@@ -63,6 +63,12 @@ enum PermissionsEnum: string
     case SECTIONS_UPDATE = 'sections.update';
     case SECTIONS_DESTROY = 'sections.destroy';
 
+    // transactions permissions
+    case TRANSACTIONS_INDEX = 'transactions.index';
+
+    // wallets permissions
+    case WALLETS_INDEX = 'wallets.index';
+
     public function label(): string
     {
         return match ($this) {
@@ -107,6 +113,8 @@ enum PermissionsEnum: string
             self::SECTIONS_CREATE => __('enums.permissions.sections.create'),
             self::SECTIONS_UPDATE => __('enums.permissions.sections.update'),
             self::SECTIONS_DESTROY => __('enums.permissions.sections.destroy'),
+            self::TRANSACTIONS_INDEX => __('enums.permissions.transactions.index'),
+            self::WALLETS_INDEX => __('enums.permissions.wallets.index'),
         };
     }
 

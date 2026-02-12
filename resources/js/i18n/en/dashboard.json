@@ -1,49 +1,42 @@
 {
-    "title": "Dashboard",
-    "admins": {
-        "title": "Admins",
-        "create": "Create Admin",
-        "edit": "Edit Admin"
-    },
-    "roles": {
-        "title": "Roles",
-        "create": "Create Role",
-        "edit": "Edit Role"
-    },
-    "stores": {
-        "title": "Stores",
-        "create": "Create Store",
-        "edit": "Edit Store"
-    },
-    "store_categories": {
-        "title": "Store Categories",
-        "create": "Create Store Category",
-        "edit": "Edit Store Category"
-    },
-    "products": {
-        "title": "Products"
-    },
-    "orders": {
-        "title": "Orders"
-    },
-    "additions": {
-        "title": "Additions",
-        "create": "Create Addition",
-        "edit": "Edit Addition"
-    },
-    "options": {
-        "title": "Options",
-        "create": "Create Option",
-        "edit": "Edit Option"
-    },
-    "categories": {
-        "title": "Categories",
-        "create": "Create Category",
-        "edit": "Edit Category"
-    },
-    "sections": {
-        "title": "Sections",
-        "create": "Create Section",
-        "edit": "Edit Section"
-    }
+  "title": "Dashboard",
+  "stats": {
+    "orders": "Total Orders",
+    "orders_description": "All time orders",
+    "customers": "Total Customers",
+    "customers_description": "Registered customers",
+    "products": "Total Products",
+    "products_description": "Available products",
+    "revenue": "Total Revenue",
+    "revenue_description": "All time revenue",
+    "stores": "Total Stores",
+    "stores_description": "Active stores"
+  },
+  "charts": {
+    "orders_over_time_title": "Orders & Revenue",
+    "orders_over_time_description": "Orders and revenue over time",
+    "orders_over_time_metric_orders": "Orders",
+    "orders_over_time_metric_revenue": "Revenue",
+    "last_7_days": "Last 7 days",
+    "last_30_days": "Last 30 days",
+    "last_3_months": "Last 3 months",
+    "orders_by_status_title": "Orders by Status",
+    "orders_by_status_description": "Distribution of orders by status",
+    "revenue_by_store_title": "Revenue by Store",
+    "revenue_by_store_description": "Top stores by revenue (last 90 days)",
+    "no_orders_data": "No order data yet",
+    "no_revenue_data": "No revenue data yet"
+  },
+  "admins": {"title":"Admins","create":"Create Admin","edit":"Edit Admin"},
+  "roles": {"title":"Roles","create":"Create Role","edit":"Edit Role"},
+  "stores": {"title":"Stores","create":"Create Store","edit":"Edit Store"},
+  "store_categories": {"title":"Store Categories","create":"Create Store Category","edit":"Edit Store Category"},
+  "products": {"title":"Products"},
+  "orders": {"title":"Orders"},
+  "transactions": {"title":"Transactions"},
+  "wallets": {"title":"Wallets"},
+  "additions": {"title":"Additions","create":"Create Addition","edit":"Edit Addition"},
+  "options": {"title":"Options","create":"Create Option","edit":"Edit Option"},
+  "categories": {"title":"Categories","create":"Create Category","edit":"Edit Category"},
+  "sections": {"title":"Sections","create":"Create Section","edit":"Edit Section"}
 }

@@ -68,6 +68,17 @@ return [
             'update' => 'تحديث معلومات المستخدم',
             'destroy' => 'حذف المستخدم',
         ],
-        
+        'transactions' => [
+            'index' => 'عرض قائمة المعاملات',
+        ],
+        'wallets' => [
+            'index' => 'عرض قائمة المحافظ',
+        ],
+    ],
+    'transaction_type' => [
+        'deposit_order_total_in_store_wallet' => 'دفع قيمة الطلب للمتجر',
+        'withdraw_platform_fee_from_store_wallet' => 'سحب قيمة حصة المنصة من المتجر',
+        'deposit_platform_fee_to_platform_wallet' => 'دفع قيمة حصة المنصة من المتجر',
+        'deposit_store_subscription_to_platform_wallet' => 'دفع قيمة اشتراك المتجر',
     ],
 ];

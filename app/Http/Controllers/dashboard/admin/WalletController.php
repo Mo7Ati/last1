@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Http\Controllers\dashboard\admin;
+
+use App\Enums\PermissionsEnum;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\WalletResource;
+use Bavix\Wallet\Models\Wallet;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+
+class WalletController extends Controller
+{
+    public function index(Request $request)
+    {
+        // abort_unless($request->user('admin')->can(PermissionsEnum::WALLETS_INDEX->value), 403);
+
+        $wallets = Wallet::query()
+            ->with(['holder'])
+            ->orderBy($request->get('sort', 'id'), $request->get('direction', 'desc'))
+            ->paginate($request->get('per_page', 10))
+            ->withQueryString();
+
+        return Inertia::render('admin/wallets/index', [
+            'wallets' => WalletResource::collection($wallets),
+        ]);
+    }
+}

@@ -68,5 +68,17 @@ return [
             'update' => 'Update user details',
             'destroy' => 'Delete user',
         ],
+        'transactions' => [
+            'index' => 'View transactions list',
+        ],
+        'wallets' => [
+            'index' => 'View wallets list',
+        ],
+    ],
+    'transaction_type' => [
+        'deposit_order_total_in_store_wallet' => 'Deposit order total to store wallet',
+        'withdraw_platform_fee_from_store_wallet' => 'Withdraw platform fee from store wallet',
+        'deposit_platform_fee_to_platform_wallet' => 'Deposit platform fee to platform wallet',
+        'deposit_store_subscription_to_platform_wallet' => 'Deposit store subscription to platform wallet',
     ],
 ];

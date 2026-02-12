@@ -9,6 +9,21 @@ const PermissionList = ({ role, permissions }: { role: Role; permissions: Groupe
     const { t } = useTranslation('forms');
     const [selectedPermissionNames, setSelectedPermissionNames] = useState<string[]>(role.permissions?.map((p) => p.name) || []);
 
+    const getGroupLabel = (group: string): string => {
+        const key = `permissions.${group}`;
+        const altKey = `permissions.${group.replace(/-/g, '_')}`;
+        const translation = t(key);
+        if (translation !== key) return translation;
+        const altTranslation = t(altKey);
+        return altTranslation !== altKey ? altTranslation : group.replace(/([A-Z])/g, " $1");
+    };
+
+    const getActionLabel = (action: string): string => {
+        const key = `permissions.${action}`;
+        const translation = t(key);
+        return translation !== key ? translation : action.replace(/([A-Z])/g, " $1");
+    };
+
     const handlePermissionToggle = (permissionName: string, checked: boolean) => {
         setSelectedPermissionNames((prev) => {
             if (checked) {
@@ -51,7 +66,7 @@ const PermissionList = ({ role, permissions }: { role: Role; permissions: Groupe
                 <Card key={group} className="border-muted">
                     <CardHeader className="pb-2">
                         <CardTitle className="text-base capitalize flex items-center justify-between">
-                            <span>{group.replace(/([A-Z])/g, " $1")}</span>
+                            <span>{getGroupLabel(group)}</span>
                             <div className="flex items-center space-x-2">
                                 <Checkbox
                                     id={`select-all-${group}`}
@@ -68,6 +83,7 @@ const PermissionList = ({ role, permissions }: { role: Role; permissions: Groupe
                     <CardContent className="grid grid-cols-2 md:grid-cols-3 gap-4">
                         {perms.map((permission) => {
                             const isChecked = selectedPermissionNames.includes(permission.name);
+                            const action = permission.name.split('.').pop() || '';
                             return (
                                 <div
                                     key={permission.id}
@@ -85,7 +101,7 @@ const PermissionList = ({ role, permissions }: { role: Role; permissions: Groupe
                                         htmlFor={`perm-${permission.id}`}
                                         className="cursor-pointer text-sm"
                                     >
-                                        {permission.name.split('.').pop()?.replace(/([A-Z])/g, " $1")}
+                                        {getActionLabel(action)}
                                     </Label>
                                 </div>
                             );

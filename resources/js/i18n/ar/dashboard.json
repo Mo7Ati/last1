@@ -1,44 +1,42 @@
 {
-    "title": "لوحة التحكم",
-    "admins": {
-        "title": "المشرفين",
-        "create": "إنشاء مشرف",
-        "edit": "تعديل مشرف"
-    },
-    "roles": {
-        "title": "الأدوار",
-        "create": "إنشاء دور",
-        "edit": "تعديل دور"
-    },
-    "stores": {
-        "title": "المتاجر",
-        "create": "إنشاء متجر",
-        "edit": "تعديل متجر"
-    },
-    "store_categories": {
-        "title": "فئات المتاجر",
-        "create": "إنشاء فئة متجر",
-        "edit": "تعديل فئة متجر"
-    },
-    "products": {
-        "title": "المنتجات"
-    },
-    "orders": {
-        "title": "الطلبات"
-    },
-    "additions": {
-        "title": "الإضافات",
-        "create": "إنشاء إضافة",
-        "edit": "تعديل إضافة"
-    },
-    "options": {
-        "title": "الخيارات",
-        "create": "إنشاء خيار",
-        "edit": "تعديل خيار"
-    },
-    "sections": {
-        "title": "الأقسام",
-        "create": "إنشاء قسم",
-        "edit": "تعديل قسم"
-    }
+  "title": "لوحة التحكم",
+  "stats": {
+    "orders": "إجمالي الطلبات",
+    "orders_description": "جميع الطلبات",
+    "customers": "إجمالي العملاء",
+    "customers_description": "العملاء المسجلون",
+    "products": "إجمالي المنتجات",
+    "products_description": "المنتجات المتاحة",
+    "revenue": "إجمالي الإيرادات",
+    "revenue_description": "جميع الإيرادات",
+    "stores": "إجمالي المتاجر",
+    "stores_description": "المتاجر النشطة"
+  },
+  "charts": {
+    "orders_over_time_title": "الطلبات والإيرادات",
+    "orders_over_time_description": "الطلبات والإيرادات عبر الزمن",
+    "orders_over_time_metric_orders": "الطلبات",
+    "orders_over_time_metric_revenue": "الإيرادات",
+    "last_7_days": "آخر 7 أيام",
+    "last_30_days": "آخر 30 يوم",
+    "last_3_months": "آخر 3 أشهر",
+    "orders_by_status_title": "الطلبات حسب الحالة",
+    "orders_by_status_description": "توزيع الطلبات حسب الحالة",
+    "revenue_by_store_title": "الإيرادات حسب المتجر",
+    "revenue_by_store_description": "أفضل المتاجر حسب الإيرادات (آخر 90 يوم)",
+    "no_orders_data": "لا توجد بيانات طلبات بعد",
+    "no_revenue_data": "لا توجد بيانات إيرادات بعد"
+  },
+  "admins": {"title":"المشرفين","create":"إنشاء مشرف","edit":"تعديل مشرف"},
+  "roles": {"title":"الأدوار","create":"إنشاء دور","edit":"تعديل دور"},
+  "stores": {"title":"المتاجر","create":"إنشاء متجر","edit":"تعديل متجر"},
+  "store_categories": {"title":"فئات المتاجر","create":"إنشاء فئة متجر","edit":"تعديل فئة متجر"},
+  "products": {"title":"المنتجات"},
+  "orders": {"title":"الطلبات"},
+  "transactions": {"title":"المعاملات"},
+  "wallets": {"title":"المحافظ"},
+  "additions": {"title":"الإضافات","create":"إنشاء إضافة","edit":"تعديل إضافة"},
+  "options": {"title":"الخيارات","create":"إنشاء خيار","edit":"تعديل خيار"},
+  "categories": {"title":"الفئات","create":"إنشاء فئة","edit":"تعديل فئة"},
+  "sections": {"title":"الأقسام","create":"إنشاء قسم","edit":"تعديل قسم"}
 }

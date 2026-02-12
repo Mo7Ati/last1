@@ -3,7 +3,7 @@ import { Locale, NavGroup, NavItem, PanelType } from '@/types';
 
 import { InertiaLinkProps } from '@inertiajs/react';
 import { type ClassValue, clsx } from 'clsx';
-import { CreditCard, LayoutGrid, List, Monitor, Package, Plus, Settings, Shield, ShoppingCart, Store, Users } from 'lucide-react';
+import { CreditCard, LayoutGrid, List, Monitor, Package, Plus, Receipt, Settings, Shield, ShoppingCart, Store, Users, Wallet } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { twMerge } from 'tailwind-merge';
 import PasswordController from '@/wayfinder/App/Http/Controllers/Settings/PasswordController';
@@ -16,6 +16,8 @@ import ProductController from '@/wayfinder/App/Http/Controllers/dashboard/admin/
 import RoleController from '@/wayfinder/App/Http/Controllers/dashboard/admin/RoleController';
 import StoreController from '@/wayfinder/App/Http/Controllers/dashboard/admin/StoreController';
 import StoreCategoryController from '@/wayfinder/App/Http/Controllers/dashboard/admin/StoreCategoryController';
+import TransactionController from '@/wayfinder/App/Http/Controllers/dashboard/admin/TransactionController';
+import WalletController from '@/wayfinder/App/Http/Controllers/dashboard/admin/WalletController';
 
 
 // // Store routes
@@ -25,6 +27,7 @@ import CategoryController from '@/wayfinder/App/Http/Controllers/dashboard/store
 import AdditionController from '@/wayfinder/App/Http/Controllers/dashboard/store/AdditionController';
 import OptionController from '@/wayfinder/App/Http/Controllers/dashboard/store/OptionController';
 import AdminSettingsController from '@/wayfinder/App/Http/Controllers/dashboard/admin/AdminSettingsController';
+import SectionController from '@/wayfinder/App/Http/Controllers/dashboard/admin/SectionController';
 
 
 export function cn(...inputs: ClassValue[]) {
@@ -92,6 +95,12 @@ export function getAdminPanelNavItems(): NavGroup[] {
                     icon: Settings,
                     visible: true,
                 },
+                {
+                    title: t('nav_labels.sections'),
+                    href: SectionController.index.url(),
+                    icon: List,
+                    visible: true,
+                }
             ],
         },
         {
@@ -140,6 +149,29 @@ export function getAdminPanelNavItems(): NavGroup[] {
                 },
             ],
         },
+        {
+            title: t('nav_groups.finance'),
+            items: [
+                {
+                    title: t('nav_labels.transactions'),
+                    href: TransactionController.index.url(),
+                    icon: Receipt,
+                    visible: true,
+                },
+                {
+                    title: t('nav_labels.wallets'),
+                    href: WalletController.index.url(),
+                    icon: Wallet,
+                    visible: true,
+                },
+                {
+                    title: t('nav_labels.subscriptions_transactions'),
+                    href: TransactionController.subscriptionsTransactions.url(),
+                    icon: Receipt,
+                    visible: true,
+                },
+            ],
+        }
     ];
 }
 

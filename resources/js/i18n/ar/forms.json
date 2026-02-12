@@ -56,6 +56,23 @@
         "select_all_permissions": "تحديد جميع الصلاحيات",
         "select_all": "تحديد الكل"
     },
+    "permissions": {
+        "dashboard": "لوحة التحكم",
+        "admins": "المشرفين",
+        "roles": "الأدوار",
+        "stores": "المتاجر",
+        "store-categories": "فئات المتاجر",
+        "store_categories": "فئات المتاجر",
+        "products": "المنتجات",
+        "orders": "الطلبات",
+        "users": "المستخدمين",
+        "sections": "الأقسام",
+        "index": "عرض",
+        "show": "عرض التفاصيل",
+        "create": "إنشاء",
+        "update": "تحديث",
+        "destroy": "حذف"
+    },
     "stores": {
         "title": "المتاجر",
         "create": "إنشاء متجر",

@@ -9,6 +9,8 @@ use App\Http\Controllers\dashboard\admin\RoleController;
 use App\Http\Controllers\dashboard\admin\SectionController;
 use App\Http\Controllers\dashboard\admin\StoreController;
 use App\Http\Controllers\dashboard\admin\StoreCategoryController;
+use App\Http\Controllers\dashboard\admin\TransactionController;
+use App\Http\Controllers\dashboard\admin\WalletController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -26,6 +28,14 @@ Route::middleware(['auth:admin'])
         Route::get('/', [DashboardController::class, 'index'])->name('index');
         Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
         Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+
+        // Transaction routes
+        Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+        Route::get('/transactions/subscriptions', [TransactionController::class, 'subscriptionsTransactions'])->name('transactions.subscriptions.index');
+
+        // Wallet routes
+        Route::get('/wallets', [WalletController::class, 'index'])->name('wallets.index');
+
         Route::resources([
             'admins' => AdminController::class,
             'roles' => RoleController::class,
