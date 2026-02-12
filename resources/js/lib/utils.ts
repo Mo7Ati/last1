@@ -22,6 +22,7 @@ import additions from '@/routes/store/additions';
 import options from '@/routes/store/options';
 import categories from '@/routes/store/categories';
 import settings from '@/routes/store/settings';
+import storeTransactions from '@/routes/store/transactions';
 import transactions from '@/routes/admin/transactions';
 import wallets from '@/routes/admin/wallets';
 
@@ -224,6 +225,17 @@ export function getStorePanelNavItems(): NavGroup[] {
                     title: t('nav_labels.options'),
                     href: options.index.url(),
                     icon: Settings,
+                    visible: true,
+                },
+            ],
+        },
+        {
+            title: t('nav_groups.finance'),
+            items: [
+                {
+                    title: t('nav_labels.transactions'),
+                    href: storeTransactions.index.url(),
+                    icon: Receipt,
                     visible: true,
                 },
             ],

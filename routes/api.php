@@ -51,6 +51,9 @@ Route::prefix('customer')
             // Checkout
             Route::post('/checkout', [CheckoutController::class, 'store'])->name('customer.checkout');
         });
+
+
+        // Route::post('locale')
     });
 
 

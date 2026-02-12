@@ -8,6 +8,7 @@ use App\Http\Controllers\dashboard\store\OptionController;
 use App\Http\Controllers\dashboard\store\OrderController;
 use App\Http\Controllers\dashboard\store\ProductController;
 use App\Http\Controllers\dashboard\store\SubscriptionController;
+use App\Http\Controllers\dashboard\store\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 // settings routes
@@ -23,6 +24,9 @@ Route::middleware(['auth:store'])
     ->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('index');
         Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+        Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+        Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.update-status');
+        Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
 
         // Subscription routes (no subscription required)
         Route::prefix('subscription')->name('subscription.')->group(function () {
