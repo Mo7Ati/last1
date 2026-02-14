@@ -32,7 +32,20 @@ class StoreController extends Controller
 
     public function show($id)
     {
-        $store = Store::with('category', 'categories', 'products')->findOrFail($id);
+        $store = Store::with([
+            'category',
+            'categories',
+            'products' => function ($query) {
+                $query->accepted()
+                    ->active()
+                    ->when(request('search'), fn($q) => $q->search(request('search')))
+                    ->when(request('category'), fn($q) => $q->where('category_id', request('category')))
+                    ->when(request()->filled('minPrice'), fn($q) => $q->where('price', '>=', (float) request('minPrice')))
+                    ->when(request()->filled('maxPrice'), fn($q) => $q->where('price', '<=', (float) request('maxPrice')));
+            },
+        ])->findOrFail($id);
+
+        // dd($store);
 
         return successResponse(
             StoreResource::make($store),

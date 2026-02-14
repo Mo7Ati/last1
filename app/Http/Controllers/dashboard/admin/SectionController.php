@@ -73,7 +73,7 @@ class SectionController extends Controller
             'section' => SectionResource::make($section)->serializeForForm(),
             'sectionTypes' => HomePageSectionsType::getOptions(),
             'products' => Product::active()->accepted()->get()->map(fn($p) => ['id' => $p->id, 'name' => $p->name]),
-            'categories' => Category::active()->get()->map(fn($c) => ['id' => $c->id, 'name' => $c->name]),
+            'categories' => StoreCategory::get()->map(fn($c) => ['id' => $c->id, 'name' => $c->name]),
             'stores' => Store::where('is_active', true)->get()->map(fn($s) => ['id' => $s->id, 'name' => $s->name]),
         ]);
     }
