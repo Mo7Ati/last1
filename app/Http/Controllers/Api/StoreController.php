@@ -32,7 +32,7 @@ class StoreController extends Controller
 
     public function show($id)
     {
-        $store = Store::with([
+        $store = Store::where('is_active', true)->with([
             'category',
             'categories',
             'products' => function ($query) {
@@ -44,8 +44,6 @@ class StoreController extends Controller
                     ->when(request()->filled('maxPrice'), fn($q) => $q->where('price', '<=', (float) request('maxPrice')));
             },
         ])->findOrFail($id);
-
-        // dd($store);
 
         return successResponse(
             StoreResource::make($store),

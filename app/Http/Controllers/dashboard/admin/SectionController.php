@@ -48,7 +48,7 @@ class SectionController extends Controller
         return Inertia::render('admin/sections/create', [
             'section' => SectionResource::make(new Section())->serializeForForm(),
             'sectionTypes' => HomePageSectionsType::getOptions(),
-            'products' => Product::active()->accepted()->get()->map(fn($p) => ['id' => $p->id, 'name' => $p->name]),
+            'products' => Product::active()->accepted()->has('media')->get()->map(fn($p) => ['id' => $p->id, 'name' => $p->name]),
             'categories' => StoreCategory::get()->map(fn($c) => ['id' => $c->id, 'name' => $c->name]),
             'stores' => Store::where('is_active', true)->get()->map(fn($s) => ['id' => $s->id, 'name' => $s->name]),
         ]);
@@ -72,7 +72,7 @@ class SectionController extends Controller
         return Inertia::render('admin/sections/edit', [
             'section' => SectionResource::make($section)->serializeForForm(),
             'sectionTypes' => HomePageSectionsType::getOptions(),
-            'products' => Product::active()->accepted()->get()->map(fn($p) => ['id' => $p->id, 'name' => $p->name]),
+            'products' => Product::active()->accepted()->has('media')->get()->map(fn($p) => ['id' => $p->id, 'name' => $p->name]),
             'categories' => StoreCategory::get()->map(fn($c) => ['id' => $c->id, 'name' => $c->name]),
             'stores' => Store::where('is_active', true)->get()->map(fn($s) => ['id' => $s->id, 'name' => $s->name]),
         ]);
